@@ -1,5 +1,8 @@
 import { createRoot } from "react-dom/client";
 import { PresentationApp } from "../src/presentation/PresentationApp";
+import { prefetchOpeningSlide } from "../src/presentation/prefetchSlideAssets";
+
+prefetchOpeningSlide();
 
 const rootElement = document.getElementById("root");
 

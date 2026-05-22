@@ -1,5 +1,6 @@
 import type { PlayerRef } from "@remotion/player";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { ensureSlideReady } from "./prefetchSlideAssets";
 import { PRESENTATION_SEGMENTS } from "./presentationSegments";
 
 export type PresentationPhase = "idle" | "playing";
@@ -15,11 +16,19 @@ export const usePresentationPlayer = (playerRef: React.RefObject<PlayerRef | nul
   phaseRef.current = phase;
 
   const playSegment = useCallback(
-    (index: number) => {
+    async (index: number) => {
       const player = playerRef.current;
       const segment = PRESENTATION_SEGMENTS[index];
       if (!player || !segment) {
         return;
+      }
+
+      setPhase("playing");
+
+      try {
+        await ensureSlideReady(index);
+      } catch {
+        // Continue even if prefetch fails so navigation is not blocked.
       }
 
       player.seekTo(segment.playFrom);
@@ -51,7 +60,7 @@ export const usePresentationPlayer = (playerRef: React.RefObject<PlayerRef | nul
     }
 
     setCurrentIndex(nextIndex);
-    playSegment(nextIndex);
+    void playSegment(nextIndex);
   }, [playSegment]);
 
   const goPrevious = useCallback(() => {
@@ -75,12 +84,12 @@ export const usePresentationPlayer = (playerRef: React.RefObject<PlayerRef | nul
       setCurrentIndex(index);
 
       if (index === previousIndex && previousPhase === "idle") {
-        playSegment(index);
+        void playSegment(index);
         return;
       }
 
       if (index > previousIndex) {
-        playSegment(index);
+        void playSegment(index);
         return;
       }
 
@@ -100,7 +109,7 @@ export const usePresentationPlayer = (playerRef: React.RefObject<PlayerRef | nul
       }
 
       hasStartedRef.current = true;
-      playSegment(0);
+      void playSegment(0);
     }, 0);
 
     return () => {

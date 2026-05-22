@@ -9,6 +9,7 @@ export type PresentationSegment = {
 };
 
 const TRANSITION_LEAD_FRAMES: Partial<Record<SlideKey, number>> = {
+  opening: 16,
   problem: 16,
   ecosystem: 16,
   bac: 16,
@@ -22,6 +23,7 @@ const TRANSITION_LEAD_FRAMES: Partial<Record<SlideKey, number>> = {
 };
 
 const EXIT_LEAD_FRAMES: Record<SlideKey, number> = {
+  splash: 24,
   opening: 48,
   problem: 48,
   ecosystem: 48,
@@ -45,7 +47,7 @@ const buildSegment = (key: SlideKey, label: string): PresentationSegment => {
   return {
     key,
     label,
-    playFrom: key === "opening" ? 0 : start - transitionLead,
+    playFrom: key === "splash" ? 0 : start - transitionLead,
     holdAt: start + duration - EXIT_LEAD_FRAMES[key] - HOLD_BUFFER,
   };
 };

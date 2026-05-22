@@ -42,7 +42,11 @@ export const PresentationApp = () => {
           ref={playerRef}
           className="presentation-player"
           component={PresentationVideo}
-          inputProps={{ _ambientTick: ambientElapsed }}
+          inputProps={{
+            activeSegmentIndex: currentIndex,
+            phase,
+            _ambientTick: ambientElapsed,
+          }}
           durationInFrames={TOTAL_DURATION}
           compositionWidth={VIDEO.width}
           compositionHeight={VIDEO.height}

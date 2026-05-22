@@ -8,6 +8,7 @@ import { EcosystemSlide } from "./scenes/slides/EcosystemSlide";
 import { EliNpSlide } from "./scenes/slides/EliNpSlide";
 import { NuclearSlide } from "./scenes/slides/NuclearSlide";
 import { OpeningSlide } from "./scenes/slides/OpeningSlide";
+import { SplashSlide } from "./scenes/slides/SplashSlide";
 import { ProblemSlide } from "./scenes/slides/ProblemSlide";
 import { RomaniaStorySlide } from "./scenes/slides/RomaniaStorySlide";
 import { SimulationsSlide } from "./scenes/slides/SimulationsSlide";
@@ -16,6 +17,12 @@ import { EnergyPulseTransition, LightSweep } from "./utils/transitions";
 export const PulsJuryPresentation = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#02040b" }}>
+      <Sequence
+        from={TIMELINE.splash}
+        durationInFrames={SCENE_DURATIONS.splash}
+      >
+        <SplashSlide duration={SCENE_DURATIONS.splash} />
+      </Sequence>
       <Sequence
         from={TIMELINE.opening}
         durationInFrames={SCENE_DURATIONS.opening}
@@ -74,6 +81,12 @@ export const PulsJuryPresentation = () => {
         <ClosingSlide duration={SCENE_DURATIONS.closing} />
       </Sequence>
 
+      <EnergyPulseTransition
+        at={TIMELINE.opening - 16}
+        duration={44}
+        strength={1.05}
+      />
+      <LightSweep at={TIMELINE.opening - 12} duration={40} />
       <EnergyPulseTransition
         at={TIMELINE.problem - 16}
         duration={40}

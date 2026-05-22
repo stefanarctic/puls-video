@@ -1,4 +1,5 @@
 export type SlideKey =
+  | "splash"
   | "opening"
   | "problem"
   | "ecosystem"
@@ -19,6 +20,12 @@ export type SlideMeta = {
 };
 
 export const SLIDES: SlideMeta[] = [
+  {
+    key: "splash",
+    label: "Intro",
+    ctaLabel: "PULS",
+    ctaUrl: "https://puls-fizica.ro/",
+  },
   {
     key: "opening",
     label: "Deschidere",

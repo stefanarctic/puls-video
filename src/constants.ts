@@ -6,6 +6,7 @@ export const VIDEO = {
 
 /** Slide durations in frames (30 fps) — ~8 min total per plan. */
 export const SCENE_DURATIONS = {
+  splash: 180,
   opening: 900,
   problem: 1350,
   ecosystem: 1500,
@@ -20,6 +21,7 @@ export const SCENE_DURATIONS = {
 } as const;
 
 const slideOrder = [
+  "splash",
   "opening",
   "problem",
   "ecosystem",

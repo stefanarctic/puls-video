@@ -1,8 +1,123 @@
 import type { CSSProperties, ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
+import {
+  ChartLine,
+  Magnet,
+  Orbit,
+  Weight,
+} from "lucide-react";
 import { interpolate, useVideoConfig } from "remotion";
 import { COLORS, FONT_FAMILY } from "../constants";
 import { useTimelineFrame } from "../utils/ambientMotion";
 import { cinematicEase, springIn } from "../utils/animation";
+
+const FEATURE_ICON_SIZE = 34;
+
+export const PHYSICS_FEATURES = [
+  { label: "Motion", icon: Orbit },
+  { label: "Forces", icon: Weight },
+  { label: "Fields", icon: Magnet },
+  { label: "Graphs", icon: ChartLine },
+] as const;
+
+type FeatureCardProps = {
+  label: string;
+  icon: LucideIcon;
+  progress: number;
+  style?: CSSProperties;
+};
+
+export const FeatureCard = ({
+  label,
+  icon: Icon,
+  progress,
+  style,
+}: FeatureCardProps) => (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      height: "100%",
+      padding: "26px 28px 24px",
+      borderRadius: 24,
+      background:
+        "linear-gradient(165deg, rgba(255,255,255,0.11), rgba(255,255,255,0.03))",
+      border: "1px solid rgba(24,244,255,0.18)",
+      boxShadow: `0 18px 48px rgba(0,0,0,0.22), 0 0 ${28 * progress}px rgba(24,244,255,0.14)`,
+      opacity: progress,
+      transform: `translateY(${(1 - progress) * 48}px)`,
+      boxSizing: "border-box",
+      ...style,
+    }}
+  >
+    <div
+      style={{
+        width: 68,
+        height: 68,
+        borderRadius: 20,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+        background:
+          "linear-gradient(145deg, rgba(24,244,255,0.16), rgba(24,244,255,0.04))",
+        border: "1px solid rgba(24,244,255,0.28)",
+        boxShadow:
+          "inset 0 1px 0 rgba(255,255,255,0.12), 0 0 28px rgba(24,244,255,0.14)",
+      }}
+    >
+      <Icon
+        size={FEATURE_ICON_SIZE}
+        color={COLORS.cyan}
+        strokeWidth={1.85}
+        absoluteStrokeWidth
+      />
+    </div>
+    <div
+      style={{
+        fontFamily: FONT_FAMILY,
+        color: COLORS.white,
+        fontSize: 26,
+        fontWeight: 720,
+        letterSpacing: "-0.02em",
+        lineHeight: 1.1,
+      }}
+    >
+      {label}
+    </div>
+  </div>
+);
+
+export const FeatureCardGrid = ({
+  x,
+  y,
+  width,
+  height,
+  children,
+}: {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  children: ReactNode;
+}) => (
+  <div
+    style={{
+      position: "absolute",
+      left: x,
+      top: y,
+      width,
+      height,
+      display: "grid",
+      gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+      gap: 28,
+      boxSizing: "border-box",
+    }}
+  >
+    {children}
+  </div>
+);
 
 type GlassPanelProps = {
   x: number;

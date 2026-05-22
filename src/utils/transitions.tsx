@@ -1,5 +1,6 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate } from "remotion";
 import { COLORS } from "../constants";
+import { useTimelineFrame } from "./ambientMotion";
 import { cinematicEase, impactEase } from "./animation";
 
 export const transitionProgress = (
@@ -22,7 +23,7 @@ export const EnergyPulseTransition = ({
   duration?: number;
   strength?: number;
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useTimelineFrame();
   const progress = transitionProgress(frame, at, duration);
   const opacity = interpolate(progress, [0, 0.22, 0.74, 1], [0, 1, 0.28, 0], {
     extrapolateLeft: "clamp",
@@ -72,7 +73,7 @@ export const LightSweep = ({
   at: number;
   duration?: number;
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useTimelineFrame();
   const progress = transitionProgress(frame, at, duration);
   const x = interpolate(progress, [0, 1], [-600, 2400]);
   const opacity = interpolate(progress, [0, 0.3, 0.75, 1], [0, 0.65, 0.4, 0], {

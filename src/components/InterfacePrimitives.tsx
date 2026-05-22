@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
-import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, useVideoConfig } from "remotion";
 import { COLORS, FONT_FAMILY } from "../constants";
+import { useTimelineFrame } from "../utils/ambientMotion";
 import { cinematicEase, springIn } from "../utils/animation";
 
 type GlassPanelProps = {
@@ -22,7 +23,7 @@ export const GlassPanel = ({
   children,
   style,
 }: GlassPanelProps) => {
-  const frame = useCurrentFrame();
+  const frame = useTimelineFrame();
   const { fps } = useVideoConfig();
   const enter = springIn(frame, fps, delay, 20, 115);
   const opacity = interpolate(frame, [delay, delay + 16], [0, 1], {

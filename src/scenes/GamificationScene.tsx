@@ -1,9 +1,10 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate } from "remotion";
 import { CinematicBackdrop } from "../components/Backdrop";
 import { GlassPanel, MiniLabel, ProgressBar } from "../components/InterfacePrimitives";
 import { KineticText } from "../components/KineticText";
 import { ParticleField } from "../components/Particles";
 import { COLORS, FONT_FAMILY } from "../constants";
+import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import {
   cinematicEase,
   enterExitOpacity,
@@ -14,9 +15,10 @@ import {
 const badges = ["Vector Master", "7 Day Streak", "Level 12", "Top 4%"];
 
 export const GamificationScene = ({ duration }: { duration: number }) => {
-  const frame = useCurrentFrame();
-  const opacity = enterExitOpacity(frame, duration, 14, 24);
-  const energy = smoothProgress(frame, 0, 72);
+  const timeline = useTimelineFrame();
+  const loop = useLoopFrame();
+  const opacity = enterExitOpacity(timeline, duration, 14, 24);
+  const energy = smoothProgress(timeline, 0, 72);
 
   return (
     <AbsoluteFill
@@ -45,7 +47,7 @@ export const GamificationScene = ({ duration }: { duration: number }) => {
           y={112}
           width={610}
           label="Mechanics Track"
-          progress={interpolate(frame, [46, 132], [0.18, 0.86], {
+          progress={interpolate(timeline, [46, 132], [0.18, 0.86], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: cinematicEase,
@@ -56,7 +58,7 @@ export const GamificationScene = ({ duration }: { duration: number }) => {
           y={216}
           width={610}
           label="Weekly XP"
-          progress={interpolate(frame, [66, 142], [0.08, 0.94], {
+          progress={interpolate(timeline, [66, 142], [0.08, 0.94], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: cinematicEase,
@@ -73,7 +75,7 @@ export const GamificationScene = ({ duration }: { duration: number }) => {
           }}
         >
           {Array.from({ length: 7 }).map((_, index) => {
-            const reveal = smoothProgress(frame, 82 + index * 5, 16);
+            const reveal = smoothProgress(timeline, 82 + index * 5, 16);
 
             return (
               <div
@@ -106,7 +108,7 @@ export const GamificationScene = ({ duration }: { duration: number }) => {
         }}
       >
         {badges.map((badge, index) => {
-          const reveal = smoothProgress(frame, 48 + index * 16, 28);
+          const reveal = smoothProgress(timeline, 48 + index * 16, 28);
           const y = index * 112;
 
           return (
@@ -124,7 +126,7 @@ export const GamificationScene = ({ duration }: { duration: number }) => {
                 border: "1px solid rgba(24,244,255,0.2)",
                 boxShadow: `0 26px 80px rgba(0,0,0,0.32), 0 0 ${reveal * 38}px rgba(24,244,255,0.24)`,
                 opacity: reveal,
-                transform: `translate3d(${(1 - reveal) * 180}px, ${looping(frame, 0.04, index) * 5}px, ${index * -40}px) rotateY(${-12 + reveal * 12}deg)`,
+                transform: `translate3d(${(1 - reveal) * 180}px, ${looping(loop, 0.04, index) * 5}px, ${index * -40}px) rotateY(${-12 + reveal * 12}deg)`,
                 fontFamily: FONT_FAMILY,
                 color: COLORS.white,
                 fontSize: 30,

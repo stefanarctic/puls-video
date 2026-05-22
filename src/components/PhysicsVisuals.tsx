@@ -1,5 +1,6 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate } from "remotion";
 import { COLORS, FONT_FAMILY } from "../constants";
+import { useLoopFrame } from "../utils/ambientMotion";
 import { cinematicEase, drift, flicker, looping } from "../utils/animation";
 
 const formulas = [
@@ -16,7 +17,7 @@ const formulas = [
 ];
 
 export const FormulaStorm = ({ collapse = 0 }: { collapse?: number }) => {
-  const frame = useCurrentFrame();
+  const frame = useLoopFrame();
 
   return (
     <AbsoluteFill style={{ perspective: 1200 }}>
@@ -64,7 +65,7 @@ export const Pendulum = ({
   y: number;
   scale?: number;
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useLoopFrame();
   const angle = looping(frame, 0.048, 0.4) * 28;
 
   return (
@@ -184,7 +185,7 @@ export const ElectricField = ({
   centerX?: number;
   centerY?: number;
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useLoopFrame();
 
   return (
     <AbsoluteFill>

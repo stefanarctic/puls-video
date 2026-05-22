@@ -1,14 +1,16 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate } from "remotion";
 import { CinematicBackdrop } from "../components/Backdrop";
 import { PulsLogo } from "../components/Logo";
 import { ParticleField } from "../components/Particles";
 import { COLORS } from "../constants";
+import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import { cinematicEase, looping, smoothProgress } from "../utils/animation";
 
 export const FinalBrandScene = ({ duration }: { duration: number }) => {
-  const frame = useCurrentFrame();
-  const calm = smoothProgress(frame, 0, 120);
-  const fade = interpolate(frame, [duration - 34, duration], [1, 0], {
+  const timeline = useTimelineFrame();
+  const loop = useLoopFrame();
+  const calm = smoothProgress(timeline, 0, 120);
+  const fade = interpolate(timeline, [duration - 34, duration], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: cinematicEase,
@@ -25,7 +27,7 @@ export const FinalBrandScene = ({ duration }: { duration: number }) => {
         }}
       />
       {Array.from({ length: 3 }).map((_, index) => {
-        const progress = smoothProgress(frame, 18 + index * 24, 82);
+        const progress = smoothProgress(timeline, 18 + index * 24, 82);
 
         return (
           <div
@@ -55,7 +57,7 @@ export const FinalBrandScene = ({ duration }: { duration: number }) => {
           borderRadius: 999,
           background:
             "conic-gradient(from 90deg, transparent, rgba(24,244,255,0.18), transparent, rgba(22,136,255,0.16), transparent)",
-          transform: `translate(-50%, -50%) rotate(${frame * 0.18}deg) scale(${0.76 + calm * 0.12 + looping(frame, 0.02) * 0.012})`,
+          transform: `translate(-50%, -50%) rotate(${loop * 0.18}deg) scale(${0.76 + calm * 0.12 + looping(loop, 0.02) * 0.012})`,
           filter: "blur(24px)",
           opacity: 0.7,
         }}
@@ -64,7 +66,7 @@ export const FinalBrandScene = ({ duration }: { duration: number }) => {
       <AbsoluteFill
         style={{
           background: "black",
-          opacity: interpolate(frame, [duration - 20, duration], [0, 1], {
+          opacity: interpolate(timeline, [duration - 20, duration], [0, 1], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           }),

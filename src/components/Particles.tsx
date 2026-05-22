@@ -1,5 +1,6 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate } from "remotion";
 import { COLORS } from "../constants";
+import { useLoopFrame } from "../utils/ambientMotion";
 import { looping } from "../utils/animation";
 
 type ParticleFieldProps = {
@@ -17,7 +18,7 @@ export const ParticleField = ({
   color = COLORS.cyan,
   energy = 1,
 }: ParticleFieldProps) => {
-  const frame = useCurrentFrame();
+  const frame = useLoopFrame();
 
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
@@ -28,7 +29,7 @@ export const ParticleField = ({
         const depth = 0.35 + ((index * 29) % 100) / 100;
         const driftX =
           looping(frame, 0.012 * speed * depth, seed) * 60 * energy +
-          frame * 0.18 * speed * depth;
+          looping(frame, 0.0045 * speed * depth, seed + 1.3) * 44 * energy;
         const driftY = looping(frame, 0.019 * speed * depth, seed + 2) * 34;
         const size = 1.5 + depth * 4.5;
         const alpha =

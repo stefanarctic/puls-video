@@ -1,9 +1,10 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate } from "remotion";
 import { CinematicBackdrop } from "../components/Backdrop";
 import { GlassPanel, GraphGrid, MiniLabel } from "../components/InterfacePrimitives";
 import { KineticText } from "../components/KineticText";
 import { ParticleField } from "../components/Particles";
 import { COLORS, FONT_FAMILY } from "../constants";
+import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import {
   enterExitOpacity,
   looping,
@@ -19,9 +20,10 @@ const solutionSteps = [
 ];
 
 export const AiAssistantScene = ({ duration }: { duration: number }) => {
-  const frame = useCurrentFrame();
-  const opacity = enterExitOpacity(frame, duration, 20, 24);
-  const neural = smoothProgress(frame, 36, 96);
+  const timeline = useTimelineFrame();
+  const loop = useLoopFrame();
+  const opacity = enterExitOpacity(timeline, duration, 20, 24);
+  const neural = smoothProgress(timeline, 36, 96);
 
   return (
     <AbsoluteFill
@@ -78,7 +80,7 @@ export const AiAssistantScene = ({ duration }: { duration: number }) => {
           }}
         >
           {solutionSteps.map((step, index) => {
-            const reveal = smoothProgress(frame, 82 + stagger(index, 20), 22);
+            const reveal = smoothProgress(timeline, 82 + stagger(index, 20), 22);
 
             return (
               <div
@@ -109,9 +111,9 @@ export const AiAssistantScene = ({ duration }: { duration: number }) => {
         {Array.from({ length: 22 }).map((_, index) => {
           const angle = (index / 22) * Math.PI * 2;
           const radius = 116 + (index % 3) * 72;
-          const x = 390 + Math.cos(angle + frame * 0.01) * radius;
-          const y = 276 + Math.sin(angle + frame * 0.012) * radius * 0.68;
-          const reveal = smoothProgress(frame, 70 + index * 2, 24);
+          const x = 390 + Math.cos(angle + loop * 0.01) * radius;
+          const y = 276 + Math.sin(angle + loop * 0.012) * radius * 0.68;
+          const reveal = smoothProgress(timeline, 70 + index * 2, 24);
 
           return (
             <div
@@ -124,14 +126,14 @@ export const AiAssistantScene = ({ duration }: { duration: number }) => {
                 height: 12,
                 borderRadius: 99,
                 background: COLORS.cyan,
-                opacity: reveal * (0.55 + looping(frame, 0.04, index) * 0.22),
+                opacity: reveal * (0.55 + looping(loop, 0.04, index) * 0.22),
                 boxShadow: `0 0 24px ${COLORS.cyan}`,
               }}
             />
           );
         })}
         {Array.from({ length: 14 }).map((_, index) => {
-          const reveal = smoothProgress(frame, 88 + index * 3, 20);
+          const reveal = smoothProgress(timeline, 88 + index * 3, 20);
           const y = 164 + index * 22;
 
           return (
@@ -161,7 +163,7 @@ export const AiAssistantScene = ({ duration }: { duration: number }) => {
             borderRadius: 999,
             border: `1px solid rgba(24,244,255,${0.38 + neural * 0.3})`,
             boxShadow: `0 0 ${70 + neural * 45}px rgba(24,244,255,0.36)`,
-            transform: `scale(${0.86 + neural * 0.14}) rotate(${frame * 0.24}deg)`,
+            transform: `scale(${0.86 + neural * 0.14}) rotate(${loop * 0.24}deg)`,
           }}
         />
         <div
@@ -173,7 +175,7 @@ export const AiAssistantScene = ({ duration }: { duration: number }) => {
             height: 80,
             borderRadius: 999,
             background: `radial-gradient(circle, white, ${COLORS.cyan}, transparent 72%)`,
-            opacity: interpolate(frame, [92, 120], [0, 1], {
+            opacity: interpolate(timeline, [92, 120], [0, 1], {
               extrapolateLeft: "clamp",
               extrapolateRight: "clamp",
             }),

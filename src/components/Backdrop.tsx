@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate } from "remotion";
 import { COLORS } from "../constants";
+import { useLoopFrame } from "../utils/ambientMotion";
 import { drift, looping } from "../utils/animation";
 
 const orbStyles = [
@@ -16,7 +17,7 @@ export const CinematicBackdrop = ({
   intensity?: number;
   chaos?: number;
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useLoopFrame();
 
   return (
     <AbsoluteFill
@@ -31,7 +32,7 @@ export const CinematicBackdrop = ({
           backgroundImage:
             "linear-gradient(rgba(24,244,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(24,244,255,0.035) 1px, transparent 1px)",
           backgroundSize: "96px 96px",
-          transform: `translateY(${(frame * -0.24) % 96}px) scale(${1 + chaos * 0.02})`,
+          transform: `translateY(${looping(frame, 0.024, 1.7) * 48}px) scale(${1 + chaos * 0.02})`,
           opacity: 0.32 + intensity * 0.12,
           maskImage:
             "radial-gradient(circle at center, black 0%, transparent 72%)",

@@ -1,17 +1,19 @@
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, interpolate, useVideoConfig } from "remotion";
 import { CinematicBackdrop } from "../components/Backdrop";
 import { GlassPanel, GraphGrid, MiniLabel } from "../components/InterfacePrimitives";
 import { KineticText } from "../components/KineticText";
 import { ParticleField } from "../components/Particles";
 import { COLORS, FONT_FAMILY } from "../constants";
+import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import { enterExitOpacity, smoothProgress, springIn } from "../utils/animation";
 
 export const ShiftScene = ({ duration }: { duration: number }) => {
-  const frame = useCurrentFrame();
+  const timeline = useTimelineFrame();
+  const loop = useLoopFrame();
   const { fps } = useVideoConfig();
-  const blast = springIn(frame, fps, 0, 16, 150);
-  const assembly = smoothProgress(frame, 38, 84);
-  const opacity = enterExitOpacity(frame, duration, 10, 24);
+  const blast = springIn(timeline, fps, 0, 16, 150);
+  const assembly = smoothProgress(timeline, 38, 84);
+  const opacity = enterExitOpacity(timeline, duration, 10, 24);
 
   return (
     <AbsoluteFill
@@ -44,7 +46,7 @@ export const ShiftScene = ({ duration }: { duration: number }) => {
           Interactive Physics Engine
         </MiniLabel>
         {Array.from({ length: 4 }).map((_, index) => {
-          const cardProgress = smoothProgress(frame, 70 + index * 8, 30);
+          const cardProgress = smoothProgress(timeline, 70 + index * 8, 30);
 
           return (
             <div
@@ -95,7 +97,7 @@ export const ShiftScene = ({ duration }: { duration: number }) => {
                   borderRadius: 999,
                   border: `2px solid ${COLORS.cyan}`,
                   opacity: 0.48,
-                  transform: `rotate(${frame * (0.3 + index * 0.08)}deg)`,
+                  transform: `rotate(${loop * (0.3 + index * 0.08)}deg)`,
                 }}
               />
             </div>
@@ -109,7 +111,7 @@ export const ShiftScene = ({ duration }: { duration: number }) => {
           top: 516,
           width: "100%",
           height: 2,
-          opacity: interpolate(frame, [18, 42, 92], [0, 1, 0.18], {
+          opacity: interpolate(timeline, [18, 42, 92], [0, 1, 0.18], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           }),

@@ -1,10 +1,11 @@
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate } from "remotion";
 import { CinematicBackdrop } from "../components/Backdrop";
 import { GlassPanel, GraphGrid, MiniLabel } from "../components/InterfacePrimitives";
 import { KineticText } from "../components/KineticText";
 import { ParticleField } from "../components/Particles";
 import { ElectricField, Pendulum, ProjectileArc } from "../components/PhysicsVisuals";
 import { COLORS, FONT_FAMILY } from "../constants";
+import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import {
   cinematicEase,
   enterExitOpacity,
@@ -13,11 +14,12 @@ import {
 } from "../utils/animation";
 
 export const InteractivePhysicsScene = ({ duration }: { duration: number }) => {
-  const frame = useCurrentFrame();
-  const opacity = enterExitOpacity(frame, duration, 22, 24);
-  const progress = smoothProgress(frame, 28, 112);
-  const camera = smoothProgress(frame, 0, duration);
-  const projectileProgress = smoothProgress(frame, 80, 116);
+  const timeline = useTimelineFrame();
+  const loop = useLoopFrame();
+  const opacity = enterExitOpacity(timeline, duration, 22, 24);
+  const progress = smoothProgress(timeline, 28, 112);
+  const camera = smoothProgress(timeline, 0, duration);
+  const projectileProgress = smoothProgress(timeline, 80, 116);
 
   return (
     <AbsoluteFill
@@ -71,7 +73,7 @@ export const InteractivePhysicsScene = ({ duration }: { duration: number }) => {
             >
               <div
                 style={{
-                  width: `${45 + index * 18 + looping(frame, 0.04, index) * 14}%`,
+                  width: `${45 + index * 18 + looping(loop, 0.04, index) * 14}%`,
                   height: "100%",
                   borderRadius: 99,
                   background: COLORS.cyan,
@@ -145,7 +147,7 @@ export const InteractivePhysicsScene = ({ duration }: { duration: number }) => {
           fontSize: 27,
           fontWeight: 620,
           lineHeight: 1.35,
-          opacity: interpolate(frame, [130, 160], [0, 1], {
+          opacity: interpolate(timeline, [130, 160], [0, 1], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
             easing: cinematicEase,

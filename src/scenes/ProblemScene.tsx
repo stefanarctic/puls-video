@@ -1,16 +1,18 @@
-import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { AbsoluteFill } from "remotion";
 import { CinematicBackdrop } from "../components/Backdrop";
 import { KineticText } from "../components/KineticText";
 import { ParticleField } from "../components/Particles";
 import { FormulaStorm } from "../components/PhysicsVisuals";
 import { COLORS } from "../constants";
+import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import { enterExitOpacity, exitProgress, smoothProgress } from "../utils/animation";
 
 export const ProblemScene = ({ duration }: { duration: number }) => {
-  const frame = useCurrentFrame();
-  const collapse = exitProgress(frame, duration - 58, 48);
-  const tension = smoothProgress(frame, 0, duration - 40);
-  const opacity = enterExitOpacity(frame, duration, 28, 22);
+  const timeline = useTimelineFrame();
+  const loop = useLoopFrame();
+  const collapse = exitProgress(timeline, duration - 58, 48);
+  const tension = smoothProgress(timeline, 0, duration - 40);
+  const opacity = enterExitOpacity(timeline, duration, 28, 22);
 
   return (
     <AbsoluteFill
@@ -65,7 +67,7 @@ export const ProblemScene = ({ duration }: { duration: number }) => {
             background:
               "linear-gradient(90deg, rgba(24,244,255,0.12), transparent 20%, rgba(255,255,255,0.08) 22%, transparent 24%)",
             opacity: collapse * 0.7,
-            transform: `translateX(${Math.sin(frame * 1.9) * 34}px)`,
+            transform: `translateX(${Math.sin(loop * 1.9) * 34}px)`,
             mixBlendMode: "screen",
           }}
         />

@@ -1,6 +1,7 @@
-import { Img, interpolate, staticFile, useCurrentFrame } from "remotion";
+import { Img, interpolate, staticFile } from "remotion";
 import { ASSETS } from "../assets";
 import { COLORS, FONT_FAMILY } from "../constants";
+import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import { cinematicEase } from "../utils/animation";
 
 export const PulsLogo = ({
@@ -10,13 +11,14 @@ export const PulsLogo = ({
   size?: number;
   delay?: number;
 }) => {
-  const frame = useCurrentFrame();
-  const reveal = interpolate(frame, [delay, delay + 32], [0, 1], {
+  const timeline = useTimelineFrame();
+  const loop = useLoopFrame();
+  const reveal = interpolate(timeline, [delay, delay + 32], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: cinematicEase,
   });
-  const pulse = 0.8 + Math.sin((frame - delay) * 0.09) * 0.2;
+  const pulse = 0.8 + Math.sin((loop - delay) * 0.09) * 0.2;
 
   return (
     <div

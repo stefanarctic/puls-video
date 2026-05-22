@@ -1,8 +1,9 @@
 import { fitText } from "@remotion/layout-utils";
 import { useMemo } from "react";
 import type { CSSProperties } from "react";
-import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, useVideoConfig } from "remotion";
 import { COLORS, FONT_FAMILY } from "../constants";
+import { useTimelineFrame } from "../utils/ambientMotion";
 import { cinematicEase, springIn, stagger } from "../utils/animation";
 
 type KineticTextProps = {
@@ -30,7 +31,7 @@ export const KineticText = ({
   accentIndex,
   style,
 }: KineticTextProps) => {
-  const frame = useCurrentFrame();
+  const frame = useTimelineFrame();
   const { fps } = useVideoConfig();
   const fittedSize = useMemo(() => {
     const widest = lines.reduce((longest, current) =>
@@ -111,7 +112,7 @@ export const Caption = ({
   left?: number;
   delay?: number;
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useTimelineFrame();
   const reveal = interpolate(frame, [delay, delay + 18], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",

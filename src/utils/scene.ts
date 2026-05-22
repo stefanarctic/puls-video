@@ -1,6 +1,7 @@
 import { SCENE_DURATIONS, TIMELINE } from "../constants";
+import type { SlideKey } from "../presentation/slideData";
 
-export type SceneKey = keyof typeof SCENE_DURATIONS;
+export type SceneKey = SlideKey;
 
 export const getSceneStart = (scene: SceneKey) => TIMELINE[scene];
 

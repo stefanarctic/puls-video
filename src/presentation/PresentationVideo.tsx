@@ -1,4 +1,4 @@
-import { PulsMarketingVideo } from "../Composition";
+import { PulsJuryPresentation } from "../Composition";
 
 type PresentationVideoProps = {
   _ambientTick?: number;
@@ -6,5 +6,5 @@ type PresentationVideoProps = {
 
 export const PresentationVideo = ({ _ambientTick }: PresentationVideoProps) => {
   void _ambientTick;
-  return <PulsMarketingVideo />;
+  return <PulsJuryPresentation />;
 };

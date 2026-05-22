@@ -1,49 +1,104 @@
 import { AbsoluteFill, Sequence } from "remotion";
 import { SCENE_DURATIONS, TIMELINE } from "./constants";
-import { AiAssistantScene } from "./scenes/AiAssistantScene";
-import { FinalBrandScene } from "./scenes/FinalBrandScene";
-import { GamificationScene } from "./scenes/GamificationScene";
-import { InteractivePhysicsScene } from "./scenes/InteractivePhysicsScene";
-import { ProblemScene } from "./scenes/ProblemScene";
-import { ShiftScene } from "./scenes/ShiftScene";
+import { AiSlide } from "./scenes/slides/AiSlide";
+import { BacSlide } from "./scenes/slides/BacSlide";
+import { ClosingSlide } from "./scenes/slides/ClosingSlide";
+import { CommunitySlide } from "./scenes/slides/CommunitySlide";
+import { EcosystemSlide } from "./scenes/slides/EcosystemSlide";
+import { EliNpSlide } from "./scenes/slides/EliNpSlide";
+import { NuclearSlide } from "./scenes/slides/NuclearSlide";
+import { OpeningSlide } from "./scenes/slides/OpeningSlide";
+import { ProblemSlide } from "./scenes/slides/ProblemSlide";
+import { RomaniaStorySlide } from "./scenes/slides/RomaniaStorySlide";
+import { SimulationsSlide } from "./scenes/slides/SimulationsSlide";
 import { EnergyPulseTransition, LightSweep } from "./utils/transitions";
 
-export const PulsMarketingVideo = () => {
+export const PulsJuryPresentation = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#02040b" }}>
+      <Sequence
+        from={TIMELINE.opening}
+        durationInFrames={SCENE_DURATIONS.opening}
+      >
+        <OpeningSlide duration={SCENE_DURATIONS.opening} />
+      </Sequence>
       <Sequence
         from={TIMELINE.problem}
         durationInFrames={SCENE_DURATIONS.problem}
       >
-        <ProblemScene duration={SCENE_DURATIONS.problem} />
-      </Sequence>
-      <Sequence from={TIMELINE.shift} durationInFrames={SCENE_DURATIONS.shift}>
-        <ShiftScene duration={SCENE_DURATIONS.shift} />
+        <ProblemSlide duration={SCENE_DURATIONS.problem} />
       </Sequence>
       <Sequence
-        from={TIMELINE.interactive}
-        durationInFrames={SCENE_DURATIONS.interactive}
+        from={TIMELINE.ecosystem}
+        durationInFrames={SCENE_DURATIONS.ecosystem}
       >
-        <InteractivePhysicsScene duration={SCENE_DURATIONS.interactive} />
+        <EcosystemSlide duration={SCENE_DURATIONS.ecosystem} />
+      </Sequence>
+      <Sequence from={TIMELINE.bac} durationInFrames={SCENE_DURATIONS.bac}>
+        <BacSlide duration={SCENE_DURATIONS.bac} />
+      </Sequence>
+      <Sequence
+        from={TIMELINE.simulations}
+        durationInFrames={SCENE_DURATIONS.simulations}
+      >
+        <SimulationsSlide duration={SCENE_DURATIONS.simulations} />
+      </Sequence>
+      <Sequence
+        from={TIMELINE.nuclear}
+        durationInFrames={SCENE_DURATIONS.nuclear}
+      >
+        <NuclearSlide duration={SCENE_DURATIONS.nuclear} />
+      </Sequence>
+      <Sequence
+        from={TIMELINE.romania}
+        durationInFrames={SCENE_DURATIONS.romania}
+      >
+        <RomaniaStorySlide duration={SCENE_DURATIONS.romania} />
+      </Sequence>
+      <Sequence from={TIMELINE.elinp} durationInFrames={SCENE_DURATIONS.elinp}>
+        <EliNpSlide duration={SCENE_DURATIONS.elinp} />
       </Sequence>
       <Sequence from={TIMELINE.ai} durationInFrames={SCENE_DURATIONS.ai}>
-        <AiAssistantScene duration={SCENE_DURATIONS.ai} />
+        <AiSlide duration={SCENE_DURATIONS.ai} />
       </Sequence>
       <Sequence
-        from={TIMELINE.gamification}
-        durationInFrames={SCENE_DURATIONS.gamification}
+        from={TIMELINE.community}
+        durationInFrames={SCENE_DURATIONS.community}
       >
-        <GamificationScene duration={SCENE_DURATIONS.gamification} />
+        <CommunitySlide duration={SCENE_DURATIONS.community} />
       </Sequence>
-      <Sequence from={TIMELINE.final} durationInFrames={SCENE_DURATIONS.final}>
-        <FinalBrandScene duration={SCENE_DURATIONS.final} />
+      <Sequence
+        from={TIMELINE.closing}
+        durationInFrames={SCENE_DURATIONS.closing}
+      >
+        <ClosingSlide duration={SCENE_DURATIONS.closing} />
       </Sequence>
 
-      <EnergyPulseTransition at={TIMELINE.shift - 20} duration={48} strength={1.2} />
-      <LightSweep at={TIMELINE.interactive - 22} duration={58} />
-      <EnergyPulseTransition at={TIMELINE.ai - 18} duration={42} strength={0.82} />
-      <LightSweep at={TIMELINE.gamification - 18} duration={44} />
-      <EnergyPulseTransition at={TIMELINE.final - 24} duration={62} strength={1} />
+      <EnergyPulseTransition
+        at={TIMELINE.problem - 16}
+        duration={40}
+        strength={0.9}
+      />
+      <LightSweep at={TIMELINE.ecosystem - 16} duration={48} />
+      <EnergyPulseTransition at={TIMELINE.bac - 16} duration={38} strength={0.75} />
+      <LightSweep at={TIMELINE.simulations - 18} duration={52} />
+      <EnergyPulseTransition
+        at={TIMELINE.nuclear - 20}
+        duration={52}
+        strength={1.15}
+      />
+      <LightSweep at={TIMELINE.romania - 18} duration={48} />
+      <EnergyPulseTransition at={TIMELINE.elinp - 20} duration={54} strength={1.2} />
+      <LightSweep at={TIMELINE.ai - 16} duration={44} />
+      <EnergyPulseTransition
+        at={TIMELINE.community - 16}
+        duration={38}
+        strength={0.8}
+      />
+      <EnergyPulseTransition at={TIMELINE.closing - 20} duration={56} strength={1} />
     </AbsoluteFill>
   );
 };
+
+/** @deprecated Use PulsJuryPresentation */
+export const PulsMarketingVideo = PulsJuryPresentation;

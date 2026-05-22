@@ -65,7 +65,7 @@ export const PresentationApp = () => {
           onClick={goPrevious}
           disabled={isFirst}
         >
-          Previous
+          Inapoi
         </button>
 
         <div className="presentation-dots" aria-label="Presentation scenes">
@@ -92,7 +92,7 @@ export const PresentationApp = () => {
           onClick={goNext}
           disabled={isLast && phase === "idle"}
         >
-          Next
+          Inainte
         </button>
       </div>
 

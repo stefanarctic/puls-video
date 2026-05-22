@@ -4,43 +4,53 @@ export const VIDEO = {
   height: 1080,
 };
 
+/** Slide durations in frames (30 fps) — ~8 min total per plan. */
 export const SCENE_DURATIONS = {
-  problem: 180,
-  shift: 135,
-  interactive: 210,
-  ai: 210,
-  gamification: 165,
-  final: 180,
+  opening: 900,
+  problem: 1350,
+  ecosystem: 1500,
+  bac: 1500,
+  simulations: 1800,
+  nuclear: 1800,
+  romania: 2040,
+  elinp: 2040,
+  ai: 1500,
+  community: 1200,
+  closing: 1140,
 } as const;
 
-export const TIMELINE = {
-  problem: 0,
-  shift: SCENE_DURATIONS.problem,
-  interactive: SCENE_DURATIONS.problem + SCENE_DURATIONS.shift,
-  ai:
-    SCENE_DURATIONS.problem +
-    SCENE_DURATIONS.shift +
-    SCENE_DURATIONS.interactive,
-  gamification:
-    SCENE_DURATIONS.problem +
-    SCENE_DURATIONS.shift +
-    SCENE_DURATIONS.interactive +
-    SCENE_DURATIONS.ai,
-  final:
-    SCENE_DURATIONS.problem +
-    SCENE_DURATIONS.shift +
-    SCENE_DURATIONS.interactive +
-    SCENE_DURATIONS.ai +
-    SCENE_DURATIONS.gamification,
+const slideOrder = [
+  "opening",
+  "problem",
+  "ecosystem",
+  "bac",
+  "simulations",
+  "nuclear",
+  "romania",
+  "elinp",
+  "ai",
+  "community",
+  "closing",
+] as const;
+
+const buildTimeline = () => {
+  let cursor = 0;
+  const timeline: Record<string, number> = {};
+
+  for (const key of slideOrder) {
+    timeline[key] = cursor;
+    cursor += SCENE_DURATIONS[key];
+  }
+
+  return timeline as Record<(typeof slideOrder)[number], number>;
 };
 
-export const TOTAL_DURATION =
-  SCENE_DURATIONS.problem +
-  SCENE_DURATIONS.shift +
-  SCENE_DURATIONS.interactive +
-  SCENE_DURATIONS.ai +
-  SCENE_DURATIONS.gamification +
-  SCENE_DURATIONS.final;
+export const TIMELINE = buildTimeline();
+
+export const TOTAL_DURATION = slideOrder.reduce(
+  (sum, key) => sum + SCENE_DURATIONS[key],
+  0,
+);
 
 export const COLORS = {
   black: "#02040b",

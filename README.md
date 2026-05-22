@@ -31,6 +31,16 @@ npm run dev
 npx remotion render
 ```
 
+**Interactive presentation**
+
+Run the step-through presentation app (auto-plays the first scene, then advances with Next):
+
+```console
+npm run presentation
+```
+
+Use **Next** / **Previous**, arrow keys, or **Space** to navigate scenes. Build for production with `npm run presentation:build`.
+
 **Upgrade Remotion**
 
 ```console

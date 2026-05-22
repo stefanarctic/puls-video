@@ -8,6 +8,7 @@
   "dependencies": {
     "@remotion/cli": "4.0.459",
     "@remotion/layout-utils": "^4.0.459",
+    "@remotion/player": "4.0.459",
     "@remotion/tailwind-v4": "4.0.459",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -15,18 +16,24 @@
     "tailwindcss": "4.0.0"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.5.2",
     "@remotion/eslint-config-flat": "4.0.459",
     "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
     "@types/web": "0.0.166",
     "eslint": "9.19.0",
     "prettier": "3.8.1",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vite": "^6.3.5"
   },
   "scripts": {
     "dev": "remotion studio",
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
-    "lint": "eslint src && tsc"
+    "lint": "eslint src && tsc",
+    "presentation": "vite --config vite.presentation.config.ts",
+    "presentation:build": "vite build --config vite.presentation.config.ts",
+    "presentation:preview": "vite preview --config vite.presentation.config.ts"
   },
   "sideEffects": [
     "*.css"

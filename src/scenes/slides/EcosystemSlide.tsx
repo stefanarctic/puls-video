@@ -1,12 +1,12 @@
+import { PRESENTATION_ASSETS } from "../../assets";
 import {
   RadialHub,
+  ScreenshotFrame,
   SlideCta,
   SlideHeadline,
   SlideLayout,
-  SlideScreenshot,
   SlideSubtitle,
 } from "../../components/SlideChrome";
-import { PRESENTATION_ASSETS } from "../../assets";
 import { getSlideMeta } from "../../presentation/slideData";
 
 export const EcosystemSlide = ({ duration }: { duration: number }) => {
@@ -24,13 +24,17 @@ export const EcosystemSlide = ({ duration }: { duration: number }) => {
         profesori — totul intr-o singura platforma.
       </SlideSubtitle>
       <RadialHub delay={36} />
-      <SlideScreenshot
+      <ScreenshotFrame
         src={PRESENTATION_ASSETS.resurseSimulari}
-        x={120}
-        y={780}
+        x={1280}
+        y={340}
         width={520}
-        height={220}
+        height={280}
         delay={70}
+        caption="Resurse si simulari"
+        lightOverlay
+        objectFit="cover"
+        objectPosition="top center"
       />
       <SlideCta label={meta.ctaLabel} delay={78} />
     </SlideLayout>

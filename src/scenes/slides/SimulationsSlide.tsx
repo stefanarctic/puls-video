@@ -1,9 +1,9 @@
 import { PRESENTATION_ASSETS } from "../../assets";
 import {
+  ScreenshotFrame,
   SlideCta,
   SlideHeadline,
   SlideLayout,
-  SlideScreenshot,
   SlideSubtitle,
 } from "../../components/SlideChrome";
 import { getSlideMeta } from "../../presentation/slideData";
@@ -12,10 +12,34 @@ export const SimulationsSlide = ({ duration }: { duration: number }) => {
   const meta = getSlideMeta("simulations");
 
   const sims = [
-    { src: PRESENTATION_ASSETS.pendul, label: "Pendul", x: 120, y: 360 },
-    { src: PRESENTATION_ASSETS.unde, label: "Unde", x: 520, y: 360 },
-    { src: PRESENTATION_ASSETS.proiectil, label: "Proiectil", x: 920, y: 360 },
-    { src: PRESENTATION_ASSETS.circuite, label: "Circuite", x: 1320, y: 360 },
+    {
+      src: PRESENTATION_ASSETS.pendul,
+      label: "Pendul",
+      caption: "Pendul oscilator",
+      x: 120,
+      lightOverlay: false,
+    },
+    {
+      src: PRESENTATION_ASSETS.unde,
+      label: "Unde",
+      caption: "Simulator de unde",
+      x: 520,
+      lightOverlay: true,
+    },
+    {
+      src: PRESENTATION_ASSETS.proiectil,
+      label: "Proiectil",
+      caption: "Traiectorie proiectil",
+      x: 920,
+      lightOverlay: true,
+    },
+    {
+      src: PRESENTATION_ASSETS.circuite,
+      label: "Circuite",
+      caption: "Circuite — electricitate",
+      x: 1320,
+      lightOverlay: true,
+    },
   ];
 
   return (
@@ -30,14 +54,18 @@ export const SimulationsSlide = ({ duration }: { duration: number }) => {
         real. Schimba un parametru si vezi imediat ce se intampla.
       </SlideSubtitle>
       {sims.map((sim, index) => (
-        <SlideScreenshot
+        <ScreenshotFrame
           key={sim.label}
           src={sim.src}
           x={sim.x}
-          y={sim.y}
+          y={360}
           width={380}
-          height={480}
+          height={516}
           delay={34 + index * 12}
+          caption={sim.caption}
+          objectFit="cover"
+          objectPosition="top center"
+          lightOverlay={sim.lightOverlay}
         />
       ))}
       <SlideCta label={meta.ctaLabel} delay={82} />

@@ -1,10 +1,10 @@
 import { PRESENTATION_ASSETS } from "../../assets";
 import {
   RomaniaMap,
+  ScreenshotFrame,
   SlideCta,
   SlideHeadline,
   SlideLayout,
-  SlideScreenshot,
   SlideSubtitle,
 } from "../../components/SlideChrome";
 import { getSlideMeta } from "../../presentation/slideData";
@@ -23,15 +23,18 @@ export const RomaniaStorySlide = ({ duration }: { duration: number }) => {
         Uzina G — prima cantitate de apa grea romaneasca in 1976. ROMAG-PROD a
         dus tehnologia la scara industriala pentru reactoare CANDU.
       </SlideSubtitle>
-      <RomaniaMap delay={34} />
-      <SlideScreenshot
+      <ScreenshotFrame
         src={PRESENTATION_ASSETS.schimbIzotopic}
         x={120}
-        y={380}
+        y={360}
         width={720}
         height={520}
         delay={48}
+        caption="Simulator schimb izotopic"
+        objectFit="cover"
+        objectPosition="top center"
       />
+      <RomaniaMap delay={34} />
       <SlideCta label={meta.ctaLabel} delay={86} />
     </SlideLayout>
   );

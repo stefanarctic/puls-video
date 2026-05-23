@@ -1,4 +1,6 @@
+import { PRESENTATION_ASSETS } from "../../assets";
 import {
+  ScreenshotFrame,
   SlideCta,
   SlideHeadline,
   SlideLayout,
@@ -34,29 +36,35 @@ export const AiSlide = ({ duration }: { duration: number }) => {
         AI pentru explicatii, analiza de solutii si ghidare personalizata —
         accent pe invatare, nu pe copierea raspunsurilor.
       </SlideSubtitle>
+      <ScreenshotFrame
+        src={PRESENTATION_ASSETS.asistent}
+        x={120}
+        y={360}
+        width={900}
+        height={520}
+        delay={32}
+        caption="Profesorul Whiz — asistent PULS"
+        lightOverlay
+        objectFit="cover"
+        objectPosition="top left"
+      />
       <div
         style={{
           position: "absolute",
-          left: 120,
-          top: 420,
-          width: 1680,
-          height: 420,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 40px",
+          left: 1060,
+          top: 360,
+          width: 740,
         }}
       >
         {steps.map((step, index) => {
-          const reveal = smoothProgress(timeline, 36 + stagger(index, 16), 24);
+          const reveal = smoothProgress(timeline, 36 + stagger(index, 14), 24);
 
           return (
-            <div key={step} style={{ display: "flex", alignItems: "center" }}>
+            <div key={step}>
               <div
                 style={{
-                  width: 280,
-                  padding: "28px 24px",
-                  borderRadius: 24,
+                  padding: "20px 24px",
+                  borderRadius: 20,
                   background: "rgba(255,255,255,0.06)",
                   border: "1px solid rgba(24,244,255,0.18)",
                   fontFamily: FONT_FAMILY,
@@ -65,7 +73,7 @@ export const AiSlide = ({ duration }: { duration: number }) => {
                   color: COLORS.white,
                   lineHeight: 1.3,
                   opacity: reveal,
-                  transform: `translateY(${(1 - reveal) * 32}px)`,
+                  transform: `translateX(${(1 - reveal) * 24}px)`,
                 }}
               >
                 {step}
@@ -73,39 +81,36 @@ export const AiSlide = ({ duration }: { duration: number }) => {
               {index < steps.length - 1 ? (
                 <div
                   style={{
-                    margin: "0 16px",
-                    fontSize: 32,
+                    padding: "8px 0 8px 28px",
+                    fontSize: 24,
                     color: COLORS.cyan,
-                    opacity: reveal * 0.6,
+                    opacity: reveal * 0.55,
                   }}
                 >
-                  →
+                  ↓
                 </div>
               ) : null}
             </div>
           );
         })}
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          left: 120,
-          top: 720,
-          width: 780,
-          padding: "32px 36px",
-          borderRadius: 28,
-          background:
-            "linear-gradient(160deg, rgba(24,244,255,0.12), rgba(255,255,255,0.04))",
-          border: "1px solid rgba(24,244,255,0.2)",
-          fontFamily: FONT_FAMILY,
-          fontSize: 24,
-          color: COLORS.muted,
-          lineHeight: 1.5,
-          opacity: smoothProgress(timeline, 90, 24),
-        }}
-      >
-        „AI-ul devine valoros cand nu da doar raspunsul, ci il ajuta pe elev sa
-        vada unde a gresit si cum gandeste fizic problema."
+        <div
+          style={{
+            marginTop: 24,
+            padding: "28px 32px",
+            borderRadius: 24,
+            background:
+              "linear-gradient(160deg, rgba(24,244,255,0.12), rgba(255,255,255,0.04))",
+            border: "1px solid rgba(24,244,255,0.2)",
+            fontFamily: FONT_FAMILY,
+            fontSize: 22,
+            color: COLORS.muted,
+            lineHeight: 1.5,
+            opacity: smoothProgress(timeline, 88, 24),
+          }}
+        >
+          „AI-ul devine valoros cand nu da doar raspunsul, ci il ajuta pe elev sa
+          vada unde a gresit si cum gandeste fizic problema."
+        </div>
       </div>
       <SlideCta label={meta.ctaLabel} delay={96} />
     </SlideLayout>

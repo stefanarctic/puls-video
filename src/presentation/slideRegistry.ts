@@ -71,6 +71,7 @@ export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
     PRESENTATION_ASSETS.circuite,
   ],
   nuclear: [
+    PRESENTATION_ASSETS.probleme,
     PRESENTATION_ASSETS.apaGrea,
     PRESENTATION_ASSETS.fisiune,
     PRESENTATION_ASSETS.fuziune,
@@ -81,7 +82,7 @@ export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
     PRESENTATION_ASSETS.laser,
     PRESENTATION_ASSETS.accelerator,
   ],
-  ai: [],
+  ai: [PRESENTATION_ASSETS.asistent],
   community: [PRESENTATION_ASSETS.landing],
   closing: [ASSETS.logo],
 };

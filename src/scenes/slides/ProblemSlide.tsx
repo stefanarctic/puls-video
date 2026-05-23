@@ -2,10 +2,10 @@ import { BookOpen, Clock, Unlink } from "lucide-react";
 import { PRESENTATION_ASSETS } from "../../assets";
 import {
   BlockCard,
+  ScreenshotFrame,
   SlideCta,
   SlideHeadline,
   SlideLayout,
-  SlideScreenshot,
   SlideSubtitle,
 } from "../../components/SlideChrome";
 import { COLORS } from "../../constants";
@@ -44,10 +44,11 @@ export const ProblemSlide = ({ duration }: { duration: number }) => {
       </SlideSubtitle>
       <BlockCard
         label="Formule fara intuitie"
+        sublabel="Formule memorate, fara intuitie vizuala"
         x={120}
         y={400}
         width={520}
-        height={220}
+        height={240}
         delay={40}
         icon={
           <IconWrap>
@@ -57,10 +58,11 @@ export const ProblemSlide = ({ duration }: { duration: number }) => {
       />
       <BlockCard
         label="Probleme fara feedback rapid"
+        sublabel="Rezolvare fara confirmare imediata"
         x={700}
         y={400}
         width={520}
-        height={220}
+        height={240}
         delay={52}
         icon={
           <IconWrap>
@@ -70,10 +72,11 @@ export const ProblemSlide = ({ duration }: { duration: number }) => {
       />
       <BlockCard
         label="Lectii fara legatura cu lumea reala"
+        sublabel="Teorie decuplata de experiment"
         x={1280}
         y={400}
         width={520}
-        height={220}
+        height={240}
         delay={64}
         icon={
           <IconWrap>
@@ -81,13 +84,18 @@ export const ProblemSlide = ({ duration }: { duration: number }) => {
           </IconWrap>
         }
       />
-      <SlideScreenshot
+      <ScreenshotFrame
         src={PRESENTATION_ASSETS.probleme}
-        x={120}
-        y={660}
-        width={1680}
-        height={320}
+        x={260}
+        y={668}
+        width={1400}
+        height={300}
         delay={72}
+        caption="Problema BAC — Unde mecanice si figura Lissajous"
+        lightOverlay
+        objectFit="cover"
+        objectPosition="top center"
+        imageScale={1.08}
       />
       <SlideCta label={meta.ctaLabel} delay={80} />
     </SlideLayout>

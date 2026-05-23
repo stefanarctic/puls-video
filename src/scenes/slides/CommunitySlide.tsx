@@ -1,16 +1,17 @@
 import { interpolate } from "remotion";
 import { PRESENTATION_ASSETS } from "../../assets";
-import { ProgressBar } from "../../components/InterfacePrimitives";
 import {
+  InlineProgressBar,
+  ScreenshotFrame,
   SlideCta,
   SlideHeadline,
   SlideLayout,
-  SlideScreenshot,
   SlideSubtitle,
+  smoothProgress,
 } from "../../components/SlideChrome";
 import { COLORS, FONT_FAMILY } from "../../constants";
 import { useTimelineFrame } from "../../utils/ambientMotion";
-import { cinematicEase, smoothProgress } from "../../utils/animation";
+import { cinematicEase } from "../../utils/animation";
 import { getSlideMeta } from "../../presentation/slideData";
 
 const badges = ["Streak 7 zile", "Vector Master", "Top 4%", "Nivel 12"];
@@ -18,6 +19,7 @@ const badges = ["Streak 7 zile", "Vector Master", "Top 4%", "Nivel 12"];
 export const CommunitySlide = ({ duration }: { duration: number }) => {
   const meta = getSlideMeta("community");
   const timeline = useTimelineFrame();
+  const panelReveal = smoothProgress(timeline, 40, 28);
 
   return (
     <SlideLayout duration={duration}>
@@ -30,13 +32,17 @@ export const CommunitySlide = ({ duration }: { duration: number }) => {
         Profil, progres, realizari, comunitate si clase pentru profesori —
         retentie si utilizare in scoala.
       </SlideSubtitle>
-      <SlideScreenshot
+      <ScreenshotFrame
         src={PRESENTATION_ASSETS.landing}
         x={120}
         y={360}
         width={820}
         height={520}
         delay={32}
+        caption="Platforma PULS — elev"
+        lightOverlay
+        objectFit="cover"
+        objectPosition="top center"
       />
       <div
         style={{
@@ -51,7 +57,9 @@ export const CommunitySlide = ({ duration }: { duration: number }) => {
           background:
             "linear-gradient(145deg, rgba(15,37,63,0.88), rgba(5,12,24,0.78))",
           border: "1px solid rgba(119,224,255,0.22)",
-          opacity: smoothProgress(timeline, 40, 28),
+          opacity: panelReveal,
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <div
@@ -62,15 +70,12 @@ export const CommunitySlide = ({ duration }: { duration: number }) => {
             letterSpacing: "0.16em",
             textTransform: "uppercase",
             color: COLORS.cyan,
-            marginBottom: 32,
+            marginBottom: 28,
           }}
         >
           Dashboard profesor
         </div>
-        <ProgressBar
-          x={0}
-          y={60}
-          width={700}
+        <InlineProgressBar
           label="Clasa XII A · Mecanica"
           progress={interpolate(timeline, [50, 100], [0.2, 0.78], {
             extrapolateLeft: "clamp",
@@ -80,10 +85,12 @@ export const CommunitySlide = ({ duration }: { duration: number }) => {
         />
         <div
           style={{
-            marginTop: 140,
-            display: "flex",
-            flexWrap: "wrap",
+            marginTop: 36,
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
             gap: 16,
+            flex: 1,
+            alignContent: "start",
           }}
         >
           {badges.map((badge, index) => {

@@ -22,4 +22,5 @@ export const PRESENTATION_ASSETS = {
   laser: `${P}/Laser_Simulator_Screenshot.png`,
   accelerator: `${P}/Accelerator_Laser_Screenshot.png`,
   fuziune: `${P}/Reactor_Fuziune_Dt_Screenshot.png`,
+  asistent: `${P}/Puls-AI2.png`,
 } as const;

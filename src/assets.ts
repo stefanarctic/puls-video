@@ -9,6 +9,8 @@ const P = "puls-assets/presentation";
 export const PRESENTATION_ASSETS = {
   landing: `${P}/Landing.png`,
   probleme: `${P}/Probleme.png`,
+  problemeOscilatori: `${P}/Screenshot_Problema_Oscilatori.png`,
+  feedbackProblema: `${P}/Screenshot_Feedback_Problema.png`,
   resurseSimulari: `${P}/Resurse si Simulari.png`,
   simulariCatalog: `${P}/Screenshot_Simulari_Catalog.png`,
   problemeLista: `${P}/Screenshot_Probleme_Lista.png`,

@@ -70,7 +70,10 @@ export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
     PRESENTATION_ASSETS.profilProgres,
     PRESENTATION_ASSETS.claseProfesor,
   ],
-  bac: [PRESENTATION_ASSETS.probleme],
+  bac: [
+    PRESENTATION_ASSETS.problemeOscilatori,
+    PRESENTATION_ASSETS.feedbackProblema,
+  ],
   simulations: [
     PRESENTATION_ASSETS.pendul,
     PRESENTATION_ASSETS.unde,

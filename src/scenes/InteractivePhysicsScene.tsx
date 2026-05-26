@@ -4,7 +4,7 @@ import { GlassPanel, GraphGrid, MiniLabel } from "../components/InterfacePrimiti
 import { KineticText } from "../components/KineticText";
 import { ParticleField } from "../components/Particles";
 import { ElectricField, Pendulum, ProjectileArc } from "../components/PhysicsVisuals";
-import { COLORS, FONT_FAMILY } from "../constants";
+import { COLORS } from "../constants";
 import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import {
   cinematicEase,
@@ -12,6 +12,7 @@ import {
   looping,
   smoothProgress,
 } from "../utils/animation";
+import "./InteractivePhysicsScene.scss";
 
 export const InteractivePhysicsScene = ({ duration }: { duration: number }) => {
   const timeline = useTimelineFrame();
@@ -46,50 +47,20 @@ export const InteractivePhysicsScene = ({ duration }: { duration: number }) => {
           Pendulum Lab
         </MiniLabel>
         <Pendulum x={176} y={94} scale={1.02} />
-        <div
-          style={{
-            position: "absolute",
-            right: 42,
-            top: 90,
-            width: 136,
-            height: 320,
-            borderRadius: 28,
-            background: "rgba(255,255,255,0.045)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
+        <div className="interactive-physics-scene__controls">
           {["g", "θ", "m"].map((label, index) => (
             <div
               key={label}
-              style={{
-                position: "absolute",
-                left: 24,
-                top: 34 + index * 88,
-                width: 88,
-                height: 8,
-                borderRadius: 99,
-                background: "rgba(255,255,255,0.12)",
-              }}
+              className="interactive-physics-scene__slider"
+              style={{ top: 34 + index * 88 }}
             >
               <div
+                className="interactive-physics-scene__slider-fill"
                 style={{
                   width: `${45 + index * 18 + looping(loop, 0.04, index) * 14}%`,
-                  height: "100%",
-                  borderRadius: 99,
-                  background: COLORS.cyan,
-                  boxShadow: `0 0 18px ${COLORS.cyan}`,
                 }}
               />
-              <span
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  top: -28,
-                  fontFamily: FONT_FAMILY,
-                  color: COLORS.muted,
-                  fontSize: 18,
-                }}
-              >
+              <span className="interactive-physics-scene__slider-label">
                 {label}
               </span>
             </div>
@@ -103,18 +74,13 @@ export const InteractivePhysicsScene = ({ duration }: { duration: number }) => {
         </MiniLabel>
         <ProjectileArc x={42} y={260} progress={projectileProgress} />
         <div
+          className="interactive-physics-scene__projectile-dot"
           style={{
-            position: "absolute",
             left: 66 + projectileProgress * 480,
             top:
               260 -
               Math.sin(projectileProgress * Math.PI) * 210 +
               projectileProgress * 140,
-            width: 34,
-            height: 34,
-            borderRadius: 99,
-            background: COLORS.white,
-            boxShadow: `0 0 34px ${COLORS.cyan}`,
           }}
         />
       </GlassPanel>
@@ -124,29 +90,15 @@ export const InteractivePhysicsScene = ({ duration }: { duration: number }) => {
         </MiniLabel>
         <ElectricField progress={progress} centerX={282} centerY={186} />
         <div
+          className="interactive-physics-scene__charge"
           style={{
-            position: "absolute",
-            left: 252,
-            top: 150,
-            width: 64,
-            height: 64,
-            borderRadius: 999,
             background: `radial-gradient(circle, white, ${COLORS.cyan}, ${COLORS.blue})`,
-            boxShadow: `0 0 60px ${COLORS.cyan}`,
           }}
         />
       </GlassPanel>
       <div
+        className="interactive-physics-scene__caption"
         style={{
-          position: "absolute",
-          left: 1196,
-          top: 220,
-          width: 400,
-          fontFamily: FONT_FAMILY,
-          color: COLORS.muted,
-          fontSize: 27,
-          fontWeight: 620,
-          lineHeight: 1.35,
           opacity: interpolate(timeline, [130, 160], [0, 1], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",

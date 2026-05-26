@@ -1,0 +1,51 @@
+.cinematic-backdrop {
+  background: radial-gradient(
+    circle at 50% 42%,
+    #0b213a 0%,
+    #07101f 34%,
+    #02040b 76%
+  );
+  overflow: hidden;
+
+  &__grid {
+    background-image:
+      linear-gradient(rgba(24, 244, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(24, 244, 255, 0.035) 1px, transparent 1px);
+    background-size: 96px 96px;
+    mask-image: radial-gradient(circle at center, black 0%, transparent 72%);
+  }
+
+  &__orb {
+    position: absolute;
+    filter: blur(140px);
+    mix-blend-mode: screen;
+  }
+
+  &__side-vignette {
+    background: linear-gradient(
+      90deg,
+      rgba(2, 4, 11, 0.82),
+      transparent 28%,
+      transparent 70%,
+      rgba(2, 4, 11, 0.86)
+    );
+  }
+
+  &__radial-vignette {
+    background: radial-gradient(
+      circle at center,
+      transparent 0%,
+      rgba(2, 4, 11, 0.32) 58%,
+      rgba(2, 4, 11, 0.92) 100%
+    );
+  }
+
+  &__scanlines {
+    background-image: linear-gradient(
+      transparent 50%,
+      rgba(255, 255, 255, 0.12) 50%
+    );
+    background-size: 100% 4px;
+    mix-blend-mode: overlay;
+  }
+}

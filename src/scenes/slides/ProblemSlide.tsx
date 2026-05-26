@@ -7,8 +7,9 @@ import {
   SlideLayout,
   SlideSubtitle,
 } from "../../components/SlideChrome";
-import { COLORS, FONT_FAMILY } from "../../constants";
+import { COLORS } from "../../constants";
 import { getSlideMeta } from "../../presentation/slideData";
+import "./ProblemSlide.scss";
 
 const BAC_VARIANT_ROWS = [
   { variant: "BAC 2024", subject: "Subiect II — Mecanica oscilatorie" },
@@ -20,153 +21,42 @@ const BAC_VARIANT_ROWS = [
 ] as const;
 
 const StatusQuoPrepPanel = () => (
-  <div
-    style={{
-      position: "absolute",
-      inset: 0,
-      display: "flex",
-      flexDirection: "column",
-      background: "#f4f4f2",
-      fontFamily: FONT_FAMILY,
-    }}
-  >
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        padding: "14px 22px",
-        background: "#e8e8e4",
-        borderBottom: "1px solid #d4d4ce",
-      }}
-    >
+  <div className="problem-slide__status-quo">
+    <div className="problem-slide__status-header">
       <FileText size={18} color="#6b7280" strokeWidth={2} />
-      <div style={{ flex: 1 }}>
-        <div
-          style={{
-            fontSize: 15,
-            fontWeight: 700,
-            color: "#374151",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          Variante BAC — Fizica
-        </div>
-        <div style={{ marginTop: 2, fontSize: 12, color: "#9ca3af" }}>
+      <div className="problem-slide__status-header-text">
+        <div className="problem-slide__status-title">Variante BAC — Fizica</div>
+        <div className="problem-slide__status-subtitle">
           Culegere digitala / PDF
         </div>
       </div>
-      <div
-        style={{
-          padding: "6px 10px",
-          borderRadius: 6,
-          fontSize: 11,
-          fontWeight: 650,
-          color: "#6b7280",
-          background: "#fafaf8",
-          border: "1px solid #d4d4ce",
-        }}
-      >
-        24 variante
-      </div>
+      <div className="problem-slide__status-count">24 variante</div>
     </div>
 
-    <div style={{ flex: 1, overflow: "hidden", padding: "10px 18px 14px" }}>
+    <div className="problem-slide__status-list">
       {BAC_VARIANT_ROWS.map((row, index) => (
         <div
           key={row.variant}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 14,
-            padding: "11px 12px",
-            borderRadius: 8,
-            background: index % 2 === 0 ? "#fafaf8" : "transparent",
-            border: "1px solid #eceae4",
-            marginBottom: 6,
-          }}
+          className={`problem-slide__status-row problem-slide__status-row--${index % 2 === 0 ? "even" : "odd"}`}
         >
-          <div
-            style={{
-              width: 16,
-              height: 16,
-              borderRadius: 4,
-              border: "1.5px solid #c4c4bc",
-              background: "#fff",
-              flexShrink: 0,
-            }}
-          />
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div
-              style={{
-                fontSize: 13,
-                fontWeight: 700,
-                color: "#374151",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              {row.variant}
-            </div>
-            <div
-              style={{
-                marginTop: 1,
-                fontSize: 12,
-                color: "#9ca3af",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              {row.subject}
-            </div>
+          <div className="problem-slide__status-checkbox" />
+          <div className="problem-slide__status-row-text">
+            <div className="problem-slide__status-variant">{row.variant}</div>
+            <div className="problem-slide__status-subject">{row.subject}</div>
           </div>
-          <div
-            style={{
-              fontSize: 11,
-              fontWeight: 600,
-              color: "#b8b8b0",
-              whiteSpace: "nowrap",
-            }}
-          >
-            fara verificare
-          </div>
+          <div className="problem-slide__status-tag">fara verificare</div>
         </div>
       ))}
     </div>
 
-    <div
-      style={{
-        padding: "10px 22px",
-        borderTop: "1px solid #d4d4ce",
-        background: "#eceae4",
-        fontSize: 12,
-        fontWeight: 600,
-        color: "#9ca3af",
-        textAlign: "center",
-      }}
-    >
+    <div className="problem-slide__status-footer">
       Raspunsuri disponibile manual — feedback dupa corectare la profesor
     </div>
   </div>
 );
 
 const IconWrap = ({ children }: { children: React.ReactNode }) => (
-  <div
-    style={{
-      width: 48,
-      height: 48,
-      borderRadius: 14,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      background: "rgba(24,244,255,0.12)",
-      border: "1px solid rgba(24,244,255,0.28)",
-    }}
-  >
-    {children}
-  </div>
+  <div className="problem-slide__icon-wrap">{children}</div>
 );
 
 const LEFT_X = 100;
@@ -193,7 +83,7 @@ const PROBLEM_CARDS = [
   },
   {
     label: "Lectii fara legatura cu lumea reala",
-    sublabel: "Teorie decuplata de experiment",
+    sublabel: "Teorie uneori decuplata de experiment",
     delay: 64,
     icon: Unlink,
   },
@@ -241,11 +131,7 @@ export const ProblemSlide = ({ duration }: { duration: number }) => {
         height={PANEL_HEIGHT}
         delay={72}
         caption="Pregatire repetitiva — fara feedback imediat"
-        screenshotStyle={{
-          background: "#f4f4f2",
-          border: "1px solid rgba(136,169,200,0.28)",
-          boxShadow: "0 18px 48px rgba(0,0,0,0.35)",
-        }}
+        screenshotClassName="problem-slide__screenshot-frame"
       >
         <StatusQuoPrepPanel />
       </ScreenshotFrame>

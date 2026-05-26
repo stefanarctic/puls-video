@@ -9,11 +9,12 @@ import {
   Users,
 } from "lucide-react";
 import { AbsoluteFill, Img, interpolate, staticFile } from "remotion";
-import { COLORS, FONT_FAMILY } from "../constants";
+import { COLORS } from "../constants";
 import { useTimelineFrame } from "../utils/ambientMotion";
-import { cinematicEase, enterExitOpacity, smoothProgress, springIn } from "../utils/animation";
+import { cinematicEase, enterExitOpacity, smoothProgress } from "../utils/animation";
 import { CinematicBackdrop } from "./Backdrop";
 import { ParticleField } from "./Particles";
+import "./SlideChrome.scss";
 
 const FLOW_BADGE_SIZE = 52;
 
@@ -56,19 +57,8 @@ export const SlideCta = ({
 
   return (
     <div
+      className="slide-cta"
       style={{
-        position: "absolute",
-        right: 72,
-        bottom: 56,
-        padding: "18px 32px",
-        borderRadius: 999,
-        fontFamily: FONT_FAMILY,
-        fontSize: 22,
-        fontWeight: 700,
-        letterSpacing: "0.02em",
-        color: COLORS.white,
-        background: `linear-gradient(135deg, rgba(22,136,255,0.92), rgba(24,244,255,0.72))`,
-        border: "1px solid rgba(24,244,255,0.55)",
         boxShadow: `0 16px 48px rgba(0,0,0,0.35), 0 0 ${reveal * 32}px rgba(24,244,255,0.35)`,
         opacity: reveal,
         transform: `translateY(${(1 - reveal) * 24}px) scale(${0.94 + reveal * 0.06})`,
@@ -99,15 +89,7 @@ export const SlideHeadline = ({
   const timeline = useTimelineFrame();
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        top,
-        left,
-        width,
-        fontFamily: FONT_FAMILY,
-      }}
-    >
+    <div className="slide-headline" style={{ top, left, width }}>
       {lines.map((line, index) => {
         const reveal = smoothProgress(timeline, delay + index * 10, 22);
         const isAccent = accentIndex === index;
@@ -115,13 +97,10 @@ export const SlideHeadline = ({
         return (
           <div
             key={line}
+            className={`slide-headline__line${isAccent ? " slide-headline__line--accent" : ""}`}
             style={{
               marginTop: index === 0 ? 0 : 8,
               fontSize: size - (index > 0 ? 8 : 0),
-              fontWeight: 760,
-              lineHeight: 1.05,
-              letterSpacing: "-0.04em",
-              color: isAccent ? COLORS.cyan : COLORS.white,
               textShadow: isAccent ? `0 0 28px ${COLORS.cyan}` : undefined,
               opacity: reveal,
               transform: `translateY(${(1 - reveal) * 36}px)`,
@@ -153,16 +132,11 @@ export const SlideSubtitle = ({
 
   return (
     <div
+      className="slide-subtitle"
       style={{
-        position: "absolute",
         top,
         left,
         width,
-        fontFamily: FONT_FAMILY,
-        fontSize: 28,
-        fontWeight: 560,
-        lineHeight: 1.45,
-        color: COLORS.muted,
         opacity: reveal,
         transform: `translateY(${(1 - reveal) * 20}px)`,
       }}
@@ -180,6 +154,7 @@ export const SlideScreenshot = ({
   height,
   delay = 30,
   style,
+  className,
   objectFit = "cover",
   objectPosition = "center",
   imageScale = 1,
@@ -193,6 +168,7 @@ export const SlideScreenshot = ({
   height: number;
   delay?: number;
   style?: CSSProperties;
+  className?: string;
   objectFit?: CSSProperties["objectFit"];
   objectPosition?: CSSProperties["objectPosition"];
   imageScale?: number;
@@ -204,18 +180,13 @@ export const SlideScreenshot = ({
 
   return (
     <div
+      className={className ? `slide-screenshot ${className}` : "slide-screenshot"}
       style={{
-        position: "absolute",
         left: x,
         top: y,
         width,
         height,
-        borderRadius: 24,
-        overflow: "hidden",
-        border: "1px solid rgba(24,244,255,0.22)",
         boxShadow: `0 24px 80px rgba(0,0,0,0.45), 0 0 ${reveal * 40}px rgba(24,244,255,0.12)`,
-        background:
-          "linear-gradient(145deg, rgba(15,37,63,0.82), rgba(5,12,24,0.7))",
         opacity: reveal,
         transform: `translateY(${(1 - reveal) * 40}px) scale(${0.96 + reveal * 0.04})`,
         ...style,
@@ -224,9 +195,8 @@ export const SlideScreenshot = ({
       {src ? (
         <Img
           src={staticFile(src)}
+          className="slide-screenshot__image"
           style={{
-            width: "100%",
-            height: "100%",
             objectFit,
             objectPosition,
             transform: imageScale !== 1 ? `scale(${imageScale})` : undefined,
@@ -237,23 +207,8 @@ export const SlideScreenshot = ({
       {children}
       {lightOverlay ? (
         <>
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(180deg, rgba(2,4,11,0.08) 0%, rgba(2,4,11,0.35) 100%)",
-              pointerEvents: "none",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              boxShadow: "inset 0 0 0 1px rgba(24,244,255,0.12)",
-              pointerEvents: "none",
-            }}
-          />
+          <div className="slide-screenshot__overlay-gradient" />
+          <div className="slide-screenshot__overlay-border" />
         </>
       ) : null}
     </div>
@@ -274,6 +229,7 @@ export const ScreenshotFrame = ({
   imageScale = 1,
   style,
   screenshotStyle,
+  screenshotClassName,
   children,
 }: {
   src?: string;
@@ -289,13 +245,14 @@ export const ScreenshotFrame = ({
   imageScale?: number;
   style?: CSSProperties;
   screenshotStyle?: CSSProperties;
+  screenshotClassName?: string;
   children?: ReactNode;
 }) => {
   const captionHeight = caption ? 36 : 0;
   const imageHeight = height - captionHeight;
 
   return (
-    <div style={{ position: "absolute", left: x, top: y, width, ...style }}>
+    <div className="screenshot-frame" style={{ left: x, top: y, width, ...style }}>
       <SlideScreenshot
         src={src}
         x={0}
@@ -308,23 +265,12 @@ export const ScreenshotFrame = ({
         imageScale={imageScale}
         lightOverlay={lightOverlay}
         style={{ position: "relative", ...screenshotStyle }}
+        className={screenshotClassName}
       >
         {children}
       </SlideScreenshot>
       {caption ? (
-        <div
-          style={{
-            marginTop: 12,
-            fontFamily: FONT_FAMILY,
-            fontSize: 20,
-            fontWeight: 650,
-            color: COLORS.muted,
-            letterSpacing: "0.02em",
-            textAlign: "center",
-          }}
-        >
-          {caption}
-        </div>
+        <div className="screenshot-frame__caption">{caption}</div>
       ) : null}
     </div>
   );
@@ -354,54 +300,21 @@ export const BlockCard = ({
 
   return (
     <div
+      className="block-card"
       style={{
-        position: "absolute",
         left: x,
         top: y,
         width,
         height,
-        borderRadius: 28,
-        padding: "32px 36px",
-        boxSizing: "border-box",
-        background:
-          "linear-gradient(145deg, rgba(15,37,63,0.88), rgba(5,12,24,0.78))",
-        border: "1px solid rgba(119,224,255,0.22)",
-        boxShadow: "0 24px 64px rgba(0,0,0,0.35)",
         opacity: reveal,
         transform: `translateY(${(1 - reveal) * 48}px)`,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        gap: 16,
       }}
     >
       {icon}
       <div>
-        <div
-          style={{
-            fontFamily: FONT_FAMILY,
-            fontSize: 30,
-            fontWeight: 720,
-            lineHeight: 1.2,
-            color: COLORS.white,
-            letterSpacing: "-0.02em",
-          }}
-        >
-          {label}
-        </div>
+        <div className="block-card__label">{label}</div>
         {sublabel ? (
-          <div
-            style={{
-              marginTop: 10,
-              fontFamily: FONT_FAMILY,
-              fontSize: 20,
-              fontWeight: 520,
-              lineHeight: 1.35,
-              color: COLORS.muted,
-            }}
-          >
-            {sublabel}
-          </div>
+          <div className="block-card__sublabel">{sublabel}</div>
         ) : null}
       </div>
     </div>
@@ -428,8 +341,8 @@ export const FlowStep = ({
 
   return (
     <div
+      className="flow-step"
       style={{
-        position: "absolute",
         left: x,
         top: y,
         width,
@@ -437,36 +350,8 @@ export const FlowStep = ({
         transform: `translateX(${(1 - reveal) * -32}px)`,
       }}
     >
-      <div
-        style={{
-          width: FLOW_BADGE_SIZE,
-          height: FLOW_BADGE_SIZE,
-          borderRadius: 16,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontFamily: FONT_FAMILY,
-          fontSize: 24,
-          fontWeight: 800,
-          color: COLORS.black,
-          background: COLORS.cyan,
-          boxShadow: `0 0 24px ${COLORS.cyan}`,
-          marginBottom: 16,
-        }}
-      >
-        {step}
-      </div>
-      <div
-        style={{
-          fontFamily: FONT_FAMILY,
-          fontSize: 26,
-          fontWeight: 680,
-          color: COLORS.white,
-          lineHeight: 1.25,
-        }}
-      >
-        {label}
-      </div>
+      <div className="flow-step__badge">{step}</div>
+      <div className="flow-step__label">{label}</div>
     </div>
   );
 };
@@ -486,13 +371,10 @@ export const FlowArrow = ({
 
   return (
     <div
+      className="flow-arrow"
       style={{
-        position: "absolute",
         left: x,
         top: arrowTop,
-        fontSize: 36,
-        lineHeight: 1,
-        color: COLORS.cyan,
         opacity: reveal * 0.7,
       }}
     >
@@ -535,12 +417,8 @@ export const RadialHub = ({ delay = 40 }: { delay?: number }) => {
   return (
     <>
       <svg
-        style={{
-          position: "absolute",
-          inset: 0,
-          pointerEvents: "none",
-          opacity: hubReveal * 0.55,
-        }}
+        className="radial-hub__svg"
+        style={{ opacity: hubReveal * 0.55 }}
         viewBox="0 0 1920 1080"
       >
         {nodes.map((node) => (
@@ -562,75 +440,28 @@ export const RadialHub = ({ delay = 40 }: { delay?: number }) => {
         return (
           <div
             key={node.label}
+            className="radial-hub__node"
             style={{
-              position: "absolute",
               left: node.x,
               top: node.y,
-              width: 300,
-              padding: "18px 20px 20px",
-              borderRadius: 20,
-              fontFamily: FONT_FAMILY,
-              background: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(24,244,255,0.18)",
               opacity: node.reveal,
               transform: `scale(${0.88 + node.reveal * 0.12})`,
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 14,
-              }}
-            >
-              <div
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 14,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                  background: "rgba(24,244,255,0.12)",
-                  border: "1px solid rgba(24,244,255,0.28)",
-                }}
-              >
+            <div className="radial-hub__node-row">
+              <div className="radial-hub__node-icon">
                 <Icon size={22} color={COLORS.cyan} strokeWidth={2} />
               </div>
-              <div
-                style={{
-                  fontSize: 21,
-                  fontWeight: 680,
-                  color: COLORS.white,
-                  lineHeight: 1.2,
-                }}
-              >
-                {node.label}
-              </div>
+              <div className="radial-hub__node-label">{node.label}</div>
             </div>
           </div>
         );
       })}
       <div
+        className="radial-hub__center"
         style={{
-          position: "absolute",
           left: centerX - 120,
           top: centerY - 120,
-          width: 240,
-          height: 240,
-          borderRadius: 999,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontFamily: FONT_FAMILY,
-          fontSize: 52,
-          fontWeight: 900,
-          color: COLORS.cyan,
-          background:
-            "radial-gradient(circle, rgba(24,244,255,0.18), rgba(5,12,24,0.9))",
-          border: "2px solid rgba(24,244,255,0.45)",
-          boxShadow: `0 0 80px rgba(24,244,255,0.25)`,
           opacity: hubReveal,
         }}
       >
@@ -657,12 +488,10 @@ export const RomaniaMap = ({ delay = 36 }: { delay?: number }) => {
 
   return (
     <div
+      className="romania-map"
       style={{
-        position: "absolute",
         left: 900,
         top: 360,
-        width: 720,
-        height: 520,
         opacity: reveal,
       }}
     >
@@ -710,77 +539,31 @@ export const RomaniaMap = ({ delay = 36 }: { delay?: number }) => {
             opacity: smoothProgress(timeline, delay + 20 + index * 14, 22),
           }}
         >
-          <div
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: 24,
-              fontWeight: 760,
-              color: COLORS.white,
-            }}
-          >
-            {point.label}
-          </div>
-          <div
-            style={{
-              fontFamily: FONT_FAMILY,
-              fontSize: 18,
-              color: COLORS.muted,
-              marginTop: 4,
-            }}
-          >
-            {point.sub}
-          </div>
+          <div className="romania-map__point-label">{point.label}</div>
+          <div className="romania-map__point-sub">{point.sub}</div>
         </div>
       ))}
       <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0,
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          opacity: smoothProgress(timeline, delay + 40, 24),
-        }}
+        className="romania-map__milestones"
+        style={{ opacity: smoothProgress(timeline, delay + 40, 24) }}
       >
         {ROMANIA_MILESTONES.map((milestone, index) => {
           const stepReveal = smoothProgress(timeline, delay + 44 + index * 10, 20);
           return (
             <div
               key={milestone}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                flex: index === ROMANIA_MILESTONES.length - 1 ? "0 0 auto" : 1,
-              }}
+              className={`romania-map__milestone-row${index === ROMANIA_MILESTONES.length - 1 ? " romania-map__milestone-row--last" : ""}`}
             >
               <div
-                style={{
-                  padding: "12px 18px",
-                  borderRadius: 14,
-                  fontFamily: FONT_FAMILY,
-                  fontSize: 18,
-                  fontWeight: 650,
-                  color: COLORS.white,
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(24,244,255,0.2)",
-                  opacity: stepReveal,
-                  whiteSpace: "nowrap",
-                }}
+                className="romania-map__milestone-chip"
+                style={{ opacity: stepReveal }}
               >
                 {milestone}
               </div>
               {index < ROMANIA_MILESTONES.length - 1 ? (
                 <div
-                  style={{
-                    flex: 1,
-                    height: 2,
-                    background:
-                      "linear-gradient(90deg, rgba(24,244,255,0.45), rgba(24,244,255,0.12))",
-                    opacity: stepReveal * 0.8,
-                  }}
+                  className="romania-map__milestone-connector"
+                  style={{ opacity: stepReveal * 0.8 }}
                 />
               ) : null}
             </div>
@@ -798,28 +581,7 @@ export const PanelBadge = ({
   label: string;
   accent?: boolean;
 }) => (
-  <div
-    style={{
-      position: "absolute",
-      top: 20,
-      left: 20,
-      zIndex: 2,
-      padding: "10px 16px",
-      borderRadius: 12,
-      fontFamily: FONT_FAMILY,
-      fontSize: 16,
-      fontWeight: 700,
-      letterSpacing: "0.08em",
-      textTransform: "uppercase",
-      color: accent ? COLORS.cyan : COLORS.muted,
-      background: accent
-        ? "rgba(24,244,255,0.12)"
-        : "rgba(255,255,255,0.06)",
-      border: accent
-        ? "1px solid rgba(24,244,255,0.35)"
-        : "1px solid rgba(136,169,200,0.2)",
-    }}
-  >
+  <div className={`panel-badge${accent ? " panel-badge--accent" : ""}`}>
     {label}
   </div>
 );
@@ -841,39 +603,14 @@ export const SplitPanel = ({
   const reveal = smoothProgress(timeline, delay, 28);
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        left: 120,
-        top: 340,
-        width: 1680,
-        height: 580,
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: 32,
-        opacity: reveal,
-      }}
-    >
-      <div
-        style={{
-          borderRadius: 28,
-          overflow: "hidden",
-          border: "1px solid rgba(136,169,200,0.15)",
-          background: "rgba(255,255,255,0.03)",
-          position: "relative",
-        }}
-      >
+    <div className="split-panel" style={{ opacity: reveal }}>
+      <div className="split-panel__left">
         {leftBadge ? <PanelBadge label={leftBadge} /> : null}
         {left}
       </div>
       <div
-        style={{
-          borderRadius: 28,
-          overflow: "hidden",
-          border: "1px solid rgba(24,244,255,0.22)",
-          boxShadow: `0 0 ${reveal * 48}px rgba(24,244,255,0.1)`,
-          position: "relative",
-        }}
+        className="split-panel__right"
+        style={{ boxShadow: `0 0 ${reveal * 48}px rgba(24,244,255,0.1)` }}
       >
         {rightBadge ? <PanelBadge label={rightBadge} accent /> : null}
         {right}
@@ -891,36 +628,17 @@ export const InlineProgressBar = ({
   progress: number;
   width?: number | string;
 }) => (
-  <div style={{ width, fontFamily: FONT_FAMILY, color: COLORS.white }}>
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        marginBottom: 12,
-        fontSize: 22,
-        fontWeight: 700,
-      }}
-    >
+  <div className="inline-progress-bar" style={{ width }}>
+    <div className="inline-progress-bar__header">
       <span>{label}</span>
-      <span style={{ color: COLORS.cyan }}>{Math.round(progress * 100)}%</span>
+      <span className="inline-progress-bar__value">
+        {Math.round(progress * 100)}%
+      </span>
     </div>
-    <div
-      style={{
-        height: 16,
-        borderRadius: 99,
-        background: "rgba(255,255,255,0.08)",
-        overflow: "hidden",
-        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)",
-      }}
-    >
+    <div className="inline-progress-bar__track">
       <div
-        style={{
-          width: `${progress * 100}%`,
-          height: "100%",
-          borderRadius: 99,
-          background: `linear-gradient(90deg, ${COLORS.blue}, ${COLORS.cyan})`,
-          boxShadow: `0 0 32px ${COLORS.cyan}`,
-        }}
+        className="inline-progress-bar__fill"
+        style={{ width: `${progress * 100}%` }}
       />
     </div>
   </div>
@@ -944,6 +662,7 @@ export const PulseReveal = ({
 
   return (
     <div
+      className="pulse-reveal"
       style={{
         opacity: reveal,
         transform: `scale(${0.92 + reveal * 0.08})`,
@@ -955,4 +674,4 @@ export const PulseReveal = ({
   );
 };
 
-export { springIn, smoothProgress };
+export { smoothProgress };

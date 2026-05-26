@@ -1,0 +1,47 @@
+@use "../styles/variables" as *;
+
+.energy-pulse-transition {
+  pointer-events: none;
+
+  &__ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 520px;
+    height: 520px;
+    border-radius: 999px;
+    border: 8px solid $color-cyan;
+    box-shadow:
+      0 0 110px $color-cyan,
+      inset 0 0 70px $color-blue;
+  }
+
+  &__bloom {
+    mix-blend-mode: screen;
+  }
+
+  &__flash {
+    background: white;
+  }
+}
+
+.light-sweep {
+  pointer-events: none;
+  mix-blend-mode: screen;
+
+  &__beam {
+    position: absolute;
+    top: -200px;
+    width: 220px;
+    height: 1500px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.9),
+      rgba(24, 244, 255, 0.8),
+      transparent
+    );
+    filter: blur(18px);
+    transform: rotate(19deg);
+  }
+}

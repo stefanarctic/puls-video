@@ -1,0 +1,47 @@
+@use "../../styles/variables" as *;
+
+.elinp-slide {
+  &__laser-stage {
+    position: absolute;
+    left: 120px;
+    top: 380px;
+    width: 560px;
+    height: 480px;
+    border-radius: 28px;
+    overflow: hidden;
+    border: 1px solid rgba(24, 244, 255, 0.25);
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(24, 244, 255, 0.25),
+      rgba(2, 4, 11, 0.95)
+    );
+  }
+
+  &__beam {
+    position: absolute;
+    width: 4px;
+    height: 180px;
+    transform-origin: center bottom;
+  }
+
+  &__core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 80px $color-cyan;
+  }
+
+  &__label {
+    position: absolute;
+    left: 32px;
+    bottom: 28px;
+    font-family: $font-family;
+    font-size: 22px;
+    font-weight: 700;
+    color: $color-cyan;
+  }
+}

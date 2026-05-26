@@ -9,6 +9,7 @@ import {
   SLIDE_TRANSITIONS,
   type TransitionSpec,
 } from "./slideRegistry";
+import "../styles/_composition.scss";
 
 type LazyPresentationCompositionProps = {
   mountedSegmentIndices: number[];
@@ -57,7 +58,7 @@ export const LazyPresentationComposition = ({
   const mounted = new Set(mountedSegmentIndices);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#02040b" }}>
+    <AbsoluteFill className="composition-root">
       {SLIDES.map((slide, index) => {
         if (!mounted.has(index)) {
           return null;

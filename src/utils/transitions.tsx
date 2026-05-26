@@ -2,6 +2,7 @@ import { AbsoluteFill, interpolate } from "remotion";
 import { COLORS } from "../constants";
 import { useTimelineFrame } from "./ambientMotion";
 import { cinematicEase, impactEase } from "./animation";
+import "./transitions.scss";
 
 export const transitionProgress = (
   frame: number,
@@ -33,29 +34,24 @@ export const EnergyPulseTransition = ({
   const scale = interpolate(progress, [0, 1], [0.08, 3.1]);
 
   return (
-    <AbsoluteFill style={{ pointerEvents: "none", opacity }}>
+    <AbsoluteFill className="energy-pulse-transition" style={{ opacity }}>
       <div
+        className="energy-pulse-transition__ring"
         style={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          width: 520,
-          height: 520,
-          borderRadius: 999,
           border: `${8 * strength}px solid ${COLORS.cyan}`,
           boxShadow: `0 0 ${110 * strength}px ${COLORS.cyan}, inset 0 0 ${70 * strength}px ${COLORS.blue}`,
           transform: `translate(-50%, -50%) scale(${scale})`,
         }}
       />
       <AbsoluteFill
+        className="energy-pulse-transition__bloom"
         style={{
           background: `radial-gradient(circle, rgba(24,244,255,${0.72 * strength}) 0%, rgba(22,136,255,0.18) 24%, transparent 58%)`,
-          mixBlendMode: "screen",
         }}
       />
       <AbsoluteFill
+        className="energy-pulse-transition__flash"
         style={{
-          background: "white",
           opacity: interpolate(progress, [0.16, 0.28, 0.44], [0, 0.82, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
@@ -82,26 +78,8 @@ export const LightSweep = ({
   });
 
   return (
-    <AbsoluteFill
-      style={{
-        pointerEvents: "none",
-        opacity,
-        mixBlendMode: "screen",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          left: x,
-          top: -200,
-          width: 220,
-          height: 1500,
-          background:
-            "linear-gradient(90deg, transparent, rgba(255,255,255,0.9), rgba(24,244,255,0.8), transparent)",
-          filter: "blur(18px)",
-          transform: "rotate(19deg)",
-        }}
-      />
+    <AbsoluteFill className="light-sweep" style={{ opacity }}>
+      <div className="light-sweep__beam" style={{ left: x }} />
     </AbsoluteFill>
   );
 };

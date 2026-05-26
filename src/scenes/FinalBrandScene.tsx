@@ -5,6 +5,7 @@ import { ParticleField } from "../components/Particles";
 import { COLORS } from "../constants";
 import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import { cinematicEase, looping, smoothProgress } from "../utils/animation";
+import "./FinalBrandScene.scss";
 
 export const FinalBrandScene = ({ duration }: { duration: number }) => {
   const timeline = useTimelineFrame();
@@ -21,9 +22,9 @@ export const FinalBrandScene = ({ duration }: { duration: number }) => {
       <CinematicBackdrop intensity={0.82 - calm * 0.22} />
       <ParticleField count={88} speed={0.32} opacity={0.42} energy={0.35} />
       <AbsoluteFill
+        className="final-brand-scene__bloom"
         style={{
           background: `radial-gradient(circle at 50% 48%, rgba(24,244,255,${0.24 + calm * 0.12}), transparent 35%, rgba(2,4,11,0.34) 72%)`,
-          mixBlendMode: "screen",
         }}
       />
       {Array.from({ length: 3 }).map((_, index) => {
@@ -32,13 +33,8 @@ export const FinalBrandScene = ({ duration }: { duration: number }) => {
         return (
           <div
             key={index}
+            className="final-brand-scene__ring"
             style={{
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              width: 340,
-              height: 340,
-              borderRadius: 999,
               border: `1px solid rgba(24,244,255,${(1 - progress) * 0.5})`,
               transform: `translate(-50%, -50%) scale(${0.4 + progress * (2.2 + index * 0.42)})`,
               boxShadow: `0 0 ${80 * (1 - progress)}px ${COLORS.cyan}`,
@@ -48,24 +44,15 @@ export const FinalBrandScene = ({ duration }: { duration: number }) => {
         );
       })}
       <div
+        className="final-brand-scene__halo"
         style={{
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          width: 900,
-          height: 900,
-          borderRadius: 999,
-          background:
-            "conic-gradient(from 90deg, transparent, rgba(24,244,255,0.18), transparent, rgba(22,136,255,0.16), transparent)",
           transform: `translate(-50%, -50%) rotate(${loop * 0.18}deg) scale(${0.76 + calm * 0.12 + looping(loop, 0.02) * 0.012})`,
-          filter: "blur(24px)",
-          opacity: 0.7,
         }}
       />
       <PulsLogo delay={38} size={680} />
       <AbsoluteFill
+        className="final-brand-scene__fade"
         style={{
-          background: "black",
           opacity: interpolate(timeline, [duration - 20, duration], [0, 1], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",

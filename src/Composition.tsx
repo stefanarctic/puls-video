@@ -13,10 +13,11 @@ import { ProblemSlide } from "./scenes/slides/ProblemSlide";
 import { RomaniaStorySlide } from "./scenes/slides/RomaniaStorySlide";
 import { SimulationsSlide } from "./scenes/slides/SimulationsSlide";
 import { EnergyPulseTransition, LightSweep } from "./utils/transitions";
+import "./styles/_composition.scss";
 
 export const PulsJuryPresentation = () => {
   return (
-    <AbsoluteFill style={{ backgroundColor: "#02040b" }}>
+    <AbsoluteFill className="composition-root">
       <Sequence
         from={TIMELINE.splash}
         durationInFrames={SCENE_DURATIONS.splash}

@@ -5,6 +5,7 @@ import { interpolate, useVideoConfig } from "remotion";
 import { COLORS, FONT_FAMILY } from "../constants";
 import { useTimelineFrame } from "../utils/ambientMotion";
 import { cinematicEase, springIn, stagger } from "../utils/animation";
+import "./KineticText.scss";
 
 type KineticTextProps = {
   lines: string[];
@@ -50,14 +51,12 @@ export const KineticText = ({
 
   return (
     <div
+      className="kinetic-text"
       style={{
-        position: "absolute",
         top,
         left,
         width,
         textAlign: align,
-        fontFamily: FONT_FAMILY,
-        color: COLORS.white,
         ...style,
       }}
     >
@@ -78,16 +77,11 @@ export const KineticText = ({
         return (
           <div
             key={line}
+            className={`kinetic-text__line${isAccent ? " kinetic-text__line--accent" : ""}`}
             style={{
               marginTop: index === 0 ? 0 : gap,
               fontSize: Math.min(size, fittedSize),
-              fontWeight: 760,
-              lineHeight: 0.9,
-              letterSpacing: "-0.06em",
-              color: isAccent ? COLORS.cyan : COLORS.white,
-              textShadow: isAccent
-                ? `0 0 34px ${COLORS.cyan}`
-                : "0 20px 80px rgba(0,0,0,0.7)",
+              textShadow: isAccent ? `0 0 34px ${COLORS.cyan}` : undefined,
               opacity: reveal,
               transform: `translate3d(0, ${(1 - entrance) * 64}px, 0) scale(${0.96 + entrance * 0.04})`,
               filter: `blur(${(1 - entrance) * 14}px)`,
@@ -121,16 +115,10 @@ export const Caption = ({
 
   return (
     <div
+      className="caption"
       style={{
-        position: "absolute",
         top,
         left,
-        fontFamily: FONT_FAMILY,
-        color: COLORS.muted,
-        fontSize: 25,
-        fontWeight: 600,
-        letterSpacing: "0.24em",
-        textTransform: "uppercase",
         opacity: reveal,
         transform: `translateY(${(1 - reveal) * 22}px)`,
       }}

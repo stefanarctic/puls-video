@@ -1,7 +1,7 @@
 import { AbsoluteFill, interpolate } from "remotion";
-import { COLORS, FONT_FAMILY } from "../constants";
 import { useLoopFrame } from "../utils/ambientMotion";
 import { cinematicEase, drift, flicker, looping } from "../utils/animation";
+import "./PhysicsVisuals.scss";
 
 const formulas = [
   "F = ma",
@@ -20,7 +20,7 @@ export const FormulaStorm = ({ collapse = 0 }: { collapse?: number }) => {
   const frame = useLoopFrame();
 
   return (
-    <AbsoluteFill style={{ perspective: 1200 }}>
+    <AbsoluteFill className="formula-storm">
       {formulas.map((formula, index) => {
         const position = drift(frame, 45 + index * 2, 34, 0.012, index);
         const baseX = 150 + ((index * 311) % 1580);
@@ -33,16 +33,12 @@ export const FormulaStorm = ({ collapse = 0 }: { collapse?: number }) => {
         return (
           <div
             key={formula}
+            className={`formula-storm__formula ${index % 3 === 0 ? "formula-storm__formula--cyan" : "formula-storm__formula--muted"}`}
             style={{
-              position: "absolute",
               left: baseX + position.x + glitch,
               top: baseY + position.y - collapse * 120,
-              fontFamily: FONT_FAMILY,
               fontSize: 34 + index * 3,
-              fontWeight: 620,
-              color: index % 3 === 0 ? COLORS.cyan : COLORS.muted,
               opacity,
-              letterSpacing: "-0.03em",
               filter: `blur(${collapse * 7}px)`,
               textShadow: `0 0 ${28 + collapse * 40}px rgba(24,244,255,0.65)`,
               transform: `translateZ(${depth}px) rotate(${looping(frame, 0.008, index) * 8}deg) scale(${scale + collapse * 0.5})`,
@@ -70,64 +66,23 @@ export const Pendulum = ({
 
   return (
     <div
+      className="pendulum"
       style={{
-        position: "absolute",
         left: x,
         top: y,
         width: 260 * scale,
         height: 360 * scale,
         transform: `scale(${scale})`,
-        transformOrigin: "top left",
       }}
     >
+      <div className="pendulum__pivot" />
       <div
-        style={{
-          position: "absolute",
-          left: 126,
-          top: 16,
-          width: 8,
-          height: 8,
-          borderRadius: 99,
-          background: COLORS.white,
-          boxShadow: `0 0 24px ${COLORS.cyan}`,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          left: 128,
-          top: 18,
-          width: 2,
-          height: 270,
-          background: "linear-gradient(#ffffff, rgba(24,244,255,0.25))",
-          transformOrigin: "top center",
-          transform: `rotate(${angle}deg)`,
-        }}
+        className="pendulum__arm"
+        style={{ transform: `rotate(${angle}deg)` }}
       >
-        <div
-          style={{
-            position: "absolute",
-            left: -25,
-            top: 250,
-            width: 52,
-            height: 52,
-            borderRadius: 999,
-            background: `radial-gradient(circle, ${COLORS.white}, ${COLORS.cyan} 35%, ${COLORS.blue})`,
-            boxShadow: `0 0 42px ${COLORS.cyan}`,
-          }}
-        />
+        <div className="pendulum__bob" />
       </div>
-      <div
-        style={{
-          position: "absolute",
-          left: 38,
-          top: 292,
-          width: 190,
-          height: 1,
-          background:
-            "linear-gradient(90deg, transparent, rgba(24,244,255,0.45), transparent)",
-        }}
-      />
+      <div className="pendulum__ground" />
     </div>
   );
 };
@@ -144,7 +99,7 @@ export const ProjectileArc = ({
   const samples = Array.from({ length: 28 });
 
   return (
-    <div style={{ position: "absolute", left: x, top: y }}>
+    <div className="projectile-arc" style={{ left: x, top: y }}>
       {samples.map((_, index) => {
         const t = index / (samples.length - 1);
         const visible = interpolate(progress, [t - 0.08, t], [0, 1], {
@@ -158,16 +113,11 @@ export const ProjectileArc = ({
         return (
           <div
             key={index}
+            className="projectile-arc__dot"
             style={{
-              position: "absolute",
               left: px,
               top: py,
-              width: 9,
-              height: 9,
-              borderRadius: 99,
-              background: COLORS.cyan,
               opacity: visible * (0.25 + t * 0.75),
-              boxShadow: `0 0 22px ${COLORS.cyan}`,
             }}
           />
         );
@@ -197,18 +147,13 @@ export const ElectricField = ({
         return (
           <div
             key={index}
+            className="electric-field__line"
             style={{
-              position: "absolute",
               left: centerX + Math.cos(angle) * 160,
               top: centerY + Math.sin(angle) * 130,
               width: length,
-              height: 2,
-              background:
-                "linear-gradient(90deg, rgba(24,244,255,0), rgba(24,244,255,0.9), rgba(22,136,255,0))",
               opacity,
               transform: `rotate(${angle}rad) scaleX(${progress})`,
-              transformOrigin: "left center",
-              filter: "blur(0.25px)",
             }}
           />
         );

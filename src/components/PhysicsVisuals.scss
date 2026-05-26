@@ -1,0 +1,97 @@
+@use "../styles/variables" as *;
+
+.formula-storm {
+  perspective: 1200px;
+}
+
+.formula-storm__formula {
+  position: absolute;
+  font-family: $font-family;
+  font-weight: 620;
+  letter-spacing: -0.03em;
+
+  &--cyan {
+    color: $color-cyan;
+  }
+
+  &--muted {
+    color: $color-muted;
+  }
+}
+
+.pendulum {
+  position: absolute;
+  transform-origin: top left;
+
+  &__pivot {
+    position: absolute;
+    left: 126px;
+    top: 16px;
+    width: 8px;
+    height: 8px;
+    border-radius: 99px;
+    background: $color-white;
+    box-shadow: 0 0 24px $color-cyan;
+  }
+
+  &__arm {
+    position: absolute;
+    left: 128px;
+    top: 18px;
+    width: 2px;
+    height: 270px;
+    background: linear-gradient(#ffffff, rgba(24, 244, 255, 0.25));
+    transform-origin: top center;
+  }
+
+  &__bob {
+    position: absolute;
+    left: -25px;
+    top: 250px;
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    background: radial-gradient(circle, $color-white, $color-cyan 35%, $color-blue);
+    box-shadow: 0 0 42px $color-cyan;
+  }
+
+  &__ground {
+    position: absolute;
+    left: 38px;
+    top: 292px;
+    width: 190px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(24, 244, 255, 0.45),
+      transparent
+    );
+  }
+}
+
+.projectile-arc {
+  position: absolute;
+
+  &__dot {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-radius: 99px;
+    background: $color-cyan;
+    box-shadow: 0 0 22px $color-cyan;
+  }
+}
+
+.electric-field__line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(24, 244, 255, 0),
+    rgba(24, 244, 255, 0.9),
+    rgba(22, 136, 255, 0)
+  );
+  transform-origin: left center;
+  filter: blur(0.25px);
+}

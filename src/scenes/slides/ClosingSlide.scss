@@ -1,0 +1,67 @@
+@use "../../styles/variables" as *;
+
+.closing-slide {
+  &__equation {
+    position: absolute;
+    left: 120px;
+    top: 320px;
+    width: 1680px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  &__equation-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  &__operator {
+    font-family: $font-family;
+    color: $color-cyan;
+
+    &--plus {
+      font-size: 36px;
+      font-weight: 400;
+    }
+
+    &--equals {
+      font-size: 42px;
+      font-weight: 800;
+    }
+  }
+
+  &__part {
+    border-radius: 20px;
+    font-family: $font-family;
+    font-weight: 700;
+    color: $color-white;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(24, 244, 255, 0.18);
+
+    &:not(&--result) {
+      padding: 16px 28px;
+      font-size: 28px;
+    }
+
+    &--result {
+      padding: 20px 36px;
+      font-size: 42px;
+      font-weight: 900;
+      color: $color-cyan;
+      background: rgba(24, 244, 255, 0.12);
+      border: 1px solid rgba(24, 244, 255, 0.45);
+      box-shadow: 0 0 48px rgba(24, 244, 255, 0.25);
+    }
+  }
+
+  &__logo-wrap {
+    position: absolute;
+    left: 50%;
+    bottom: 160px;
+    transform: translateX(-50%);
+  }
+}

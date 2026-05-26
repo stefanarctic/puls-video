@@ -7,10 +7,10 @@ import {
   SlideScreenshot,
   SlideSubtitle,
 } from "../../components/SlideChrome";
-import { COLORS, FONT_FAMILY } from "../../constants";
 import { useTimelineFrame } from "../../utils/ambientMotion";
 import { cinematicEase, smoothProgress } from "../../utils/animation";
 import { getSlideMeta } from "../../presentation/slideData";
+import "./NuclearSlide.scss";
 
 const PANEL = {
   y: 380,
@@ -67,9 +67,7 @@ export const NuclearSlide = ({ duration }: { duration: number }) => {
         width={620}
         height={PANEL.height}
         delay={40}
-        style={{
-          zIndex: 2 + shift,
-        }}
+        style={{ zIndex: 2 + shift }}
       />
       <SlideScreenshot
         src={PRESENTATION_ASSETS.fisiune}
@@ -93,25 +91,14 @@ export const NuclearSlide = ({ duration }: { duration: number }) => {
         width={460}
         height={PANEL.height}
         delay={68}
-        style={{
-          zIndex: 4,
-        }}
+        style={{ zIndex: 4 }}
       />
       <div
+        className="nuclear-slide__bac-label"
         style={{
-          position: "absolute",
           left: bacX + 24,
           top: PANEL.y + PANEL.height - 56,
-          padding: "10px 16px",
-          borderRadius: 12,
-          fontFamily: FONT_FAMILY,
-          fontSize: 18,
-          fontWeight: 700,
-          color: COLORS.white,
-          background: "rgba(2,4,11,0.72)",
-          border: "1px solid rgba(24,244,255,0.25)",
           opacity: bacOpacity,
-          zIndex: 5,
         }}
       >
         Problema BAC

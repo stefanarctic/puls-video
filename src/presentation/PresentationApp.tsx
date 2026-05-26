@@ -38,28 +38,30 @@ export const PresentationApp = () => {
   return (
     <div className="presentation-shell">
       <AmbientMotionProvider enabled={phase === "idle"} elapsedFrames={ambientElapsed}>
-        <Player
-          ref={playerRef}
-          className="presentation-player"
-          component={PresentationVideo}
-          inputProps={{
-            activeSegmentIndex: currentIndex,
-            phase,
-            _ambientTick: ambientElapsed,
-          }}
-          durationInFrames={TOTAL_DURATION}
-          compositionWidth={VIDEO.width}
-          compositionHeight={VIDEO.height}
-          fps={VIDEO.fps}
-          controls={false}
-          autoPlay={false}
-          clickToPlay={false}
-          spaceKeyToPlayOrPause={false}
-          style={{
-            width: "100%",
-            height: "100%",
-          }}
-        />
+        <div
+          className="presentation-viewport"
+          style={{ aspectRatio: `${VIDEO.width} / ${VIDEO.height}` }}
+        >
+          <Player
+            ref={playerRef}
+            className="presentation-player"
+            component={PresentationVideo}
+            inputProps={{
+              activeSegmentIndex: currentIndex,
+              phase,
+              _ambientTick: ambientElapsed,
+            }}
+            durationInFrames={TOTAL_DURATION}
+            compositionWidth={VIDEO.width}
+            compositionHeight={VIDEO.height}
+            fps={VIDEO.fps}
+            controls={false}
+            autoPlay={false}
+            clickToPlay={false}
+            spaceKeyToPlayOrPause={false}
+            style={{ width: "100%" }}
+          />
+        </div>
       </AmbientMotionProvider>
 
       <div className="presentation-controls">

@@ -3,7 +3,7 @@ import { CinematicBackdrop } from "../components/Backdrop";
 import { GlassPanel, MiniLabel, ProgressBar } from "../components/InterfacePrimitives";
 import { KineticText } from "../components/KineticText";
 import { ParticleField } from "../components/Particles";
-import { COLORS, FONT_FAMILY } from "../constants";
+import { COLORS } from "../constants";
 import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import {
   cinematicEase,
@@ -11,6 +11,7 @@ import {
   looping,
   smoothProgress,
 } from "../utils/animation";
+import "./GamificationScene.scss";
 
 const badges = ["Vector Master", "7 Day Streak", "Level 12", "Top 4%"];
 
@@ -65,29 +66,15 @@ export const GamificationScene = ({ duration }: { duration: number }) => {
           })}
           color={COLORS.electricBlue}
         />
-        <div
-          style={{
-            position: "absolute",
-            left: 52,
-            bottom: 46,
-            display: "flex",
-            gap: 18,
-          }}
-        >
+        <div className="gamification-scene__streak-row">
           {Array.from({ length: 7 }).map((_, index) => {
             const reveal = smoothProgress(timeline, 82 + index * 5, 16);
 
             return (
               <div
                 key={index}
+                className={`gamification-scene__streak-day${reveal > 0.7 ? " gamification-scene__streak-day--active" : ""}`}
                 style={{
-                  width: 56,
-                  height: 56,
-                  borderRadius: 18,
-                  background:
-                    reveal > 0.7
-                      ? `linear-gradient(145deg, ${COLORS.cyan}, ${COLORS.blue})`
-                      : "rgba(255,255,255,0.08)",
                   opacity: 0.4 + reveal * 0.6,
                   boxShadow: reveal > 0.7 ? `0 0 30px ${COLORS.cyan}` : "none",
                   transform: `translateY(${(1 - reveal) * 18}px) scale(${0.82 + reveal * 0.18})`,
@@ -97,16 +84,7 @@ export const GamificationScene = ({ duration }: { duration: number }) => {
           })}
         </div>
       </GlassPanel>
-      <div
-        style={{
-          position: "absolute",
-          right: 154,
-          top: 360,
-          width: 700,
-          height: 520,
-          perspective: 1200,
-        }}
-      >
+      <div className="gamification-scene__badges">
         {badges.map((badge, index) => {
           const reveal = smoothProgress(timeline, 48 + index * 16, 28);
           const y = index * 112;
@@ -114,39 +92,16 @@ export const GamificationScene = ({ duration }: { duration: number }) => {
           return (
             <div
               key={badge}
+              className="gamification-scene__badge"
               style={{
-                position: "absolute",
                 left: index % 2 === 0 ? 40 : 132,
                 top: y,
-                width: 470,
-                height: 88,
-                borderRadius: 28,
-                background:
-                  "linear-gradient(135deg, rgba(255,255,255,0.14), rgba(24,244,255,0.07))",
-                border: "1px solid rgba(24,244,255,0.2)",
                 boxShadow: `0 26px 80px rgba(0,0,0,0.32), 0 0 ${reveal * 38}px rgba(24,244,255,0.24)`,
                 opacity: reveal,
                 transform: `translate3d(${(1 - reveal) * 180}px, ${looping(loop, 0.04, index) * 5}px, ${index * -40}px) rotateY(${-12 + reveal * 12}deg)`,
-                fontFamily: FONT_FAMILY,
-                color: COLORS.white,
-                fontSize: 30,
-                fontWeight: 760,
-                display: "flex",
-                alignItems: "center",
-                paddingLeft: 94,
               }}
             >
-              <div
-                style={{
-                  position: "absolute",
-                  left: 26,
-                  width: 44,
-                  height: 44,
-                  borderRadius: 14,
-                  background: `linear-gradient(145deg, ${COLORS.cyan}, ${COLORS.blue})`,
-                  boxShadow: `0 0 28px ${COLORS.cyan}`,
-                }}
-              />
+              <div className="gamification-scene__badge-icon" />
               {badge}
             </div>
           );

@@ -2,9 +2,10 @@ import { BookOpen, FlaskConical, LayoutGrid } from "lucide-react";
 import { AbsoluteFill, Img, staticFile } from "remotion";
 import { PRESENTATION_ASSETS } from "../../assets";
 import { SlideLayout, smoothProgress } from "../../components/SlideChrome";
-import { COLORS, FONT_FAMILY } from "../../constants";
+import { COLORS } from "../../constants";
 import { useTimelineFrame } from "../../utils/ambientMotion";
 import { getSlideMeta } from "../../presentation/slideData";
+import "./OpeningSlide.scss";
 
 const STAT_PILLS = [
   { icon: LayoutGrid, label: "Platforma completa PULS" },
@@ -12,8 +13,6 @@ const STAT_PILLS = [
   { icon: BookOpen, label: "Resurse teoretice pe capitole" },
 ] as const;
 
-const MAX_IMAGE_WIDTH = 780;
-const MAX_IMAGE_HEIGHT = 420;
 const GAP_HEADER_PANELS = 56;
 const GAP_PANELS_CTA = 52;
 
@@ -25,21 +24,7 @@ const PanelBadgeInline = ({
   accent?: boolean;
 }) => (
   <div
-    style={{
-      display: "inline-flex",
-      padding: "8px 14px",
-      borderRadius: 10,
-      fontFamily: FONT_FAMILY,
-      fontSize: 13,
-      fontWeight: 700,
-      letterSpacing: "0.08em",
-      textTransform: "uppercase",
-      color: accent ? COLORS.cyan : COLORS.muted,
-      background: accent ? "rgba(24,244,255,0.12)" : "rgba(255,255,255,0.06)",
-      border: accent
-        ? "1px solid rgba(24,244,255,0.35)"
-        : "1px solid rgba(136,169,200,0.2)",
-    }}
+    className={`panel-badge-inline${accent ? " panel-badge-inline--accent" : ""}`}
   >
     {label}
   </div>
@@ -59,88 +44,21 @@ const ScreenshotPanel = ({
   subtitle: string;
 }) => (
   <div
-    style={{
-      display: "inline-flex",
-      flexDirection: "column",
-      width: "fit-content",
-      maxWidth: MAX_IMAGE_WIDTH + 24,
-      borderRadius: 20,
-      overflow: "hidden",
-      border: accent
-        ? "1px solid rgba(24,244,255,0.22)"
-        : "1px solid rgba(136,169,200,0.15)",
-      background: "rgba(255,255,255,0.03)",
-      boxShadow: accent ? "0 0 32px rgba(24,244,255,0.08)" : undefined,
-    }}
+    className={`screenshot-panel${accent ? " screenshot-panel--accent" : ""}`}
   >
-    <div style={{ flexShrink: 0, padding: "14px 16px 10px" }}>
+    <div className="screenshot-panel__badge-wrap">
       <PanelBadgeInline label={badge} accent={accent} />
     </div>
 
-    <div
-      style={{
-        flexShrink: 0,
-        margin: "0 12px",
-        borderRadius: 12,
-        overflow: "hidden",
-        background: COLORS.black,
-        border: "1px solid rgba(255,255,255,0.06)",
-        lineHeight: 0,
-        width: "fit-content",
-        maxWidth: MAX_IMAGE_WIDTH,
-        alignSelf: "center",
-      }}
-    >
-      <Img
-        src={staticFile(src)}
-        style={{
-          display: "block",
-          width: "auto",
-          height: "auto",
-          maxWidth: MAX_IMAGE_WIDTH,
-          maxHeight: MAX_IMAGE_HEIGHT,
-        }}
-      />
+    <div className="screenshot-panel__image-wrap">
+      <Img src={staticFile(src)} className="screenshot-panel__image" />
     </div>
 
     <div
-      style={{
-        flexShrink: 0,
-        width: "100%",
-        boxSizing: "border-box",
-        padding: "12px 16px",
-        borderTop: accent
-          ? "1px solid rgba(24,244,255,0.18)"
-          : "1px solid rgba(136,169,200,0.15)",
-        background: "rgba(2,4,11,0.92)",
-      }}
+      className={`screenshot-panel__footer${accent ? " screenshot-panel__footer--accent" : ""}`}
     >
-      <div
-        style={{
-          fontSize: 16,
-          fontWeight: 700,
-          color: COLORS.white,
-          letterSpacing: "-0.01em",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
-        {title}
-      </div>
-      <div
-        style={{
-          marginTop: 2,
-          fontSize: 13,
-          fontWeight: 520,
-          color: COLORS.muted,
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
-        {subtitle}
-      </div>
+      <div className="screenshot-panel__title">{title}</div>
+      <div className="screenshot-panel__subtitle">{subtitle}</div>
     </div>
   </div>
 );
@@ -154,17 +72,8 @@ export const OpeningSlide = ({ duration }: { duration: number }) => {
 
   return (
     <SlideLayout duration={duration}>
-      <AbsoluteFill
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          padding: "36px 80px 140px",
-          boxSizing: "border-box",
-          fontFamily: FONT_FAMILY,
-          overflow: "hidden",
-        }}
-      >
-        <header style={{ flexShrink: 0 }}>
+      <AbsoluteFill className="opening-slide">
+        <header className="opening-slide__header">
           <div>
             {["Fizica nu se memoreaza.", "Fizica se vede."].map((line, index) => {
               const reveal = smoothProgress(timeline, 10 + index * 8, 22);
@@ -173,14 +82,9 @@ export const OpeningSlide = ({ duration }: { duration: number }) => {
               return (
                 <div
                   key={line}
+                  className={`opening-slide__headline-line${isAccent ? " opening-slide__headline-line--accent" : ""}`}
                   style={{
                     marginTop: index === 0 ? 0 : 6,
-                    fontSize: isAccent ? 74 : 70,
-                    fontWeight: 760,
-                    lineHeight: 1.06,
-                    letterSpacing: "-0.04em",
-                    color: isAccent ? COLORS.cyan : COLORS.white,
-                    textShadow: isAccent ? `0 0 28px ${COLORS.cyan}` : undefined,
                     opacity: reveal,
                     transform: `translateY(${(1 - reveal) * 20}px)`,
                   }}
@@ -191,56 +95,25 @@ export const OpeningSlide = ({ duration }: { duration: number }) => {
             })}
 
             <p
-              style={{
-                margin: "18px 0 0",
-                maxWidth: 920,
-                fontSize: 26,
-                fontWeight: 520,
-                lineHeight: 1.42,
-                color: COLORS.muted,
-                opacity: subtitleReveal,
-              }}
+              className="opening-slide__subtitle"
+              style={{ opacity: subtitleReveal }}
             >
               De la pagina principala la resurse detaliate — simulari, probleme
               si teorie intr-o singura platforma.
             </p>
 
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 14,
-                marginTop: 20,
-              }}
-            >
+            <div className="opening-slide__pills">
               {STAT_PILLS.map(({ icon: Icon, label }, index) => {
                 const reveal = smoothProgress(timeline, 36 + index * 5, 18);
 
                 return (
                   <div
                     key={label}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 10,
-                      padding: "12px 20px",
-                      borderRadius: 999,
-                      background: "rgba(255,255,255,0.05)",
-                      border: "1px solid rgba(136,169,200,0.16)",
-                      opacity: reveal,
-                      whiteSpace: "nowrap",
-                    }}
+                    className="opening-slide__pill"
+                    style={{ opacity: reveal }}
                   >
                     <Icon size={18} color={COLORS.cyan} strokeWidth={2} />
-                    <span
-                      style={{
-                        fontSize: 16,
-                        fontWeight: 650,
-                        color: COLORS.muted,
-                      }}
-                    >
-                      {label}
-                    </span>
+                    <span className="opening-slide__pill-label">{label}</span>
                   </div>
                 );
               })}
@@ -249,13 +122,9 @@ export const OpeningSlide = ({ duration }: { duration: number }) => {
         </header>
 
         <div
+          className="opening-slide__panels"
           style={{
-            flexShrink: 0,
             marginTop: GAP_HEADER_PANELS,
-            display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "center",
-            gap: 32,
             opacity: panelReveal,
             transform: `translateY(${(1 - panelReveal) * 16}px)`,
           }}
@@ -275,30 +144,18 @@ export const OpeningSlide = ({ duration }: { duration: number }) => {
           />
         </div>
 
-        <div style={{ flex: 1, minHeight: GAP_PANELS_CTA }} />
+        <div
+          className="opening-slide__spacer"
+          style={{ minHeight: GAP_PANELS_CTA }}
+        />
 
-        <footer
-          style={{
-            flexShrink: 0,
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
+        <footer className="opening-slide__footer">
           <div
+            className="opening-slide__cta"
             style={{
-              padding: "16px 32px",
-              borderRadius: 999,
-              fontSize: 22,
-              fontWeight: 700,
-              letterSpacing: "0.02em",
-              color: COLORS.white,
-              background: `linear-gradient(135deg, rgba(22,136,255,0.92), rgba(24,244,255,0.72))`,
-              border: "1px solid rgba(24,244,255,0.55)",
               boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 ${ctaReveal * 24}px rgba(24,244,255,0.28)`,
               opacity: ctaReveal,
               transform: `translateY(${(1 - ctaReveal) * 12}px)`,
-              whiteSpace: "nowrap",
             }}
           >
             {meta.ctaLabel}

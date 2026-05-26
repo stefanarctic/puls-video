@@ -2,6 +2,7 @@ import { AbsoluteFill, interpolate } from "remotion";
 import { COLORS } from "../constants";
 import { useLoopFrame } from "../utils/ambientMotion";
 import { looping } from "../utils/animation";
+import "./Particles.scss";
 
 type ParticleFieldProps = {
   count?: number;
@@ -21,7 +22,7 @@ export const ParticleField = ({
   const frame = useLoopFrame();
 
   return (
-    <AbsoluteFill style={{ overflow: "hidden" }}>
+    <AbsoluteFill className="particle-field">
       {Array.from({ length: count }).map((_, index) => {
         const seed = index * 97.13;
         const x = ((index * 137.5) % 1920) - 60;
@@ -39,13 +40,12 @@ export const ParticleField = ({
         return (
           <div
             key={index}
+            className="particle"
             style={{
-              position: "absolute",
               left: x,
               top: y,
               width: size,
               height: size,
-              borderRadius: 999,
               background: color,
               opacity: alpha,
               boxShadow: `0 0 ${18 * depth}px ${color}`,

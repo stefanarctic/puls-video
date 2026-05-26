@@ -36,6 +36,12 @@ body,
   display: block;
 }
 
+.presentation-loading {
+  width: 100%;
+  height: 100%;
+  background: #02040b;
+}
+
 .presentation-controls {
   position: absolute;
   left: 50%;

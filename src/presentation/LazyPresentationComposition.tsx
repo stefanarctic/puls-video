@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 import { AbsoluteFill, Sequence } from "remotion";
+import { SplashSlide } from "../scenes/slides/SplashSlide";
 import { EnergyPulseTransition, LightSweep } from "../utils/transitions";
-import { SLIDES } from "./slideData";
+import { SLIDES, type SlideKey } from "./slideData";
 import {
   getLazySlide,
   getSlideDuration,
@@ -19,9 +20,13 @@ const LazySlideSlot = ({
   slideKey,
   duration,
 }: {
-  slideKey: (typeof SLIDES)[number]["key"];
+  slideKey: SlideKey;
   duration: number;
 }) => {
+  if (slideKey === "splash") {
+    return <SplashSlide duration={duration} />;
+  }
+
   const Slide = getLazySlide(slideKey);
 
   return (

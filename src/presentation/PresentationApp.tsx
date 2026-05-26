@@ -1,18 +1,39 @@
 import { Player, type PlayerRef } from "@remotion/player";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TOTAL_DURATION, VIDEO } from "../constants";
 import { AmbientMotionProvider } from "../utils/ambientMotion";
 import { PRESENTATION_SEGMENTS } from "./presentationSegments";
+import { ensureSlideReady } from "./prefetchSlideAssets";
 import { PresentationVideo } from "./PresentationVideo";
 import { usePresentationPlayer } from "./usePresentationPlayer";
 import "./presentation.css";
 
 export const PresentationApp = () => {
   const playerRef = useRef<PlayerRef>(null);
+  const [compositionReady, setCompositionReady] = useState(false);
+  const [playerReady, setPlayerReady] = useState(false);
+  const assignPlayerRef = useCallback((instance: PlayerRef | null) => {
+    playerRef.current = instance;
+    setPlayerReady(instance !== null);
+  }, []);
   const { currentIndex, phase, isFirst, isLast, goNext, goPrevious, goToSegment } =
-    usePresentationPlayer(playerRef);
+    usePresentationPlayer(playerRef, playerReady);
   const holdFrame = PRESENTATION_SEGMENTS[currentIndex]?.holdAt ?? 0;
   const [ambientElapsed, setAmbientElapsed] = useState(0);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    void ensureSlideReady(0).then(() => {
+      if (!cancelled) {
+        setCompositionReady(true);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (phase !== "idle") {
@@ -42,25 +63,31 @@ export const PresentationApp = () => {
           className="presentation-viewport"
           style={{ aspectRatio: `${VIDEO.width} / ${VIDEO.height}` }}
         >
-          <Player
-            ref={playerRef}
-            className="presentation-player"
-            component={PresentationVideo}
-            inputProps={{
-              activeSegmentIndex: currentIndex,
-              phase,
-              _ambientTick: ambientElapsed,
-            }}
-            durationInFrames={TOTAL_DURATION}
-            compositionWidth={VIDEO.width}
-            compositionHeight={VIDEO.height}
-            fps={VIDEO.fps}
-            controls={false}
-            autoPlay={false}
-            clickToPlay={false}
-            spaceKeyToPlayOrPause={false}
-            style={{ width: "100%" }}
-          />
+          {compositionReady ? (
+            <Player
+              ref={assignPlayerRef}
+              className="presentation-player"
+              component={PresentationVideo}
+              inputProps={{
+                activeSegmentIndex: currentIndex,
+                phase,
+                _ambientTick: ambientElapsed,
+              }}
+              durationInFrames={TOTAL_DURATION}
+              compositionWidth={VIDEO.width}
+              compositionHeight={VIDEO.height}
+              fps={VIDEO.fps}
+              initialFrame={0}
+              initiallyMuted
+              controls={false}
+              autoPlay={false}
+              clickToPlay={false}
+              spaceKeyToPlayOrPause={false}
+              style={{ width: "100%" }}
+            />
+          ) : (
+            <div className="presentation-loading" aria-hidden="true" />
+          )}
         </div>
       </AmbientMotionProvider>
 

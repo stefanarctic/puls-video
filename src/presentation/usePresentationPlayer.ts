@@ -5,10 +5,48 @@ import { PRESENTATION_SEGMENTS } from "./presentationSegments";
 
 export type PresentationPhase = "idle" | "playing";
 
-export const usePresentationPlayer = (playerRef: React.RefObject<PlayerRef | null>) => {
+const waitForPaint = () =>
+  new Promise<void>((resolve) => {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => resolve());
+    });
+  });
+
+const seekToFrame = (player: PlayerRef, frame: number) => {
+  if (player.getCurrentFrame() === frame) {
+    return Promise.resolve();
+  }
+
+  return new Promise<void>((resolve) => {
+    const timeout = window.setTimeout(() => {
+      player.removeEventListener("seeked", onSeeked);
+      resolve();
+    }, 500);
+
+    const onSeeked = (event: { detail: { frame: number } }) => {
+      if (event.detail.frame !== frame) {
+        return;
+      }
+
+      window.clearTimeout(timeout);
+      player.removeEventListener("seeked", onSeeked);
+      resolve();
+    };
+
+    player.addEventListener("seeked", onSeeked);
+    player.seekTo(frame);
+  });
+};
+
+export const usePresentationPlayer = (
+  playerRef: React.RefObject<PlayerRef | null>,
+  playerReady: boolean,
+) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [phase, setPhase] = useState<PresentationPhase>("playing");
+  const [phase, setPhase] = useState<PresentationPhase>("idle");
   const hasStartedRef = useRef(false);
+  const playGenerationRef = useRef(0);
+  const segmentStartFrameRef = useRef(0);
   const currentIndexRef = useRef(currentIndex);
   const phaseRef = useRef(phase);
 
@@ -17,13 +55,12 @@ export const usePresentationPlayer = (playerRef: React.RefObject<PlayerRef | nul
 
   const playSegment = useCallback(
     async (index: number) => {
+      const generation = ++playGenerationRef.current;
       const player = playerRef.current;
       const segment = PRESENTATION_SEGMENTS[index];
       if (!player || !segment) {
         return;
       }
-
-      setPhase("playing");
 
       try {
         await ensureSlideReady(index);
@@ -31,9 +68,26 @@ export const usePresentationPlayer = (playerRef: React.RefObject<PlayerRef | nul
         // Continue even if prefetch fails so navigation is not blocked.
       }
 
-      player.seekTo(segment.playFrom);
-      player.play();
+      if (generation !== playGenerationRef.current) {
+        return;
+      }
+
+      await waitForPaint();
+
+      if (generation !== playGenerationRef.current) {
+        return;
+      }
+
+      segmentStartFrameRef.current = segment.playFrom;
+      player.pause();
+      await seekToFrame(player, segment.playFrom);
+
+      if (generation !== playGenerationRef.current) {
+        return;
+      }
+
       setPhase("playing");
+      player.play();
     },
     [playerRef],
   );
@@ -99,25 +153,43 @@ export const usePresentationPlayer = (playerRef: React.RefObject<PlayerRef | nul
   );
 
   useEffect(() => {
-    if (hasStartedRef.current) {
+    if (!playerReady || hasStartedRef.current) {
       return;
     }
 
-    const timer = window.setTimeout(() => {
-      if (!playerRef.current || hasStartedRef.current) {
+    hasStartedRef.current = true;
+    void playSegment(0);
+
+    return () => {
+      playGenerationRef.current += 1;
+    };
+  }, [playerReady, playSegment]);
+
+  useEffect(() => {
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (!event.persisted || !playerRef.current) {
         return;
       }
 
+      playGenerationRef.current += 1;
+      setCurrentIndex(0);
+      setPhase("idle");
       hasStartedRef.current = true;
       void playSegment(0);
-    }, 0);
+    };
+
+    window.addEventListener("pageshow", onPageShow);
 
     return () => {
-      window.clearTimeout(timer);
+      window.removeEventListener("pageshow", onPageShow);
     };
-  }, [playerRef, playSegment]);
+  }, [playSegment, playerRef]);
 
   useEffect(() => {
+    if (!playerReady) {
+      return;
+    }
+
     const player = playerRef.current;
     if (!player) {
       return;
@@ -125,6 +197,10 @@ export const usePresentationPlayer = (playerRef: React.RefObject<PlayerRef | nul
 
     const onFrameUpdate = (event: { detail: { frame: number } }) => {
       if (phaseRef.current !== "playing") {
+        return;
+      }
+
+      if (event.detail.frame < segmentStartFrameRef.current) {
         return;
       }
 
@@ -143,7 +219,7 @@ export const usePresentationPlayer = (playerRef: React.RefObject<PlayerRef | nul
     return () => {
       player.removeEventListener("frameupdate", onFrameUpdate);
     };
-  }, [playerRef, holdSegment]);
+  }, [playerReady, playerRef, holdSegment]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {

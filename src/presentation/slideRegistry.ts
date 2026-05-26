@@ -61,7 +61,7 @@ const slideImporters: Record<
 export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
   splash: [ASSETS.logo],
   opening: [PRESENTATION_ASSETS.pendul],
-  problem: [],
+  problem: [PRESENTATION_ASSETS.equationsBlackboard],
   ecosystem: [PRESENTATION_ASSETS.resurseSimulari],
   bac: [PRESENTATION_ASSETS.probleme],
   simulations: [

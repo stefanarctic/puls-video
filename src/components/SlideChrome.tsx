@@ -223,6 +223,7 @@ export const ScreenshotFrame = ({
   height,
   delay = 30,
   caption,
+  captionDelay,
   lightOverlay = false,
   objectFit = "cover",
   objectPosition = "center",
@@ -239,6 +240,7 @@ export const ScreenshotFrame = ({
   height: number;
   delay?: number;
   caption?: string;
+  captionDelay?: number;
   lightOverlay?: boolean;
   objectFit?: CSSProperties["objectFit"];
   objectPosition?: CSSProperties["objectPosition"];
@@ -248,8 +250,14 @@ export const ScreenshotFrame = ({
   screenshotClassName?: string;
   children?: ReactNode;
 }) => {
+  const timeline = useTimelineFrame();
   const captionHeight = caption ? 36 : 0;
   const imageHeight = height - captionHeight;
+  const captionReveal = smoothProgress(
+    timeline,
+    captionDelay ?? delay,
+    22,
+  );
 
   return (
     <div className="screenshot-frame" style={{ left: x, top: y, width, ...style }}>
@@ -270,7 +278,18 @@ export const ScreenshotFrame = ({
         {children}
       </SlideScreenshot>
       {caption ? (
-        <div className="screenshot-frame__caption">{caption}</div>
+        <div
+          className="screenshot-frame__caption"
+          style={{
+            opacity: captionDelay === undefined ? 1 : captionReveal,
+            transform:
+              captionDelay === undefined
+                ? undefined
+                : `translateY(${(1 - captionReveal) * 12}px)`,
+          }}
+        >
+          {caption}
+        </div>
       ) : null}
     </div>
   );

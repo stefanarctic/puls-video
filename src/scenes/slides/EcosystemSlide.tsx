@@ -1,42 +1,51 @@
-import { PRESENTATION_ASSETS } from "../../assets";
+import { useEffect } from "react";
 import {
   RadialHub,
-  ScreenshotFrame,
   SlideCta,
   SlideHeadline,
   SlideLayout,
   SlideSubtitle,
 } from "../../components/SlideChrome";
+import { PRESENTATION_ASSETS } from "../../assets";
 import { getSlideMeta } from "../../presentation/slideData";
+import { prefetchImageAsset } from "../../presentation/prefetchSlideAssets";
+import "./EcosystemSlide.scss";
+
+const HUB_SCREENSHOTS = [
+  PRESENTATION_ASSETS.simulariCatalog,
+  PRESENTATION_ASSETS.problemeLista,
+  PRESENTATION_ASSETS.resurseLectii,
+  PRESENTATION_ASSETS.asistent,
+  PRESENTATION_ASSETS.profilProgres,
+  PRESENTATION_ASSETS.claseProfesor,
+] as const;
 
 export const EcosystemSlide = ({ duration }: { duration: number }) => {
   const meta = getSlideMeta("ecosystem");
 
+  useEffect(() => {
+    for (const asset of HUB_SCREENSHOTS) {
+      prefetchImageAsset(asset);
+    }
+  }, []);
+
   return (
     <SlideLayout duration={duration}>
-      <SlideHeadline
-        lines={["PULS: un ecosistem complet", "pentru fizica."]}
-        accentIndex={0}
-        size={68}
-      />
-      <SlideSubtitle top={268} delay={24}>
-        Simulari, probleme, resurse, AI, progres, gamificare si clase pentru
-        profesori — totul intr-o singura platforma.
-      </SlideSubtitle>
-      <RadialHub delay={36} />
-      <ScreenshotFrame
-        src={PRESENTATION_ASSETS.resurseSimulari}
-        x={1280}
-        y={340}
-        width={520}
-        height={280}
-        delay={70}
-        caption="Resurse si simulari"
-        lightOverlay
-        objectFit="cover"
-        objectPosition="top center"
-      />
-      <SlideCta label={meta.ctaLabel} delay={78} />
+      <div className="ecosystem-slide">
+        <SlideHeadline
+          lines={["PULS: un ecosistem complet", "pentru fizica."]}
+          accentIndex={0}
+          size={68}
+          left={64}
+          width={820}
+        />
+        <SlideSubtitle top={268} delay={24} left={64} width={540}>
+          Invata, exerseaza, simuleaza si progreseaza — totul intr-o singura
+          platforma.
+        </SlideSubtitle>
+        <RadialHub delay={36} />
+        <SlideCta label={meta.ctaLabel} delay={78} />
+      </div>
     </SlideLayout>
   );
 };

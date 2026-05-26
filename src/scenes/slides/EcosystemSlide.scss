@@ -1,0 +1,34 @@
+@use "../../styles/variables" as *;
+
+.ecosystem-slide {
+  position: absolute;
+  inset: 0;
+
+  .slide-headline {
+    left: 64px;
+  }
+
+  .slide-headline__line {
+  }
+
+  .slide-headline__line--accent {
+  }
+
+  .slide-subtitle {
+    left: 64px;
+    padding-top: 75px;
+    
+  }
+
+  .slide-cta {
+  }
+
+  .radial-hub__hint {
+  }
+
+  .radial-hub__node-label {
+  }
+
+  .radial-hub__node-caption {
+  }
+}

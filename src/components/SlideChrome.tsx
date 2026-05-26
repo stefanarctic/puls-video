@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import {
   BookOpen,
@@ -9,8 +10,9 @@ import {
   Users,
 } from "lucide-react";
 import { AbsoluteFill, Img, interpolate, staticFile } from "remotion";
+import { PRESENTATION_ASSETS } from "../assets";
 import { COLORS } from "../constants";
-import { useTimelineFrame } from "../utils/ambientMotion";
+import { usePresentationInteractive, useTimelineFrame } from "../utils/ambientMotion";
 import { cinematicEase, enterExitOpacity, smoothProgress } from "../utils/animation";
 import { CinematicBackdrop } from "./Backdrop";
 import { ParticleField } from "./Particles";
@@ -402,91 +404,192 @@ export const FlowArrow = ({
   );
 };
 
-const HUB_ITEMS: { label: string; icon: LucideIcon }[] = [
-  { label: "Simulari interactive", icon: Orbit },
-  { label: "Probleme BAC si grile", icon: FlaskConical },
-  { label: "Resurse teoretice", icon: BookOpen },
-  { label: "Feedback AI", icon: Bot },
-  { label: "Profil si progres", icon: Trophy },
-  { label: "Clase profesor-elev", icon: Users },
+const HUB_ITEMS: {
+  label: string;
+  icon: LucideIcon;
+  url: string;
+  screenshot: string;
+  caption: string;
+}[] = [
+  {
+    label: "Simulari interactive",
+    icon: Orbit,
+    url: "https://puls-fizica.ro/simulari",
+    screenshot: PRESENTATION_ASSETS.simulariCatalog,
+    caption: "53 simulari — laborator in browser",
+  },
+  {
+    label: "Probleme BAC si grile",
+    icon: FlaskConical,
+    url: "https://puls-fizica.ro/probleme/bac",
+    screenshot: PRESENTATION_ASSETS.problemeLista,
+    caption: "Probleme, grile si rezolvari",
+  },
+  {
+    label: "Resurse teoretice",
+    icon: BookOpen,
+    url: "https://puls-fizica.ro/resurse",
+    screenshot: PRESENTATION_ASSETS.resurseLectii,
+    caption: "Lectii, formule si experimente",
+  },
+  {
+    label: "Feedback AI",
+    icon: Bot,
+    url: "https://puls-fizica.ro/asistent",
+    screenshot: PRESENTATION_ASSETS.asistent,
+    caption: "Asistent PULS — feedback personalizat",
+  },
+  {
+    label: "Profil si progres",
+    icon: Trophy,
+    url: "https://puls-fizica.ro/profil",
+    screenshot: PRESENTATION_ASSETS.profilProgres,
+    caption: "XP, streak si statistici",
+  },
+  {
+    label: "Clase profesor-elev",
+    icon: Users,
+    url: "https://puls-fizica.ro/profesor",
+    screenshot: PRESENTATION_ASSETS.claseProfesor,
+    caption: "Teme, colegi si dashboard profesor",
+  },
 ];
+
+const HUB_CENTER_X = 960;
+const HUB_CENTER_Y = 520;
+const HUB_RADIUS = 280;
+const NODE_WIDTH = 300;
+const NODE_WIDTH_ACTIVE = 368;
+const NODE_HEIGHT = 82;
+const NODE_HEIGHT_ACTIVE = 292;
 
 export const RadialHub = ({ delay = 40 }: { delay?: number }) => {
   const timeline = useTimelineFrame();
-  const centerX = 960;
-  const centerY = 480;
-  const radius = 280;
+  const interactive = usePresentationInteractive();
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const hubReveal = smoothProgress(timeline, delay - 10, 24);
 
   const nodes = HUB_ITEMS.map((item, index) => {
     const angle = (index / HUB_ITEMS.length) * Math.PI * 2 - Math.PI / 2;
-    const nodeCenterX = centerX + Math.cos(angle) * radius;
-    const nodeCenterY = centerY + Math.sin(angle) * radius;
+    const nodeCenterX = HUB_CENTER_X + Math.cos(angle) * HUB_RADIUS;
+    const nodeCenterY = HUB_CENTER_Y + Math.sin(angle) * HUB_RADIUS;
     return {
       ...item,
+      index,
       angle,
       nodeCenterX,
       nodeCenterY,
-      x: nodeCenterX - 150,
-      y: nodeCenterY - 56,
       reveal: smoothProgress(timeline, delay + index * 8, 24),
     };
   });
 
+  const openHubLink = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   return (
-    <>
+    <div className={`radial-hub${interactive ? " radial-hub--interactive" : ""}`}>
       <svg
         className="radial-hub__svg"
         style={{ opacity: hubReveal * 0.55 }}
         viewBox="0 0 1920 1080"
       >
-        {nodes.map((node) => (
-          <line
-            key={node.label}
-            x1={centerX}
-            y1={centerY}
-            x2={node.nodeCenterX}
-            y2={node.nodeCenterY}
-            stroke="rgba(24,244,255,0.28)"
-            strokeWidth="2"
-            strokeDasharray="8 6"
-          />
-        ))}
-      </svg>
-      {nodes.map((node) => {
-        const Icon = node.icon;
+        {nodes.map((node) => {
+          const isActive = hoveredIndex === node.index;
 
-        return (
-          <div
-            key={node.label}
-            className="radial-hub__node"
-            style={{
-              left: node.x,
-              top: node.y,
-              opacity: node.reveal,
-              transform: `scale(${0.88 + node.reveal * 0.12})`,
-            }}
-          >
-            <div className="radial-hub__node-row">
-              <div className="radial-hub__node-icon">
-                <Icon size={22} color={COLORS.cyan} strokeWidth={2} />
-              </div>
-              <div className="radial-hub__node-label">{node.label}</div>
-            </div>
-          </div>
-        );
-      })}
+          return (
+            <line
+              key={node.label}
+              x1={HUB_CENTER_X}
+              y1={HUB_CENTER_Y}
+              x2={node.nodeCenterX}
+              y2={node.nodeCenterY}
+              stroke={
+                isActive ? "rgba(24,244,255,0.72)" : "rgba(24,244,255,0.28)"
+              }
+              strokeWidth={isActive ? 3 : 2}
+              strokeDasharray="8 6"
+            />
+          );
+        })}
+      </svg>
+
       <div
         className="radial-hub__center"
         style={{
-          left: centerX - 120,
-          top: centerY - 120,
+          left: HUB_CENTER_X - 120,
+          top: HUB_CENTER_Y - 120,
           opacity: hubReveal,
         }}
       >
         PULS
       </div>
-    </>
+
+      {nodes.map((node) => {
+        const Icon = node.icon;
+        const isHovered = hoveredIndex === node.index;
+        const nodeWidth = isHovered ? NODE_WIDTH_ACTIVE : NODE_WIDTH;
+        const nodeHeight = isHovered ? NODE_HEIGHT_ACTIVE : NODE_HEIGHT;
+        const revealScale = 0.88 + node.reveal * 0.12;
+
+        return (
+          <div
+            key={node.label}
+            className={`radial-hub__node${isHovered ? " radial-hub__node--active" : ""}`}
+            style={{
+              left: node.nodeCenterX - nodeWidth / 2,
+              top: node.nodeCenterY - nodeHeight / 2,
+              width: nodeWidth,
+              opacity: node.reveal,
+              transform: `scale(${revealScale})`,
+              zIndex: isHovered ? 12 : 2,
+            }}
+            role={interactive ? "link" : undefined}
+            tabIndex={interactive ? 0 : undefined}
+            onMouseEnter={
+              interactive ? () => setHoveredIndex(node.index) : undefined
+            }
+            onMouseLeave={interactive ? () => setHoveredIndex(null) : undefined}
+            onClick={interactive ? () => openHubLink(node.url) : undefined}
+            onKeyDown={
+              interactive
+                ? (event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      openHubLink(node.url);
+                    }
+                  }
+                : undefined
+            }
+          >
+            <div className="radial-hub__node-header">
+              <div className="radial-hub__node-row">
+                <div className="radial-hub__node-icon">
+                  <Icon size={22} color={COLORS.cyan} strokeWidth={2} />
+                </div>
+                <div className="radial-hub__node-label">{node.label}</div>
+              </div>
+            </div>
+            <div className="radial-hub__node-media">
+              <div className="radial-hub__node-media-inner">
+                <Img
+                  src={staticFile(node.screenshot)}
+                  className="radial-hub__node-image"
+                  style={{ objectFit: "cover", objectPosition: "top center" }}
+                />
+                <div className="radial-hub__node-caption">{node.caption}</div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      {interactive ? (
+        <div className="radial-hub__hint" style={{ opacity: hubReveal * 0.85 }}>
+          Hover pentru preview · Click pentru a deschide
+        </div>
+      ) : null}
+    </div>
   );
 };
 

@@ -46,11 +46,18 @@ export const prefetchSlideByKey = (key: SlideKey) => {
 
 export const prefetchNextSlide = (activeIndex: number) => {
   const nextSlide = SLIDES[activeIndex + 1];
-  if (!nextSlide) {
-    return;
+  if (nextSlide) {
+    prefetchSlideByKey(nextSlide.key);
   }
 
-  prefetchSlideByKey(nextSlide.key);
+  const ecosystemIndex = SLIDES.findIndex((slide) => slide.key === "ecosystem");
+  if (
+    ecosystemIndex >= 0 &&
+    activeIndex >= ecosystemIndex - 2 &&
+    activeIndex < ecosystemIndex
+  ) {
+    prefetchSlideByKey("ecosystem");
+  }
 };
 
 export const ensureSlideReady = async (index: number) => {

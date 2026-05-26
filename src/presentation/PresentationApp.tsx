@@ -12,13 +12,19 @@ export const PresentationApp = () => {
   const playerRef = useRef<PlayerRef>(null);
   const [compositionReady, setCompositionReady] = useState(false);
   const [playerReady, setPlayerReady] = useState(false);
+  const [playerFrame, setPlayerFrame] = useState(0);
   const assignPlayerRef = useCallback((instance: PlayerRef | null) => {
     playerRef.current = instance;
     setPlayerReady(instance !== null);
   }, []);
   const { currentIndex, phase, isFirst, isLast, goNext, goPrevious, goToSegment } =
     usePresentationPlayer(playerRef, playerReady);
-  const holdFrame = PRESENTATION_SEGMENTS[currentIndex]?.holdAt ?? 0;
+  const segment = PRESENTATION_SEGMENTS[currentIndex];
+  const holdFrame = segment?.holdAt ?? 0;
+  const interactiveAt = segment?.interactiveAt ?? holdFrame;
+  const isInteractive =
+    phase === "idle" ||
+    (phase === "playing" && playerFrame >= interactiveAt);
   const [ambientElapsed, setAmbientElapsed] = useState(0);
 
   useEffect(() => {
@@ -34,6 +40,28 @@ export const PresentationApp = () => {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!playerReady) {
+      return;
+    }
+
+    const player = playerRef.current;
+    if (!player) {
+      return;
+    }
+
+    const syncFrame = () => {
+      setPlayerFrame(player.getCurrentFrame());
+    };
+
+    syncFrame();
+    player.addEventListener("frameupdate", syncFrame);
+
+    return () => {
+      player.removeEventListener("frameupdate", syncFrame);
+    };
+  }, [playerReady, currentIndex, phase]);
 
   useEffect(() => {
     if (phase !== "idle") {
@@ -58,7 +86,11 @@ export const PresentationApp = () => {
 
   return (
     <div className="presentation-shell">
-      <AmbientMotionProvider enabled={phase === "idle"} elapsedFrames={ambientElapsed}>
+      <AmbientMotionProvider
+        enabled={phase === "idle"}
+        elapsedFrames={ambientElapsed}
+        interactive={isInteractive}
+      >
         <div
           className="presentation-viewport"
           style={{ aspectRatio: `${VIDEO.width} / ${VIDEO.height}` }}

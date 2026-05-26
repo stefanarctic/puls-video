@@ -62,7 +62,14 @@ export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
   splash: [ASSETS.logo],
   opening: [PRESENTATION_ASSETS.pendul],
   problem: [PRESENTATION_ASSETS.equationsBlackboard],
-  ecosystem: [PRESENTATION_ASSETS.resurseSimulari],
+  ecosystem: [
+    PRESENTATION_ASSETS.simulariCatalog,
+    PRESENTATION_ASSETS.problemeLista,
+    PRESENTATION_ASSETS.resurseLectii,
+    PRESENTATION_ASSETS.asistent,
+    PRESENTATION_ASSETS.profilProgres,
+    PRESENTATION_ASSETS.claseProfesor,
+  ],
   bac: [PRESENTATION_ASSETS.probleme],
   simulations: [
     PRESENTATION_ASSETS.pendul,

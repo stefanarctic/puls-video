@@ -1,0 +1,101 @@
+@use "../../styles/variables" as *;
+
+.romania-geo-map {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+
+  &__panel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 24px 28px;
+    border-radius: 24px;
+    background: linear-gradient(
+      155deg,
+      rgba(10, 28, 50, 0.88),
+      rgba(4, 10, 22, 0.72)
+    );
+    border: 1px solid rgba(24, 244, 255, 0.22);
+    box-shadow:
+      0 24px 56px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+  }
+
+  &__svg-wrap {
+    position: relative;
+    width: min(100%, 720px);
+    max-width: 92%;
+    max-height: calc(100% - 8px);
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+
+  &__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &__grid {
+    stroke: rgba(24, 244, 255, 0.12);
+    stroke-width: 1;
+    stroke-dasharray: 4 8;
+  }
+
+  &__outline {
+    fill: url(#romania-geo-fill);
+    stroke: rgba(24, 244, 255, 0.55);
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+
+  &__connection {
+    stroke: rgba(24, 244, 255, 0.55);
+    stroke-width: 2;
+    stroke-dasharray: 8 6;
+    stroke-linecap: round;
+  }
+
+  &__pulse {
+    fill: none;
+    stroke: $color-cyan;
+    stroke-width: 2;
+  }
+
+  &__marker {
+    fill: rgba(24, 244, 255, 0.35);
+    stroke: $color-cyan;
+    stroke-width: 2;
+  }
+
+  &__marker-core {
+    stroke: none;
+  }
+
+  &__label {
+    position: absolute;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  &__point-label {
+    font-family: $font-family;
+    font-size: 20px;
+    font-weight: 760;
+    color: $color-white;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+  }
+
+  &__point-sub {
+    font-family: $font-family;
+    font-size: 15px;
+    font-weight: 550;
+    color: $color-muted;
+    margin-top: 3px;
+  }
+}

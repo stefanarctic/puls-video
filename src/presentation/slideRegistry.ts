@@ -105,7 +105,10 @@ export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
     PRESENTATION_ASSETS.fisiune,
     PRESENTATION_ASSETS.fuziune,
   ],
-  romania: [PRESENTATION_ASSETS.schimbIzotopic],
+  romania: [
+    PRESENTATION_ASSETS.apaGrea,
+    PRESENTATION_ASSETS.schimbIzotopic,
+  ],
   elinp: [
     PRESENTATION_ASSETS.eliNp,
     PRESENTATION_ASSETS.laser,

@@ -12,6 +12,7 @@ export type PresentationSegment = {
 
 const TRANSITION_LEAD_FRAMES: Partial<Record<SlideKey, number>> = {
   opening: 16,
+  traction: 16,
   problem: 16,
   ecosystem: 16,
   resurse: 16,
@@ -28,6 +29,7 @@ const TRANSITION_LEAD_FRAMES: Partial<Record<SlideKey, number>> = {
 const EXIT_LEAD_FRAMES: Record<SlideKey, number> = {
   splash: 24,
   opening: 48,
+  traction: 48,
   problem: 48,
   ecosystem: 48,
   resurse: 48,

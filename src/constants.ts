@@ -8,6 +8,7 @@ export const VIDEO = {
 export const SCENE_DURATIONS = {
   splash: 180,
   opening: 900,
+  traction: 1200,
   problem: 1350,
   ecosystem: 1500,
   resurse: 1500,
@@ -24,6 +25,7 @@ export const SCENE_DURATIONS = {
 const slideOrder = [
   "splash",
   "opening",
+  "traction",
   "problem",
   "ecosystem",
   "resurse",

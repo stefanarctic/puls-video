@@ -33,4 +33,8 @@ export const PRESENTATION_ASSETS = {
   fuziune: `${P}/Reactor_Fuziune_Dt_Screenshot.png`,
   asistent: `${P}/Puls-AI2.png`,
   equationsBlackboard: `${P}/Equations_Blackboard.jpg`,
+  nicusorDan: `${P}/Nicusor_Dan_Primarie.png`,
+  utilizatoriLogati: `${P}/Screenshot_Utilizatori_Logati.png`,
+  utilizatoriLogatiCrop: `${P}/Screenshot_Utilizatori_Logati_Crop.png`,
+  vizitatori30Zile: `${P}/Screenshot_Vizitatori_30_Zile.png`,
 } as const;

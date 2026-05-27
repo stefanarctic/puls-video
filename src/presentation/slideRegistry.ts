@@ -20,6 +20,10 @@ const slideImporters: Record<
     import("../scenes/slides/OpeningSlide").then((m) => ({
       default: m.OpeningSlide,
     })),
+  traction: () =>
+    import("../scenes/slides/TractionSlide").then((m) => ({
+      default: m.TractionSlide,
+    })),
   problem: () =>
     import("../scenes/slides/ProblemSlide").then((m) => ({
       default: m.ProblemSlide,
@@ -65,6 +69,11 @@ const slideImporters: Record<
 export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
   splash: [ASSETS.logo],
   opening: [PRESENTATION_ASSETS.pendul],
+  traction: [
+    PRESENTATION_ASSETS.nicusorDan,
+    PRESENTATION_ASSETS.utilizatoriLogatiCrop,
+    PRESENTATION_ASSETS.vizitatori30Zile,
+  ],
   problem: [PRESENTATION_ASSETS.equationsBlackboard],
   ecosystem: [
     PRESENTATION_ASSETS.simulariCatalog,
@@ -132,71 +141,84 @@ export const SLIDE_TRANSITIONS: TransitionSpec[] = [
   {
     targetIndex: 2,
     type: "pulse",
+    at: TIMELINE.traction - 16,
+    duration: 42,
+    strength: 1,
+  },
+  {
+    targetIndex: 2,
+    type: "sweep",
+    at: TIMELINE.traction - 12,
+    duration: 40,
+  },
+  {
+    targetIndex: 3,
+    type: "pulse",
     at: TIMELINE.problem - 16,
     duration: 40,
     strength: 0.9,
   },
   {
-    targetIndex: 3,
+    targetIndex: 4,
     type: "sweep",
     at: TIMELINE.ecosystem - 16,
     duration: 48,
   },
   {
-    targetIndex: 4,
+    targetIndex: 5,
     type: "pulse",
     at: TIMELINE.resurse - 16,
     duration: 40,
     strength: 0.85,
   },
   {
-    targetIndex: 5,
+    targetIndex: 6,
     type: "pulse",
     at: TIMELINE.bac - 16,
     duration: 38,
     strength: 0.75,
   },
   {
-    targetIndex: 6,
+    targetIndex: 7,
     type: "sweep",
     at: TIMELINE.simulations - 18,
     duration: 52,
   },
   {
-    targetIndex: 7,
+    targetIndex: 8,
     type: "pulse",
     at: TIMELINE.nuclear - 20,
     duration: 52,
     strength: 1.15,
   },
   {
-    targetIndex: 8,
+    targetIndex: 9,
     type: "sweep",
     at: TIMELINE.romania - 18,
     duration: 48,
   },
   {
-    targetIndex: 9,
+    targetIndex: 10,
     type: "pulse",
     at: TIMELINE.elinp - 20,
     duration: 54,
     strength: 1.2,
   },
   {
-    targetIndex: 10,
+    targetIndex: 11,
     type: "sweep",
     at: TIMELINE.ai - 16,
     duration: 44,
   },
   {
-    targetIndex: 11,
+    targetIndex: 12,
     type: "pulse",
     at: TIMELINE.community - 16,
     duration: 38,
     strength: 0.8,
   },
   {
-    targetIndex: 12,
+    targetIndex: 13,
     type: "pulse",
     at: TIMELINE.closing - 20,
     duration: 56,

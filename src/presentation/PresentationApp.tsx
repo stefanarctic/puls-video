@@ -162,7 +162,7 @@ export const PresentationApp = () => {
         </button>
       </div>
 
-      <div className="presentation-hint">← → next · Space skip</div>
+      {/* <div className="presentation-hint">← → next · Space skip</div> */}
     </div>
   );
 };

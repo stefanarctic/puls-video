@@ -4,6 +4,7 @@ import { TOTAL_DURATION, VIDEO } from "../constants";
 import { AmbientMotionProvider } from "../utils/ambientMotion";
 import { PRESENTATION_SEGMENTS } from "./presentationSegments";
 import { ensureSlideReady } from "./prefetchSlideAssets";
+import { getInitialSlideIndex } from "./slideRoutes";
 import { PresentationVideo } from "./PresentationVideo";
 import { usePresentationPlayer } from "./usePresentationPlayer";
 import "./presentation.css";
@@ -30,7 +31,7 @@ export const PresentationApp = () => {
   useEffect(() => {
     let cancelled = false;
 
-    void ensureSlideReady(0).then(() => {
+    void ensureSlideReady(getInitialSlideIndex()).then(() => {
       if (!cancelled) {
         setCompositionReady(true);
       }

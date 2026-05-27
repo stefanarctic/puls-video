@@ -2,6 +2,11 @@ import type { PlayerRef } from "@remotion/player";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ensureSlideReady } from "./prefetchSlideAssets";
 import { PRESENTATION_SEGMENTS } from "./presentationSegments";
+import {
+  getInitialSlideIndex,
+  pathToSlideIndex,
+  syncSlideRoute,
+} from "./slideRoutes";
 
 export type PresentationPhase = "idle" | "playing";
 
@@ -42,7 +47,7 @@ export const usePresentationPlayer = (
   playerRef: React.RefObject<PlayerRef | null>,
   playerReady: boolean,
 ) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(getInitialSlideIndex);
   const [phase, setPhase] = useState<PresentationPhase>("idle");
   const hasStartedRef = useRef(false);
   const playGenerationRef = useRef(0);
@@ -107,35 +112,23 @@ export const usePresentationPlayer = (
     [playerRef],
   );
 
-  const goNext = useCallback(() => {
-    const nextIndex = currentIndexRef.current + 1;
-    if (nextIndex >= PRESENTATION_SEGMENTS.length) {
-      return;
-    }
-
-    setCurrentIndex(nextIndex);
-    void playSegment(nextIndex);
-  }, [playSegment]);
-
-  const goPrevious = useCallback(() => {
-    const previousIndex = currentIndexRef.current - 1;
-    if (previousIndex < 0) {
-      return;
-    }
-
-    setCurrentIndex(previousIndex);
-    holdSegment(previousIndex);
-  }, [holdSegment]);
-
-  const goToSegment = useCallback(
-    (index: number) => {
+  const navigateToSegment = useCallback(
+    (
+      index: number,
+      options: { updateRoute?: boolean; routeMode?: "push" | "replace" } = {},
+    ) => {
       if (index < 0 || index >= PRESENTATION_SEGMENTS.length) {
         return;
       }
 
+      const { updateRoute = true, routeMode = "push" } = options;
       const previousIndex = currentIndexRef.current;
       const previousPhase = phaseRef.current;
       setCurrentIndex(index);
+
+      if (updateRoute) {
+        syncSlideRoute(index, routeMode);
+      }
 
       if (index === previousIndex && previousPhase === "idle") {
         void playSegment(index);
@@ -152,13 +145,40 @@ export const usePresentationPlayer = (
     [holdSegment, playSegment],
   );
 
+  const goNext = useCallback(() => {
+    const nextIndex = currentIndexRef.current + 1;
+    if (nextIndex >= PRESENTATION_SEGMENTS.length) {
+      return;
+    }
+
+    navigateToSegment(nextIndex);
+  }, [navigateToSegment]);
+
+  const goPrevious = useCallback(() => {
+    const previousIndex = currentIndexRef.current - 1;
+    if (previousIndex < 0) {
+      return;
+    }
+
+    navigateToSegment(previousIndex);
+  }, [navigateToSegment]);
+
+  const goToSegment = useCallback(
+    (index: number) => {
+      navigateToSegment(index);
+    },
+    [navigateToSegment],
+  );
+
   useEffect(() => {
     if (!playerReady || hasStartedRef.current) {
       return;
     }
 
     hasStartedRef.current = true;
-    void playSegment(0);
+    const initialIndex = getInitialSlideIndex();
+    syncSlideRoute(initialIndex, "replace");
+    void playSegment(initialIndex);
 
     return () => {
       playGenerationRef.current += 1;
@@ -172,10 +192,12 @@ export const usePresentationPlayer = (
       }
 
       playGenerationRef.current += 1;
-      setCurrentIndex(0);
+      const restoredIndex = getInitialSlideIndex();
+      setCurrentIndex(restoredIndex);
       setPhase("idle");
       hasStartedRef.current = true;
-      void playSegment(0);
+      syncSlideRoute(restoredIndex, "replace");
+      void playSegment(restoredIndex);
     };
 
     window.addEventListener("pageshow", onPageShow);
@@ -220,6 +242,23 @@ export const usePresentationPlayer = (
       player.removeEventListener("frameupdate", onFrameUpdate);
     };
   }, [playerReady, playerRef, holdSegment]);
+
+  useEffect(() => {
+    const onPopState = () => {
+      const index = pathToSlideIndex(window.location.pathname);
+      if (index === null || index === currentIndexRef.current) {
+        return;
+      }
+
+      navigateToSegment(index, { updateRoute: false });
+    };
+
+    window.addEventListener("popstate", onPopState);
+
+    return () => {
+      window.removeEventListener("popstate", onPopState);
+    };
+  }, [navigateToSegment]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {

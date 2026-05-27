@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 
 export default defineConfig({
+  appType: "spa",
   plugins: [react()],
   root: fileURLToPath(new URL("./presentation", import.meta.url)),
   publicDir: fileURLToPath(new URL("./public", import.meta.url)),

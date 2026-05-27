@@ -163,6 +163,14 @@ export const usePresentationPlayer = (
     navigateToSegment(previousIndex);
   }, [navigateToSegment]);
 
+  const skipCurrentSegment = useCallback(() => {
+    if (phaseRef.current !== "playing") {
+      return;
+    }
+
+    holdSegment(currentIndexRef.current);
+  }, [holdSegment]);
+
   const goToSegment = useCallback(
     (index: number) => {
       navigateToSegment(index);
@@ -262,9 +270,16 @@ export const usePresentationPlayer = (
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight" || event.key === " ") {
+      if (event.key === " ") {
+        event.preventDefault();
+        skipCurrentSegment();
+        return;
+      }
+
+      if (event.key === "ArrowRight") {
         event.preventDefault();
         goNext();
+        return;
       }
 
       if (event.key === "ArrowLeft") {
@@ -278,7 +293,7 @@ export const usePresentationPlayer = (
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [goNext, goPrevious]);
+  }, [goNext, goPrevious, skipCurrentSegment]);
 
   const isFirst = currentIndex === 0;
   const isLast = currentIndex === PRESENTATION_SEGMENTS.length - 1;

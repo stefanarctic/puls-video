@@ -162,7 +162,7 @@ export const PresentationApp = () => {
         </button>
       </div>
 
-      <div className="presentation-hint">← → or Space</div>
+      <div className="presentation-hint">← → next · Space skip</div>
     </div>
   );
 };

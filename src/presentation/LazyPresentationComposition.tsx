@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 import { AbsoluteFill, Sequence } from "remotion";
+import { SplashSlide } from "../scenes/slides/SplashSlide";
 import { EnergyPulseTransition, LightSweep } from "../utils/transitions";
-import { SLIDES } from "./slideData";
+import { SLIDES, type SlideKey } from "./slideData";
 import {
   getLazySlide,
   getSlideDuration,
@@ -9,6 +10,7 @@ import {
   SLIDE_TRANSITIONS,
   type TransitionSpec,
 } from "./slideRegistry";
+import "../styles/_composition.scss";
 
 type LazyPresentationCompositionProps = {
   mountedSegmentIndices: number[];
@@ -18,9 +20,13 @@ const LazySlideSlot = ({
   slideKey,
   duration,
 }: {
-  slideKey: (typeof SLIDES)[number]["key"];
+  slideKey: SlideKey;
   duration: number;
 }) => {
+  if (slideKey === "splash") {
+    return <SplashSlide duration={duration} />;
+  }
+
   const Slide = getLazySlide(slideKey);
 
   return (
@@ -57,7 +63,7 @@ export const LazyPresentationComposition = ({
   const mounted = new Set(mountedSegmentIndices);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "#02040b" }}>
+    <AbsoluteFill className="composition-root">
       {SLIDES.map((slide, index) => {
         if (!mounted.has(index)) {
           return null;

@@ -1,0 +1,29 @@
+@use "../styles/variables" as *;
+
+.kinetic-text {
+  position: absolute;
+  font-family: $font-family;
+  color: $color-white;
+
+  &__line {
+    font-weight: 760;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    color: $color-white;
+    text-shadow: 0 20px 80px rgba(0, 0, 0, 0.7);
+
+    &--accent {
+      color: $color-cyan;
+    }
+  }
+}
+
+.caption {
+  position: absolute;
+  font-family: $font-family;
+  color: $color-muted;
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}

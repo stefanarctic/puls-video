@@ -10,9 +10,9 @@ import {
 } from "../components/InterfacePrimitives";
 import { KineticText } from "../components/KineticText";
 import { ParticleField } from "../components/Particles";
-import { COLORS } from "../constants";
 import { useTimelineFrame } from "../utils/ambientMotion";
 import { enterExitOpacity, smoothProgress, springIn } from "../utils/animation";
+import "./ShiftScene.scss";
 
 export const ShiftScene = ({ duration }: { duration: number }) => {
   const timeline = useTimelineFrame();
@@ -32,9 +32,9 @@ export const ShiftScene = ({ duration }: { duration: number }) => {
       <CinematicBackdrop intensity={0.95} />
       <ParticleField count={92} speed={1.4} opacity={0.52} energy={1.3} />
       <AbsoluteFill
+        className="shift-scene__bloom"
         style={{
           background: `radial-gradient(circle at 50% 50%, rgba(24,244,255,${0.62 * (1 - assembly)}), transparent 46%)`,
-          mixBlendMode: "screen",
         }}
       />
       <KineticText
@@ -67,18 +67,12 @@ export const ShiftScene = ({ duration }: { duration: number }) => {
         </FeatureCardGrid>
       </GlassPanel>
       <div
+        className="shift-scene__scanline"
         style={{
-          position: "absolute",
-          left: 0,
-          top: 516,
-          width: "100%",
-          height: 2,
           opacity: interpolate(timeline, [18, 42, 92], [0, 1, 0.18], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           }),
-          background: `linear-gradient(90deg, transparent, ${COLORS.cyan}, white, ${COLORS.blue}, transparent)`,
-          boxShadow: `0 0 54px ${COLORS.cyan}`,
         }}
       />
     </AbsoluteFill>

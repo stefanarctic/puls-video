@@ -1,0 +1,22 @@
+@use "../styles/variables" as *;
+
+.shift-scene__bloom {
+  mix-blend-mode: screen;
+}
+
+.shift-scene__scanline {
+  position: absolute;
+  left: 0;
+  top: 516px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    $color-cyan,
+    white,
+    $color-blue,
+    transparent
+  );
+  box-shadow: 0 0 54px $color-cyan;
+}

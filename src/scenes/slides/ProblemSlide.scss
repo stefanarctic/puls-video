@@ -1,0 +1,38 @@
+@use "../../styles/variables" as *;
+
+.problem-slide {
+  position: absolute;
+  inset: 0;
+
+  &__icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(24, 244, 255, 0.12);
+    border: 1px solid rgba(24, 244, 255, 0.28);
+  }
+
+  .block-card {
+    border-radius: 22px;
+    padding: 22px 26px;
+    gap: 10px;
+
+    &__label {
+      font-size: 24px;
+    }
+
+    &__sublabel {
+      margin-top: 6px;
+      font-size: 17px;
+    }
+  }
+
+  &__screenshot-frame {
+    border: 1px solid rgba(136, 169, 200, 0.28);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+    background-color: red !important;
+  }
+}

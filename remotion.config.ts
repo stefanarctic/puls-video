@@ -6,8 +6,9 @@
  */
 
 import { Config } from "@remotion/cli/config";
+import { enableScss } from "@remotion/enable-scss";
 import { enableTailwind } from '@remotion/tailwind-v4';
 
 Config.setVideoImageFormat("jpeg");
 Config.setOverwriteOutput(true);
-Config.overrideWebpackConfig(enableTailwind);
+Config.overrideWebpackConfig((config) => enableScss(enableTailwind(config)));

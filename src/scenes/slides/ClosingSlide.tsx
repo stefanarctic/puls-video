@@ -6,10 +6,10 @@ import {
   SlideLayout,
   SlideSubtitle,
 } from "../../components/SlideChrome";
-import { COLORS, FONT_FAMILY } from "../../constants";
 import { useTimelineFrame } from "../../utils/ambientMotion";
 import { cinematicEase, smoothProgress } from "../../utils/animation";
 import { getSlideMeta } from "../../presentation/slideData";
+import "./ClosingSlide.scss";
 
 const equationParts = [
   "BAC",
@@ -37,51 +37,24 @@ export const ClosingSlide = ({ duration }: { duration: number }) => {
           size={72}
           top={72}
         />
-        <div
-          style={{
-            position: "absolute",
-            left: 120,
-            top: 320,
-            width: 1680,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 24,
-            flexWrap: "wrap",
-          }}
-        >
+        <div className="closing-slide__equation">
           {equationParts.map((part, index) => {
             const reveal = smoothProgress(timeline, 28 + index * 10, 22);
             const isResult = index === equationParts.length - 1;
 
             return (
-              <div key={part} style={{ display: "flex", alignItems: "center", gap: 24 }}>
+              <div key={part} className="closing-slide__equation-row">
                 {index > 0 ? (
                   <span
-                    style={{
-                      fontFamily: FONT_FAMILY,
-                      fontSize: isResult ? 42 : 36,
-                      fontWeight: isResult ? 800 : 400,
-                      color: COLORS.cyan,
-                      opacity: reveal,
-                    }}
+                    className={`closing-slide__operator ${isResult ? "closing-slide__operator--equals" : "closing-slide__operator--plus"}`}
+                    style={{ opacity: reveal }}
                   >
                     {isResult ? "=" : "+"}
                   </span>
                 ) : null}
                 <div
+                  className={`closing-slide__part${isResult ? " closing-slide__part--result" : ""}`}
                   style={{
-                    padding: isResult ? "20px 36px" : "16px 28px",
-                    borderRadius: 20,
-                    fontFamily: FONT_FAMILY,
-                    fontSize: isResult ? 42 : 28,
-                    fontWeight: isResult ? 900 : 700,
-                    color: isResult ? COLORS.cyan : COLORS.white,
-                    background: isResult
-                      ? "rgba(24,244,255,0.12)"
-                      : "rgba(255,255,255,0.06)",
-                    border: `1px solid rgba(24,244,255,${isResult ? 0.45 : 0.18})`,
-                    boxShadow: isResult ? `0 0 48px rgba(24,244,255,0.25)` : undefined,
                     opacity: reveal,
                     transform: `scale(${0.9 + reveal * 0.1})`,
                   }}
@@ -96,14 +69,7 @@ export const ClosingSlide = ({ duration }: { duration: number }) => {
           PULS nu pregateste doar elevi pentru un examen. PULS pregateste elevi
           sa inteleaga lumea.
         </SlideSubtitle>
-        <div
-          style={{
-            position: "absolute",
-            left: "50%",
-            bottom: 160,
-            transform: "translateX(-50%)",
-          }}
-        >
+        <div className="closing-slide__logo-wrap">
           <PulsLogo
             anchored={false}
             delay={50}

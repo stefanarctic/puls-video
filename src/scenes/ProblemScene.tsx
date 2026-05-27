@@ -3,9 +3,9 @@ import { CinematicBackdrop } from "../components/Backdrop";
 import { KineticText } from "../components/KineticText";
 import { ParticleField } from "../components/Particles";
 import { FormulaStorm } from "../components/PhysicsVisuals";
-import { COLORS } from "../constants";
 import { useLoopFrame, useTimelineFrame } from "../utils/ambientMotion";
 import { enterExitOpacity, exitProgress, smoothProgress } from "../utils/animation";
+import "./ProblemScene.scss";
 
 export const ProblemScene = ({ duration }: { duration: number }) => {
   const timeline = useTimelineFrame();
@@ -26,17 +26,8 @@ export const ProblemScene = ({ duration }: { duration: number }) => {
       <ParticleField count={62} speed={0.55} opacity={0.32} energy={0.55} />
       <FormulaStorm collapse={collapse} />
       <div
+        className="problem-scene__frame"
         style={{
-          position: "absolute",
-          left: 128,
-          top: 132,
-          width: 1660,
-          height: 760,
-          borderRadius: 60,
-          border: "1px solid rgba(136,169,200,0.08)",
-          background:
-            "linear-gradient(135deg, rgba(255,255,255,0.035), rgba(255,255,255,0.006))",
-          boxShadow: "inset 0 0 120px rgba(0,0,0,0.45)",
           transform: `rotateX(${tension * 2.4}deg) rotateY(${-tension * 4.8}deg)`,
         }}
       />
@@ -50,25 +41,15 @@ export const ProblemScene = ({ duration }: { duration: number }) => {
         accentIndex={2}
       />
       <div
-        style={{
-          position: "absolute",
-          right: 170,
-          bottom: 140,
-          width: 320,
-          height: 2,
-          background: `linear-gradient(90deg, transparent, ${COLORS.cyan}, transparent)`,
-          opacity: 0.55 - collapse * 0.4,
-          boxShadow: `0 0 34px ${COLORS.cyan}`,
-        }}
+        className="problem-scene__accent-line"
+        style={{ opacity: 0.55 - collapse * 0.4 }}
       />
       {collapse > 0 ? (
         <AbsoluteFill
+          className="problem-scene__glitch"
           style={{
-            background:
-              "linear-gradient(90deg, rgba(24,244,255,0.12), transparent 20%, rgba(255,255,255,0.08) 22%, transparent 24%)",
             opacity: collapse * 0.7,
             transform: `translateX(${Math.sin(loop * 1.9) * 34}px)`,
-            mixBlendMode: "screen",
           }}
         />
       ) : null}

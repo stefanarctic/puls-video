@@ -7,6 +7,7 @@
   "private": true,
   "dependencies": {
     "@remotion/cli": "4.0.459",
+    "@remotion/enable-scss": "^4.0.459",
     "@remotion/layout-utils": "^4.0.459",
     "@remotion/player": "4.0.459",
     "@remotion/tailwind-v4": "4.0.459",
@@ -24,6 +25,7 @@
     "@vitejs/plugin-react": "^4.5.2",
     "eslint": "9.19.0",
     "prettier": "3.8.1",
+    "sass": "^1.100.0",
     "typescript": "5.9.3",
     "vite": "^6.3.5"
   },
@@ -37,6 +39,7 @@
     "presentation:preview": "vite preview --config vite.presentation.config.ts"
   },
   "sideEffects": [
-    "*.css"
+    "*.css",
+    "*.scss"
   ]
 }

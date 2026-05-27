@@ -28,6 +28,10 @@ const slideImporters: Record<
     import("../scenes/slides/EcosystemSlide").then((m) => ({
       default: m.EcosystemSlide,
     })),
+  resurse: () =>
+    import("../scenes/slides/ResurseSlide").then((m) => ({
+      default: m.ResurseSlide,
+    })),
   bac: () =>
     import("../scenes/slides/BacSlide").then((m) => ({ default: m.BacSlide })),
   simulations: () =>
@@ -61,9 +65,25 @@ const slideImporters: Record<
 export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
   splash: [ASSETS.logo],
   opening: [PRESENTATION_ASSETS.pendul],
-  problem: [PRESENTATION_ASSETS.probleme],
-  ecosystem: [PRESENTATION_ASSETS.resurseSimulari],
-  bac: [PRESENTATION_ASSETS.probleme],
+  problem: [PRESENTATION_ASSETS.equationsBlackboard],
+  ecosystem: [
+    PRESENTATION_ASSETS.simulariCatalog,
+    PRESENTATION_ASSETS.problemeLista,
+    PRESENTATION_ASSETS.resurseLectii,
+    PRESENTATION_ASSETS.asistent,
+    PRESENTATION_ASSETS.profilProgres,
+    PRESENTATION_ASSETS.claseProfesor,
+  ],
+  resurse: [
+    PRESENTATION_ASSETS.resurseLectii,
+    PRESENTATION_ASSETS.simulariCatalog,
+    PRESENTATION_ASSETS.problemeLista,
+    PRESENTATION_ASSETS.feedbackProblema,
+  ],
+  bac: [
+    PRESENTATION_ASSETS.problemeOscilatori,
+    PRESENTATION_ASSETS.feedbackProblema,
+  ],
   simulations: [
     PRESENTATION_ASSETS.pendul,
     PRESENTATION_ASSETS.unde,
@@ -71,6 +91,7 @@ export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
     PRESENTATION_ASSETS.circuite,
   ],
   nuclear: [
+    PRESENTATION_ASSETS.probleme,
     PRESENTATION_ASSETS.apaGrea,
     PRESENTATION_ASSETS.fisiune,
     PRESENTATION_ASSETS.fuziune,
@@ -81,7 +102,7 @@ export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
     PRESENTATION_ASSETS.laser,
     PRESENTATION_ASSETS.accelerator,
   ],
-  ai: [],
+  ai: [PRESENTATION_ASSETS.asistent],
   community: [PRESENTATION_ASSETS.landing],
   closing: [ASSETS.logo],
 };
@@ -124,51 +145,58 @@ export const SLIDE_TRANSITIONS: TransitionSpec[] = [
   {
     targetIndex: 4,
     type: "pulse",
+    at: TIMELINE.resurse - 16,
+    duration: 40,
+    strength: 0.85,
+  },
+  {
+    targetIndex: 5,
+    type: "pulse",
     at: TIMELINE.bac - 16,
     duration: 38,
     strength: 0.75,
   },
   {
-    targetIndex: 5,
+    targetIndex: 6,
     type: "sweep",
     at: TIMELINE.simulations - 18,
     duration: 52,
   },
   {
-    targetIndex: 6,
+    targetIndex: 7,
     type: "pulse",
     at: TIMELINE.nuclear - 20,
     duration: 52,
     strength: 1.15,
   },
   {
-    targetIndex: 7,
+    targetIndex: 8,
     type: "sweep",
     at: TIMELINE.romania - 18,
     duration: 48,
   },
   {
-    targetIndex: 8,
+    targetIndex: 9,
     type: "pulse",
     at: TIMELINE.elinp - 20,
     duration: 54,
     strength: 1.2,
   },
   {
-    targetIndex: 9,
+    targetIndex: 10,
     type: "sweep",
     at: TIMELINE.ai - 16,
     duration: 44,
   },
   {
-    targetIndex: 10,
+    targetIndex: 11,
     type: "pulse",
     at: TIMELINE.community - 16,
     duration: 38,
     strength: 0.8,
   },
   {
-    targetIndex: 11,
+    targetIndex: 12,
     type: "pulse",
     at: TIMELINE.closing - 20,
     duration: 56,

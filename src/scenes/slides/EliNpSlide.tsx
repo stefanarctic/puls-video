@@ -6,9 +6,10 @@ import {
   SlideScreenshot,
   SlideSubtitle,
 } from "../../components/SlideChrome";
-import { COLORS, FONT_FAMILY } from "../../constants";
+import { COLORS } from "../../constants";
 import { useLoopFrame } from "../../utils/ambientMotion";
 import { getSlideMeta } from "../../presentation/slideData";
+import "./EliNpSlide.scss";
 
 export const EliNpSlide = ({ duration }: { duration: number }) => {
   const meta = getSlideMeta("elinp");
@@ -26,63 +27,30 @@ export const EliNpSlide = ({ duration }: { duration: number }) => {
         laser-materie si accelerare laser-plasma in experiente accesibile
         elevilor.
       </SlideSubtitle>
-      <div
-        style={{
-          position: "absolute",
-          left: 120,
-          top: 400,
-          width: 560,
-          height: 460,
-          borderRadius: 28,
-          overflow: "hidden",
-          border: "1px solid rgba(24,244,255,0.25)",
-          background:
-            "radial-gradient(circle at 50% 50%, rgba(24,244,255,0.25), rgba(2,4,11,0.95))",
-        }}
-      >
+      <div className="elinp-slide__laser-stage">
         {Array.from({ length: 8 }).map((_, index) => {
           const angle = (index / 8) * Math.PI * 2 + loop * 0.02;
           return (
             <div
               key={index}
+              className="elinp-slide__beam"
               style={{
-                position: "absolute",
                 left: 280 + Math.cos(angle) * (120 + index * 12),
-                top: 230 + Math.sin(angle) * (80 + index * 8),
-                width: 4,
-                height: 180,
+                top: 240 + Math.sin(angle) * (80 + index * 8),
                 background: `linear-gradient(180deg, ${COLORS.cyan}, transparent)`,
                 transform: `rotate(${(angle * 180) / Math.PI + 90}deg)`,
-                transformOrigin: "center bottom",
                 opacity: 0.5 + index * 0.06,
               }}
             />
           );
         })}
         <div
+          className="elinp-slide__core"
           style={{
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            width: 120,
-            height: 120,
-            borderRadius: 999,
-            transform: "translate(-50%, -50%)",
             background: `radial-gradient(circle, white, ${COLORS.cyan}, transparent 70%)`,
-            boxShadow: `0 0 80px ${COLORS.cyan}`,
           }}
         />
-        <div
-          style={{
-            position: "absolute",
-            left: 32,
-            bottom: 28,
-            fontFamily: FONT_FAMILY,
-            fontSize: 22,
-            fontWeight: 700,
-            color: COLORS.cyan,
-          }}
-        >
+        <div className="elinp-slide__label">
           10 PW · Extreme Light Infrastructure
         </div>
       </div>
@@ -93,22 +61,28 @@ export const EliNpSlide = ({ duration }: { duration: number }) => {
         width={560}
         height={480}
         delay={40}
+        objectFit="cover"
+        objectPosition="top center"
       />
       <SlideScreenshot
         src={PRESENTATION_ASSETS.laser}
         x={1320}
-        y={400}
+        y={380}
         width={480}
-        height={220}
+        height={230}
         delay={54}
+        objectFit="cover"
+        objectPosition="top center"
       />
       <SlideScreenshot
         src={PRESENTATION_ASSETS.accelerator}
         x={1320}
-        y={640}
+        y={630}
         width={480}
-        height={220}
+        height={230}
         delay={66}
+        objectFit="cover"
+        objectPosition="top center"
       />
       <SlideCta label={meta.ctaLabel} delay={78} />
     </SlideLayout>

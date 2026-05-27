@@ -1,0 +1,38 @@
+@use "../styles/variables" as *;
+
+.final-brand-scene__bloom {
+  mix-blend-mode: screen;
+}
+
+.final-brand-scene__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 340px;
+  height: 340px;
+  border-radius: 999px;
+  border: 1px solid rgba(24, 244, 255, 0.5);
+}
+
+.final-brand-scene__halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 900px;
+  height: 900px;
+  border-radius: 999px;
+  background: conic-gradient(
+    from 90deg,
+    transparent,
+    rgba(24, 244, 255, 0.18),
+    transparent,
+    rgba(22, 136, 255, 0.16),
+    transparent
+  );
+  filter: blur(24px);
+  opacity: 0.7;
+}
+
+.final-brand-scene__fade {
+  background: black;
+}

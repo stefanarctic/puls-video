@@ -1,3 +1,4 @@
+import { interpolate } from "remotion";
 import { PRESENTATION_ASSETS } from "../../assets";
 import {
   SlideCta,
@@ -6,15 +7,31 @@ import {
   SlideScreenshot,
   SlideSubtitle,
 } from "../../components/SlideChrome";
-import { COLORS, FONT_FAMILY } from "../../constants";
 import { useTimelineFrame } from "../../utils/ambientMotion";
-import { smoothProgress } from "../../utils/animation";
+import { cinematicEase, smoothProgress } from "../../utils/animation";
 import { getSlideMeta } from "../../presentation/slideData";
+import "./NuclearSlide.scss";
+
+const PANEL = {
+  y: 380,
+  height: 480,
+  width: 520,
+};
 
 export const NuclearSlide = ({ duration }: { duration: number }) => {
   const meta = getSlideMeta("nuclear");
   const timeline = useTimelineFrame();
   const shift = smoothProgress(timeline, 50, 40);
+
+  const bacOpacity = interpolate(shift, [0, 0.45, 1], [1, 0.35, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: cinematicEase,
+  });
+  const bacX = 120 + shift * 180;
+  const apaX = 120 + shift * 420;
+  const fisiuneX = 820 + shift * 40;
+  const fuziuneX = 1340;
 
   return (
     <SlideLayout duration={duration} intensity={1}>
@@ -27,51 +44,65 @@ export const NuclearSlide = ({ duration }: { duration: number }) => {
         Apa grea, schimb izotopic, distilare D2O, fisiune, fuziune si izotopi —
         teme avansate accesibile elevilor de liceu.
       </SlideSubtitle>
-      <div
+      <SlideScreenshot
+        src={PRESENTATION_ASSETS.probleme}
+        x={bacX}
+        y={PANEL.y}
+        width={PANEL.width}
+        height={PANEL.height}
+        delay={34}
+        lightOverlay
+        objectFit="cover"
+        objectPosition="top center"
+        imageScale={1.05}
         style={{
-          position: "absolute",
-          left: 120 + (1 - shift) * 200,
-          top: 380,
-          width: 520,
-          height: 480,
-          borderRadius: 24,
-          border: "1px solid rgba(136,169,200,0.2)",
-          background: "rgba(255,255,255,0.04)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          opacity: 1 - shift * 0.6,
-          fontFamily: FONT_FAMILY,
-          fontSize: 28,
-          color: COLORS.muted,
+          opacity: bacOpacity,
+          zIndex: 4 - shift * 2,
+        }}
+      />
+      <SlideScreenshot
+        src={PRESENTATION_ASSETS.apaGrea}
+        x={apaX}
+        y={PANEL.y}
+        width={620}
+        height={PANEL.height}
+        delay={40}
+        style={{ zIndex: 2 + shift }}
+      />
+      <SlideScreenshot
+        src={PRESENTATION_ASSETS.fisiune}
+        x={fisiuneX}
+        y={PANEL.y}
+        width={480}
+        height={PANEL.height}
+        delay={56}
+        lightOverlay
+        objectFit="cover"
+        objectPosition="top center"
+        style={{
+          zIndex: 3,
+          opacity: smoothProgress(timeline, 56, 24),
+        }}
+      />
+      <SlideScreenshot
+        src={PRESENTATION_ASSETS.fuziune}
+        x={fuziuneX}
+        y={PANEL.y}
+        width={460}
+        height={PANEL.height}
+        delay={68}
+        style={{ zIndex: 4 }}
+      />
+      <div
+        className="nuclear-slide__bac-label"
+        style={{
+          left: bacX + 24,
+          top: PANEL.y + PANEL.height - 56,
+          opacity: bacOpacity,
         }}
       >
         Problema BAC
       </div>
-      <SlideScreenshot
-        src={PRESENTATION_ASSETS.apaGrea}
-        x={120 + shift * 420}
-        y={380}
-        width={620}
-        height={480}
-        delay={40}
-      />
-      <SlideScreenshot
-        src={PRESENTATION_ASSETS.fisiune}
-        x={820}
-        y={380}
-        width={480}
-        height={480}
-        delay={56}
-      />
-      <SlideScreenshot
-        src={PRESENTATION_ASSETS.fuziune}
-        x={1340}
-        y={380}
-        width={460}
-        height={480}
-        delay={68}
-      />
       <SlideCta label={meta.ctaLabel} delay={78} />
     </SlideLayout>
   );

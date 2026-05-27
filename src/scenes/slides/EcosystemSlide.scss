@@ -1,0 +1,74 @@
+@use "../../styles/variables" as *;
+
+.ecosystem-slide {
+  position: absolute;
+  inset: 0;
+
+  .slide-headline,
+  .slide-subtitle,
+  .slide-cta {
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .radial-hub {
+    pointer-events: auto;
+  }
+
+  .slide-headline {
+    left: 64px;
+    max-width: 760px;
+  }
+
+  .slide-headline__line {
+    font-weight: 760;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+
+    &:not(.slide-headline__line--accent) {
+      color: rgba(255, 255, 255, 0.92);
+    }
+  }
+
+  .slide-headline__line--accent {
+    color: $color-cyan;
+    text-shadow:
+      0 0 32px rgba(24, 244, 255, 0.45),
+      0 0 8px rgba(24, 244, 255, 0.25);
+  }
+
+  .slide-subtitle {
+    left: 64px;
+    padding-top: 75px;
+    max-width: 480px;
+    font-size: 24px;
+    font-weight: 540;
+    line-height: 1.42;
+    color: rgba(136, 169, 200, 0.88);
+  }
+
+  .slide-cta {
+    z-index: 8;
+    font-size: 20px;
+    padding: 16px 28px;
+  }
+
+  .radial-hub__hint {
+    bottom: 148px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: rgba(136, 169, 200, 0.62);
+  }
+
+  .radial-hub__node-label {
+    font-size: 18px;
+    font-weight: 660;
+    line-height: 1.2;
+  }
+
+  .radial-hub__node-caption {
+    font-size: 13px;
+    font-weight: 620;
+    padding: 8px 10px;
+  }
+}

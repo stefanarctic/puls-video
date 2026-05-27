@@ -3,6 +3,7 @@ export type SlideKey =
   | "opening"
   | "problem"
   | "ecosystem"
+  | "resurse"
   | "bac"
   | "simulations"
   | "nuclear"
@@ -43,6 +44,12 @@ export const SLIDES: SlideMeta[] = [
     label: "Ecosistem",
     ctaLabel: "Vezi simularile",
     ctaUrl: "https://puls-fizica.ro/simulari",
+  },
+  {
+    key: "resurse",
+    label: "Resurse",
+    ctaLabel: "Exploreaza resursele",
+    ctaUrl: "https://puls-fizica.ro/resurse",
   },
   {
     key: "bac",

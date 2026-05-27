@@ -11,6 +11,7 @@ export const PRESENTATION_ASSETS = {
   probleme: `${P}/Probleme.png`,
   problemeOscilatori: `${P}/Screenshot_Problema_Oscilatori.png`,
   feedbackProblema: `${P}/Screenshot_Feedback_Problema.png`,
+  feedbackAiCompact: `${P}/Screenshot_Feedback_AI_Compact.png`,
   resurseSimulari: `${P}/Resurse si Simulari.png`,
   simulariCatalog: `${P}/Screenshot_Simulari_Catalog.png`,
   problemeLista: `${P}/Screenshot_Probleme_Lista.png`,

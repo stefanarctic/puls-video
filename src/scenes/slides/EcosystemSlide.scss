@@ -53,6 +53,11 @@
     padding: 16px 28px;
   }
 
+  .slide-cta--interactive {
+    z-index: 24;
+    pointer-events: auto;
+  }
+
   .radial-hub__hint {
     bottom: 148px;
     font-size: 13px;

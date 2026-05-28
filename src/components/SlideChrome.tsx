@@ -51,6 +51,37 @@ const openSlideLink = (url: string) => {
   window.open(url, "_blank", "noopener,noreferrer");
 };
 
+export const SlideExternalLink = ({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+}) => {
+  const interactive = usePresentationInteractive();
+
+  if (!interactive) {
+    return <span className={className}>{children}</span>;
+  }
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={className ? `slide-external-link ${className}` : "slide-external-link"}
+      onClick={(event) => {
+        event.preventDefault();
+        openSlideLink(href);
+      }}
+    >
+      {children}
+    </a>
+  );
+};
+
 export const SlideCta = ({
   label,
   url,

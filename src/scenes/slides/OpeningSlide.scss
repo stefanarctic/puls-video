@@ -74,23 +74,15 @@
     flex: 1;
   }
 
-  &__footer {
-    flex-shrink: 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  .slide-cta {
+    z-index: 8;
+    padding: 16px 32px;
+    font-size: 22px;
   }
 
-  &__cta {
-    padding: 16px 32px;
-    border-radius: 999px;
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    color: $color-white;
-    background: linear-gradient(135deg, rgba(22, 136, 255, 0.92), rgba(24, 244, 255, 0.72));
-    border: 1px solid rgba(24, 244, 255, 0.55);
-    white-space: nowrap;
+  .slide-cta--interactive {
+    z-index: 24;
+    pointer-events: auto;
   }
 }
 

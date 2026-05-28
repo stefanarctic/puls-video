@@ -32,8 +32,8 @@ export const SLIDES: SlideMeta[] = [
   {
     key: "opening",
     label: "Deschidere",
-    ctaLabel: "Incearca o simulare",
-    ctaUrl: "https://puls-fizica.ro/simulari",
+    ctaLabel: "Intra pe platforma",
+    ctaUrl: "https://puls-fizica.ro/",
   },
   {
     key: "traction",

@@ -119,4 +119,9 @@
     font-size: 20px;
     padding: 16px 28px;
   }
+
+  .slide-cta--interactive {
+    z-index: 24;
+    pointer-events: auto;
+  }
 }

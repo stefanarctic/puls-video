@@ -46,6 +46,7 @@ body,
   position: absolute;
   left: 50%;
   bottom: 28px;
+  z-index: 100;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
@@ -56,6 +57,7 @@ body,
   background: rgba(6, 17, 31, 0.78);
   backdrop-filter: blur(14px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
 }
 
 .presentation-button {

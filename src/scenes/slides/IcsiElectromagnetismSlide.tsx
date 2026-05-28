@@ -2,6 +2,7 @@ import { PRESENTATION_ASSETS } from "../../assets";
 import {
   ScreenshotFrame,
   SlideCta,
+  SlideExternalLink,
   SlideHeadline,
   SlideLayout,
   SlideSubtitle,
@@ -102,9 +103,7 @@ const ExpertisePanel = ({ delay = 38 }: { delay?: number }) => {
       </ul>
       <p className="icsi-slide__expertise-source">
         Sursă:{" "}
-        <a href="https://www.icsi.ro/" target="_blank" rel="noreferrer">
-          icsi.ro
-        </a>
+        <SlideExternalLink href="https://www.icsi.ro/">icsi.ro</SlideExternalLink>
       </p>
     </aside>
   );

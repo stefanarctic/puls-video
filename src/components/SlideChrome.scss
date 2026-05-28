@@ -14,7 +14,8 @@
   background: linear-gradient(135deg, rgba(22, 136, 255, 0.92), rgba(24, 244, 255, 0.72));
   border: 1px solid rgba(24, 244, 255, 0.55);
 
-  &--interactive {
+  &--interactive,
+  &.slide-cta--interactive {
     z-index: 24;
     pointer-events: auto;
     cursor: pointer;
@@ -32,6 +33,27 @@
       outline: 2px solid rgba(24, 244, 255, 0.9);
       outline-offset: 3px;
     }
+  }
+}
+
+a.slide-cta.slide-cta--interactive {
+  z-index: 24;
+  pointer-events: auto;
+}
+
+.slide-external-link {
+  pointer-events: auto;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(24, 244, 255, 0.75);
+    outline-offset: 2px;
   }
 }
 

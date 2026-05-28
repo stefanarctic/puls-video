@@ -1,7 +1,7 @@
 import { BookOpen, FlaskConical, LayoutGrid } from "lucide-react";
 import { AbsoluteFill, Img, staticFile } from "remotion";
 import { PRESENTATION_ASSETS } from "../../assets";
-import { SlideLayout, smoothProgress } from "../../components/SlideChrome";
+import { SlideCta, SlideLayout, smoothProgress } from "../../components/SlideChrome";
 import { COLORS } from "../../constants";
 import { useTimelineFrame } from "../../utils/ambientMotion";
 import { getSlideMeta } from "../../presentation/slideData";
@@ -67,7 +67,6 @@ export const OpeningSlide = ({ duration }: { duration: number }) => {
   const meta = getSlideMeta("opening");
   const timeline = useTimelineFrame();
   const panelReveal = smoothProgress(timeline, 32, 28);
-  const ctaReveal = smoothProgress(timeline, 48, 24);
   const subtitleReveal = smoothProgress(timeline, 24, 24);
 
   return (
@@ -149,18 +148,7 @@ export const OpeningSlide = ({ duration }: { duration: number }) => {
           style={{ minHeight: GAP_PANELS_CTA }}
         />
 
-        <footer className="opening-slide__footer">
-          <div
-            className="opening-slide__cta"
-            style={{
-              boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 ${ctaReveal * 24}px rgba(24,244,255,0.28)`,
-              opacity: ctaReveal,
-              transform: `translateY(${(1 - ctaReveal) * 12}px)`,
-            }}
-          >
-            {meta.ctaLabel}
-          </div>
-        </footer>
+        <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={48} />
       </AbsoluteFill>
     </SlideLayout>
   );

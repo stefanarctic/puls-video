@@ -13,6 +13,7 @@ export type SlideKey =
   | "elinp"
   | "ai"
   | "community"
+  | "clase"
   | "closing";
 
 export type SlideMeta = {
@@ -106,6 +107,12 @@ export const SLIDES: SlideMeta[] = [
     label: "Comunitate",
     ctaLabel: "Vezi comunitatea",
     ctaUrl: "https://puls-fizica.ro/comunitate",
+  },
+  {
+    key: "clase",
+    label: "Clase si teme",
+    ctaLabel: "Spatiu profesor",
+    ctaUrl: "https://puls-fizica.ro/profesor",
   },
   {
     key: "closing",

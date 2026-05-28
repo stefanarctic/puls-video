@@ -64,6 +64,10 @@ const slideImporters: Record<
     import("../scenes/slides/CommunitySlide").then((m) => ({
       default: m.CommunitySlide,
     })),
+  clase: () =>
+    import("../scenes/slides/ClaseSlide").then((m) => ({
+      default: m.ClaseSlide,
+    })),
   closing: () =>
     import("../scenes/slides/ClosingSlide").then((m) => ({
       default: m.ClosingSlide,
@@ -124,7 +128,8 @@ export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
     PRESENTATION_ASSETS.accelerator,
   ],
   ai: [PRESENTATION_ASSETS.asistent],
-  community: [PRESENTATION_ASSETS.landing],
+  community: [PRESENTATION_ASSETS.profilProgres],
+  clase: [PRESENTATION_ASSETS.claseProfesor],
   closing: [ASSETS.logo],
 };
 
@@ -239,6 +244,12 @@ export const SLIDE_TRANSITIONS: TransitionSpec[] = [
   },
   {
     targetIndex: 14,
+    type: "sweep",
+    at: TIMELINE.clase - 16,
+    duration: 44,
+  },
+  {
+    targetIndex: 15,
     type: "pulse",
     at: TIMELINE.closing - 20,
     duration: 56,

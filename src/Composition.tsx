@@ -4,6 +4,7 @@ import { AiSlide } from "./scenes/slides/AiSlide";
 import { BacSlide } from "./scenes/slides/BacSlide";
 import { ClosingSlide } from "./scenes/slides/ClosingSlide";
 import { CommunitySlide } from "./scenes/slides/CommunitySlide";
+import { ClaseSlide } from "./scenes/slides/ClaseSlide";
 import { EcosystemSlide } from "./scenes/slides/EcosystemSlide";
 import { EliNpSlide } from "./scenes/slides/EliNpSlide";
 import { IcsiElectromagnetismSlide } from "./scenes/slides/IcsiElectromagnetismSlide";
@@ -86,6 +87,9 @@ export const PulsJuryPresentation = () => {
       >
         <CommunitySlide duration={SCENE_DURATIONS.community} />
       </Sequence>
+      <Sequence from={TIMELINE.clase} durationInFrames={SCENE_DURATIONS.clase}>
+        <ClaseSlide duration={SCENE_DURATIONS.clase} />
+      </Sequence>
       <Sequence
         from={TIMELINE.closing}
         durationInFrames={SCENE_DURATIONS.closing}
@@ -130,6 +134,7 @@ export const PulsJuryPresentation = () => {
         duration={38}
         strength={0.8}
       />
+      <LightSweep at={TIMELINE.clase - 16} duration={44} />
       <EnergyPulseTransition at={TIMELINE.closing - 20} duration={56} strength={1} />
     </AbsoluteFill>
   );

@@ -20,6 +20,7 @@ export const SCENE_DURATIONS = {
   elinp: 2040,
   ai: 1500,
   community: 1200,
+  clase: 1500,
   closing: 1140,
 } as const;
 
@@ -38,6 +39,7 @@ const slideOrder = [
   "elinp",
   "ai",
   "community",
+  "clase",
   "closing",
 ] as const;
 

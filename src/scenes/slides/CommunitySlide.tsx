@@ -33,13 +33,13 @@ export const CommunitySlide = ({ duration }: { duration: number }) => {
         retentie si utilizare in scoala.
       </SlideSubtitle>
       <ScreenshotFrame
-        src={PRESENTATION_ASSETS.landing}
+        src={PRESENTATION_ASSETS.profilProgres}
         x={120}
         y={360}
         width={820}
         height={520}
         delay={32}
-        caption="Platforma PULS — elev"
+        caption="Profil si progres"
         lightOverlay
         objectFit="cover"
         objectPosition="top center"

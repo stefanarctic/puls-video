@@ -24,6 +24,7 @@ const TRANSITION_LEAD_FRAMES: Partial<Record<SlideKey, number>> = {
   elinp: 20,
   ai: 16,
   community: 16,
+  clase: 16,
   closing: 20,
 };
 
@@ -42,6 +43,7 @@ const EXIT_LEAD_FRAMES: Record<SlideKey, number> = {
   elinp: 48,
   ai: 48,
   community: 40,
+  clase: 48,
   closing: 36,
 };
 

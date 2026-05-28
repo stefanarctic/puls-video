@@ -110,7 +110,7 @@ export const BacSlide = ({ duration }: { duration: number }) => {
           objectPosition="top center"
           screenshotClassName="bac-slide__feedback-shot"
         />
-        <SlideCta label={meta.ctaLabel} delay={86} />
+        <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={86} />
       </div>
     </SlideLayout>
   );

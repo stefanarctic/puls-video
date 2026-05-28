@@ -6,6 +6,7 @@ import { ClosingSlide } from "./scenes/slides/ClosingSlide";
 import { CommunitySlide } from "./scenes/slides/CommunitySlide";
 import { EcosystemSlide } from "./scenes/slides/EcosystemSlide";
 import { EliNpSlide } from "./scenes/slides/EliNpSlide";
+import { IcsiElectromagnetismSlide } from "./scenes/slides/IcsiElectromagnetismSlide";
 import { NuclearSlide } from "./scenes/slides/NuclearSlide";
 import { OpeningSlide } from "./scenes/slides/OpeningSlide";
 import { SplashSlide } from "./scenes/slides/SplashSlide";
@@ -70,6 +71,9 @@ export const PulsJuryPresentation = () => {
       >
         <RomaniaStorySlide duration={SCENE_DURATIONS.romania} />
       </Sequence>
+      <Sequence from={TIMELINE.icsi} durationInFrames={SCENE_DURATIONS.icsi}>
+        <IcsiElectromagnetismSlide duration={SCENE_DURATIONS.icsi} />
+      </Sequence>
       <Sequence from={TIMELINE.elinp} durationInFrames={SCENE_DURATIONS.elinp}>
         <EliNpSlide duration={SCENE_DURATIONS.elinp} />
       </Sequence>
@@ -114,6 +118,11 @@ export const PulsJuryPresentation = () => {
         strength={1.15}
       />
       <LightSweep at={TIMELINE.romania - 18} duration={48} />
+      <EnergyPulseTransition
+        at={TIMELINE.icsi - 18}
+        duration={50}
+        strength={1.05}
+      />
       <EnergyPulseTransition at={TIMELINE.elinp - 20} duration={54} strength={1.2} />
       <LightSweep at={TIMELINE.ai - 16} duration={44} />
       <EnergyPulseTransition

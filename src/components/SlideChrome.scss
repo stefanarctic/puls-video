@@ -13,6 +13,26 @@
   color: $color-white;
   background: linear-gradient(135deg, rgba(22, 136, 255, 0.92), rgba(24, 244, 255, 0.72));
   border: 1px solid rgba(24, 244, 255, 0.55);
+
+  &--interactive {
+    z-index: 24;
+    pointer-events: auto;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      filter 160ms ease,
+      border-color 160ms ease;
+
+    &:hover {
+      filter: brightness(1.08);
+      border-color: rgba(24, 244, 255, 0.85);
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgba(24, 244, 255, 0.9);
+      outline-offset: 3px;
+    }
+  }
 }
 
 .slide-headline {

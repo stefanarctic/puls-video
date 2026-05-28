@@ -136,7 +136,7 @@ export const RomaniaStorySlide = ({ duration }: { duration: number }) => {
           width={LAYOUT.map.width}
           height={LAYOUT.map.height}
         />
-        <SlideCta label={meta.ctaLabel} delay={86} />
+        <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={86} />
       </div>
     </SlideLayout>
   );

@@ -107,7 +107,7 @@ export const ProblemSlide = ({ duration }: { duration: number }) => {
           objectFit="cover"
           objectPosition="center"
         />
-        <SlideCta label={meta.ctaLabel} delay={80} />
+        <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={80} />
       </div>
     </SlideLayout>
   );

@@ -31,6 +31,8 @@ export const PRESENTATION_ASSETS = {
   laser: `${P}/Laser_Simulator_Screenshot.png`,
   accelerator: `${P}/Accelerator_Laser_Screenshot.png`,
   fuziune: `${P}/Reactor_Fuziune_Dt_Screenshot.png`,
+  supraconductivitate: `${P}/Supraconductivitate_Screenshot.png`,
+  pilaCombustibil: `${P}/Pila_Combustibil_Screenshot.png`,
   asistent: `${P}/Puls-AI2.png`,
   equationsBlackboard: `${P}/Equations_Blackboard.jpg`,
   nicusorDan: `${P}/Nicusor_Dan_Primarie.png`,

@@ -1,16 +1,17 @@
 @use "../../styles/variables" as *;
 
 .nuclear-slide {
-  &__bac-label {
-    position: absolute;
-    padding: 10px 16px;
-    border-radius: 12px;
-    font-family: $font-family;
-    font-size: 18px;
-    font-weight: 700;
-    color: $color-white;
-    background: rgba(2, 4, 11, 0.72);
-    border: 1px solid rgba(24, 244, 255, 0.25);
-    z-index: 5;
+  position: absolute;
+  inset: 0;
+
+  .slide-headline,
+  .slide-subtitle,
+  .screenshot-frame {
+    pointer-events: none;
+  }
+
+  .slide-cta--interactive {
+    z-index: 24;
+    pointer-events: auto;
   }
 }

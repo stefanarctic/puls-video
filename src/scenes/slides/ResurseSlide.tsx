@@ -270,7 +270,7 @@ export const ResurseSlide = ({ duration }: { duration: number }) => {
           </ScreenshotFrame>
         ))}
 
-        <SlideCta label={meta.ctaLabel} delay={96} />
+        <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={96} />
       </div>
     </SlideLayout>
   );

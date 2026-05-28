@@ -77,7 +77,7 @@ export const ClosingSlide = ({ duration }: { duration: number }) => {
             tagline="Fizica care se vede."
           />
         </div>
-        <SlideCta label={meta.ctaLabel} delay={88} />
+        <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={88} />
       </AbsoluteFill>
     </SlideLayout>
   );

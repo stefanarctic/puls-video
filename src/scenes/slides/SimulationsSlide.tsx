@@ -68,7 +68,7 @@ export const SimulationsSlide = ({ duration }: { duration: number }) => {
           lightOverlay={sim.lightOverlay}
         />
       ))}
-      <SlideCta label={meta.ctaLabel} delay={82} />
+      <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={82} />
     </SlideLayout>
   );
 };

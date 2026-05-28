@@ -153,7 +153,7 @@ export const TractionSlide = ({ duration }: { duration: number }) => {
           screenshotClassName="traction-slide__screenshot traction-slide__screenshot--traffic"
         />
 
-        <SlideCta label={meta.ctaLabel} delay={88} />
+        <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={88} />
       </div>
     </SlideLayout>
   );

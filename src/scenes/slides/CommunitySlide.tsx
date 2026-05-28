@@ -77,7 +77,7 @@ export const CommunitySlide = ({ duration }: { duration: number }) => {
           })}
         </div>
       </div>
-      <SlideCta label={meta.ctaLabel} delay={72} />
+      <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={72} />
     </SlideLayout>
   );
 };

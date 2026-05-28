@@ -9,6 +9,7 @@ export type SlideKey =
   | "simulations"
   | "nuclear"
   | "romania"
+  | "icsi"
   | "elinp"
   | "ai"
   | "community"
@@ -64,23 +65,29 @@ export const SLIDES: SlideMeta[] = [
     ctaLabel: "Antreneaza-te pentru BAC",
     ctaUrl: "https://puls-fizica.ro/probleme/bac",
   },
-  {
-    key: "simulations",
-    label: "Simulari",
-    ctaLabel: "Intra in laborator",
-    ctaUrl: "https://puls-fizica.ro/simulari",
-  },
+  // {
+  //   key: "simulations",
+  //   label: "Simulari",
+  //   ctaLabel: "Intra in laborator",
+  //   ctaUrl: "https://puls-fizica.ro/simulari",
+  // },
   {
     key: "nuclear",
     label: "Fizica nucleara",
-    ctaLabel: "Simulare apa grea",
-    ctaUrl: "https://puls-fizica.ro/simulare/apa-grea",
+    ctaLabel: "Simulari fizica nucleara",
+    ctaUrl: "https://puls-fizica.ro/simulari?category=fizica+nucleara",
   },
   {
     key: "romania",
     label: "Poveste romaneasca",
     ctaLabel: "Proces apa grea",
     ctaUrl: "https://puls-fizica.ro/simulare/instalatie-schimb-izotopic",
+  },
+  {
+    key: "icsi",
+    label: "ICSI · Electromagnetism",
+    ctaLabel: "Simulari electromagnetism",
+    ctaUrl: "https://puls-fizica.ro/simulari?category=electromagnetism",
   },
   {
     key: "elinp",

@@ -44,7 +44,7 @@ export const EcosystemSlide = ({ duration }: { duration: number }) => {
           platforma.
         </SlideSubtitle>
         <RadialHub delay={36} />
-        <SlideCta label={meta.ctaLabel} delay={78} />
+        <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={78} />
       </div>
     </SlideLayout>
   );

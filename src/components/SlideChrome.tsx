@@ -47,25 +47,50 @@ export const SlideLayout = ({
   );
 };
 
+const openSlideLink = (url: string) => {
+  window.open(url, "_blank", "noopener,noreferrer");
+};
+
 export const SlideCta = ({
   label,
+  url,
   delay = 40,
 }: {
   label: string;
+  url?: string;
   delay?: number;
 }) => {
   const timeline = useTimelineFrame();
+  const interactive = usePresentationInteractive();
   const reveal = smoothProgress(timeline, delay, 24);
+  const canClick = interactive && Boolean(url);
+
+  const style = {
+    boxShadow: `0 16px 48px rgba(0,0,0,0.35), 0 0 ${reveal * 32}px rgba(24,244,255,0.35)`,
+    opacity: reveal,
+    transform: `translateY(${(1 - reveal) * 24}px) scale(${0.94 + reveal * 0.06})`,
+  };
+
+  if (canClick && url) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="slide-cta slide-cta--interactive"
+        style={style}
+        onClick={(event) => {
+          event.preventDefault();
+          openSlideLink(url);
+        }}
+      >
+        {label}
+      </a>
+    );
+  }
 
   return (
-    <div
-      className="slide-cta"
-      style={{
-        boxShadow: `0 16px 48px rgba(0,0,0,0.35), 0 0 ${reveal * 32}px rgba(24,244,255,0.35)`,
-        opacity: reveal,
-        transform: `translateY(${(1 - reveal) * 24}px) scale(${0.94 + reveal * 0.06})`,
-      }}
-    >
+    <div className="slide-cta" style={style}>
       {label}
     </div>
   );

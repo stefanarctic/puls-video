@@ -50,6 +50,10 @@ const slideImporters: Record<
     import("../scenes/slides/RomaniaStorySlide").then((m) => ({
       default: m.RomaniaStorySlide,
     })),
+  icsi: () =>
+    import("../scenes/slides/IcsiElectromagnetismSlide").then((m) => ({
+      default: m.IcsiElectromagnetismSlide,
+    })),
   elinp: () =>
     import("../scenes/slides/EliNpSlide").then((m) => ({
       default: m.EliNpSlide,
@@ -100,14 +104,19 @@ export const SLIDE_ASSETS: Record<SlideKey, readonly string[]> = {
     PRESENTATION_ASSETS.circuite,
   ],
   nuclear: [
-    PRESENTATION_ASSETS.probleme,
     PRESENTATION_ASSETS.apaGrea,
+    PRESENTATION_ASSETS.schimbIzotopic,
+    PRESENTATION_ASSETS.distilareD2o,
     PRESENTATION_ASSETS.fisiune,
     PRESENTATION_ASSETS.fuziune,
   ],
   romania: [
     PRESENTATION_ASSETS.apaGrea,
     PRESENTATION_ASSETS.schimbIzotopic,
+  ],
+  icsi: [
+    PRESENTATION_ASSETS.supraconductivitate,
+    PRESENTATION_ASSETS.pilaCombustibil,
   ],
   elinp: [
     PRESENTATION_ASSETS.eliNp,
@@ -181,24 +190,32 @@ export const SLIDE_TRANSITIONS: TransitionSpec[] = [
     duration: 38,
     strength: 0.75,
   },
+  // simulations (slide 8) — disabled
+  // {
+  //   targetIndex: 7,
+  //   type: "sweep",
+  //   at: TIMELINE.simulations - 18,
+  //   duration: 52,
+  // },
   {
     targetIndex: 7,
-    type: "sweep",
-    at: TIMELINE.simulations - 18,
-    duration: 52,
-  },
-  {
-    targetIndex: 8,
     type: "pulse",
     at: TIMELINE.nuclear - 20,
     duration: 52,
     strength: 1.15,
   },
   {
-    targetIndex: 9,
+    targetIndex: 8,
     type: "sweep",
     at: TIMELINE.romania - 18,
     duration: 48,
+  },
+  {
+    targetIndex: 9,
+    type: "pulse",
+    at: TIMELINE.icsi - 18,
+    duration: 50,
+    strength: 1.05,
   },
   {
     targetIndex: 10,
@@ -208,20 +225,20 @@ export const SLIDE_TRANSITIONS: TransitionSpec[] = [
     strength: 1.2,
   },
   {
-    targetIndex: 11,
+    targetIndex: 12,
     type: "sweep",
     at: TIMELINE.ai - 16,
     duration: 44,
   },
   {
-    targetIndex: 12,
+    targetIndex: 13,
     type: "pulse",
     at: TIMELINE.community - 16,
     duration: 38,
     strength: 0.8,
   },
   {
-    targetIndex: 13,
+    targetIndex: 14,
     type: "pulse",
     at: TIMELINE.closing - 20,
     duration: 56,

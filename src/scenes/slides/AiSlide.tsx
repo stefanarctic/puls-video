@@ -82,7 +82,7 @@ export const AiSlide = ({ duration }: { duration: number }) => {
           vada unde a gresit si cum gandeste fizic problema."
         </div>
       </div>
-      <SlideCta label={meta.ctaLabel} delay={96} />
+      <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={96} />
     </SlideLayout>
   );
 };

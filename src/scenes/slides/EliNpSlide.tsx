@@ -84,7 +84,7 @@ export const EliNpSlide = ({ duration }: { duration: number }) => {
         objectFit="cover"
         objectPosition="top center"
       />
-      <SlideCta label={meta.ctaLabel} delay={78} />
+      <SlideCta label={meta.ctaLabel} url={meta.ctaUrl} delay={78} />
     </SlideLayout>
   );
 };

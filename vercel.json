@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run presentation:build",
+  "outputDirectory": "presentation-dist",
+  "rewrites": [
+    {
+      "source": "/((?!assets/|puls-assets/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
